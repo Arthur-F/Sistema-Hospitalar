@@ -8,32 +8,33 @@ public class Medico extends Funcionario {
 
 	private String especialidade;
 
-	public void setCRM(String CRM) {
+    public String getCRM() {
+        return CRM;
+    }
 
-	}
+    public void setCRM(String CRM) {
+        this.CRM = CRM;
+    }
 
-	public String getCRM() {
-		return null;
-	}
+    public String getAreaDeAtuacao() {
+        return areaDeAtuacao;
+    }
 
-	public void setAreaDeAtuacao(String areaDeAtuacao) {
+    public void setAreaDeAtuacao(String areaDeAtuacao) {
+        this.areaDeAtuacao = areaDeAtuacao;
+    }
 
-	}
+    public String getEspecialidade() {
+        return especialidade;
+    }
 
-	public String getAreaDeAtuacao() {
-		return null;
-	}
+    public void setEspecialidade(String especialidade) {
+        this.especialidade = especialidade;
+    }
 
-	public void setEspecialidade(String especialidade) {
+	
+    public Medico() {
+    }
 
-	}
-
-	public String getEspecialidade() {
-		return null;
-	}
-
-	public void<<override> setSalario(Double salario) {
-		return null;
-	}
-
+        
 }

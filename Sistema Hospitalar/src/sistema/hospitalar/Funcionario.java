@@ -1,9 +1,13 @@
 package sistema.hospitalar;
 
-import java.util.Date;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.Date;
 
 public abstract class Funcionario {
 
+        
 	private String nome;
 
 	private String CPF;
@@ -11,41 +15,45 @@ public abstract class Funcionario {
 	private Date dataNascimento;
 
 	private Double salario;
-
+        
+        
         public boolean cadastrarFuncionario()
         {
-            
+           
+            return true;
         }
-	public void setNome(String nome) {
 
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public String getNome() {
-		return null;
-	}
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	public void setCPF(String CPF) {
+    public String getCPF() {
+        return CPF;
+    }
 
-	}
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
+    }
 
-	public String getCPF() {
-		return null;
-	}
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
 
-	public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
-	}
+    public Double getSalario() {
+        return salario;
+    }
 
-	public Date getDataNascimento() {
-		return null;
-	}
-
-	public void setSalario(Double salario) {
-
-	}
-
-	public Double getSalario() {
-		return null;
-	}
+    public void setSalario(Double salario) {
+        this.salario = salario;
+    }
+	
 
 }
