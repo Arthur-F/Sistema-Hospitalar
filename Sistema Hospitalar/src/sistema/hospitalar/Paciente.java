@@ -1,3 +1,5 @@
+package sistema.hospitalar;
+
 public class Paciente {
 
 	private String nome;
@@ -6,28 +8,43 @@ public class Paciente {
 
 	private String RG;
 
-	public void setNome(String nome) {
+	private String receita;
 
+    public String getNome() {
+        return nome;
 	}
 
-	public String getNome() {
-		return null;
+    public void setNome(String nome) {
+        this.nome = nome;
 	}
+
+    public String getCPF() {
+        return CPF;
+    }
 
 	public void setCPF(String CPF) {
-
+        this.CPF = CPF;
 	}
 
-	public String getCPF() {
-		return null;
+    public String getRG() {
+        return RG;
 	}
 
 	public void setRG(String RG) {
+        this.RG = RG;
+    }
 
+    public String getReceita() {
+        return receita;
 	}
 
-	public String getRG() {
-		return null;
+    public void setReceita(String receita) {
+        this.receita = receita;
 	}
 
+      
+
+    
+    
+  
 }
