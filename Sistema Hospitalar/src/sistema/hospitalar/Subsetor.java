@@ -1,13 +1,23 @@
 public class Subsetor {
 
-	private String nome;
+    private String nome;
 
-	public void setNome(String nome) {
+    private Sala[] salas;
 
-	}
+    public String getNome() {
+        return nome;
+    }
 
-	public String getNome() {
-		return null;
-	}
+    public Sala[] getSalas() {
+        return salas;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public void setSalas(Sala[] salas) {
+        this.salas = salas;
+    }
 
 }

@@ -1,43 +1,32 @@
 public class Setor {
 
-	private String nome;
+    private String nome;
+    private Subsetor[] subsetores;
+    private Equipe[] equipes;
 
-	private Sala[] salas;
+    public String getNome() {
+        return nome;
+    }
 
-	private Subsetor[] subsetores;
+    public Subsetor[] getSubsetores() {
+        return subsetores;
+    }
 
-	private Equipe[] equipes;
+    public Equipe[] getEquipes() {
+        return equipes;
+    }
 
-	public void setNome(String nome) {
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
-	}
+    public void setSubsetores(Subsetor[] subsetores) {
+        this.subsetores = subsetores;
+    }
 
-	public String getNome() {
-		return null;
-	}
+    public void setEquipes(Equipe[] equipes) {
+        this.equipes = equipes;
+    }
 
-	public void addSalas(Sala[] salas) {
-
-	}
-
-	public Sala[] getSalas() {
-		return null;
-	}
-
-	public void addSubsetores(Subsetor[] subsetores) {
-
-	}
-
-	public Subsetor[] getSubsetores() {
-		return null;
-	}
-
-	public void addEquipes(Equipe[] equipes) {
-
-	}
-
-	public Equipe[] getEquipes() {
-		return null;
-	}
-
+	
 }
