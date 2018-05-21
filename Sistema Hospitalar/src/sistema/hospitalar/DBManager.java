@@ -39,14 +39,14 @@ public class DBManager {
         try (Connection conn = this.connect();) {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
             PreparedStatement sqlStatement2 = conn.prepareStatement(sqlMed);
-            sqlStatement1.setString(1, medico.getCPF());
+            sqlStatement1.setLong(1, medico.getCPF());
             sqlStatement1.setString(2, medico.getNome());
             sqlStatement1.setDate(3, medico.getDataNascimento());
             sqlStatement1.setDouble(4, medico.getSalario());
             sqlStatement2.setString(1, medico.getCRM());
             sqlStatement2.setString(2, medico.getAreaDeAtuacao());
             sqlStatement2.setString(3, medico.getEspecialidade());
-            sqlStatement2.setString(4, medico.getCPF());
+            sqlStatement2.setLong(4, medico.getCPF());
 
             sqlStatement1.executeUpdate();
             sqlStatement2.executeUpdate();
@@ -69,12 +69,12 @@ public class DBManager {
         try (Connection conn = this.connect();) {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
             PreparedStatement sqlStatement2 = conn.prepareStatement(sqlFuncAdm);
-            sqlStatement1.setString(1, funcadmin.getCPF());
+            sqlStatement1.setLong(1, funcadmin.getCPF());
             sqlStatement1.setString(2, funcadmin.getNome());
             sqlStatement1.setDate(3, funcadmin.getDataNascimento());
             sqlStatement1.setDouble(4, funcadmin.getSalario());
             sqlStatement2.setString(1, funcadmin.getCargo());
-            sqlStatement2.setString(2, funcadmin.getCPF());
+            sqlStatement2.setLong(2, funcadmin.getCPF());
 
             sqlStatement1.executeUpdate();
             sqlStatement2.executeUpdate();
@@ -87,14 +87,21 @@ public class DBManager {
 
     }
 
-    public void consultarFuncionario(int cpf){
+    public void consultarFuncionario(long cpf){
         
         try (Connection conn = this.connect();){
-            String sqlFunc = "select nome from Funcionario where cpf = ?";
+            String sqlFunc = "select papel_id from Funcionario where cpf = ? ";
+            
             
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
-            sqlStatement1.setInt(1, cpf);
+            sqlStatement1.setLong(1, cpf);
             ResultSet rs = sqlStatement1.executeQuery();
+            String papelFuncionario = rs.getString("papel_id");
+            String sqlJoin = "select * from Funcionario where cpf = ? INNERJOIN ? on Funcionario.cpf = ?.funcionario_cpf";
+            PreparedStatement sqlStatement2 = conn.prepareStatement(sqlJoin);
+            sqlStatement2.setLong(1, cpf);
+            sqlStatement2.setString(2, papelFuncionario);
+            sqlStatement2.setString(3, papelFuncionario);
             System.out.println(rs.getString("nome"));
 //            while (rs.next())
             {
@@ -108,4 +115,15 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
         }
+    
+    public void removerFuncionario(int cpf)
+    {
+          try (Connection conn = this.connect();){
+        String sqlDelete= "DELETE FROM funcionario WHERE cpf = ?";
+        PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+        sqlStatement.setInt(1, cpf);
+                } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }
