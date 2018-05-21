@@ -1,7 +1,5 @@
-public class Enfermeiro extends Funcionário {
+package sistema.hospitalar;
+public class Enfermeiro extends Funcionario {
 
-	public void<<override> setSalario(Double salario) {
-		return null;
-	}
-
+	
 }

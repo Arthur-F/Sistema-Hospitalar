@@ -20,16 +20,17 @@ public class SistemaHospitalar {
         // TODO code application logic here
         DBManager dbManager = new DBManager();
         
-        Medico medicoteste = new Medico();
-        medicoteste.setCPF("12345678910");
-        medicoteste.setNome("Fulano da Silva");
-        medicoteste.setDataNascimento(new Date(18900));
-        medicoteste.setSalario(6000.00);
-        medicoteste.setAreaDeAtuacao("Lorem");
-        medicoteste.setEspecialidade("Ipsum");
-        medicoteste.setCRM("1234567890RJ");
+//        Medico medicoteste = new Medico();
+//        medicoteste.setCPF("12345678910");
+//        medicoteste.setNome("Fulano da Silva");
+//        medicoteste.setDataNascimento(new Date(18900));
+//        medicoteste.setSalario(6000.00);
+//        medicoteste.setAreaDeAtuacao("Lorem");
+//        medicoteste.setEspecialidade("Ipsum");
+//        medicoteste.setCRM("1234567890RJ");
         
-        dbManager.cadastrarMedico(medicoteste);
+//        dbManager.cadastrarMedico(medicoteste);
+        dbManager.consultarFuncionario(26368);
     }
     
 }

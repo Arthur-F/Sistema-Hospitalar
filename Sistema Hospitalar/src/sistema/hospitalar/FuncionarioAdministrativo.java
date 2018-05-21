@@ -12,8 +12,6 @@ public class FuncionarioAdministrativo extends Funcionario {
 		return null;
 	}
 
-	public void<<override> setSalario(Double salario) {
-		return null;
-	}
+	
 
 }

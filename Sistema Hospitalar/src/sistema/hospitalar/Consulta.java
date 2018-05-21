@@ -20,8 +20,7 @@ public class Consulta extends Procedimento {
 		return null;
 	}
 
-	public void<<override> setValor(Double valor) {
-		return null;
-	}
+	
+	
 
 }
