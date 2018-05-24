@@ -30,7 +30,7 @@ public class SistemaHospitalar {
 //        medicoteste.setCRM("1234567890RJ");
         
 //        dbManager.cadastrarMedico(medicoteste);
-        dbManager.consultarFuncionario(26368);
+        dbManager.consultarFuncionario(12345678910L);
     }
     
 }
