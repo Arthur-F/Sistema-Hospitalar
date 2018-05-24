@@ -7,21 +7,18 @@ import java.sql.Date;
 
 public abstract class Funcionario {
 
-        
-	private String nome;
+    private String nome;
 
-	private String CPF;
+    private String CPF;
 
-	private Date dataNascimento;
+    private Date dataNascimento;
 
-	private Double salario;
-        
-        
-        public boolean cadastrarFuncionario()
-        {
-           
-            return true;
-        }
+    private Double salario;
+
+    public boolean cadastrarFuncionario() {
+
+        return true;
+    }
 
     public String getNome() {
         return nome;
@@ -54,6 +51,5 @@ public abstract class Funcionario {
     public void setSalario(Double salario) {
         this.salario = salario;
     }
-	
 
 }

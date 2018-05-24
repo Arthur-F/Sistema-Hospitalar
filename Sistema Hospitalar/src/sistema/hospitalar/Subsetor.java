@@ -1,3 +1,5 @@
+package sistema.hospitalar;
+
 public class Subsetor {
 
     private String nome;

@@ -1,17 +1,19 @@
+package sistema.hospitalar;
+
 public class Pagamento {
 
-	private Double[] valor;
+    private Double[] valor;
 
-	private String nome;
+    private String nome;
 
-	private Paciente paciente;
+    private Paciente paciente;
 
-	public void setValor(Double[] valor) {
+    public void setValor(Double[] valor) {
 
-	}
+    }
 
-	public Double[] getValor() {
-		return null;
-	}
+    public Double[] getValor() {
+        return null;
+    }
 
 }

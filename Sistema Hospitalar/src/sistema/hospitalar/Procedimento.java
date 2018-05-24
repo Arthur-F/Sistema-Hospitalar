@@ -1,27 +1,29 @@
+package sistema.hospitalar;
+
 public abstract class Procedimento {
 
-	private String nome;
+    private String nome;
 
-	private Double valor;
+    private Double valor;
 
-	private Equipe[] equipe;
+    private Equipe[] equipe;
 
-	private Pagamento pagamento;
+    private Pagamento pagamento;
 
-	public void setNome(String nome) {
+    public void setNome(String nome) {
 
-	}
+    }
 
-	public String getNome() {
-		return null;
-	}
+    public String getNome() {
+        return null;
+    }
 
-	public void setValor(Double valor) {
+    public void setValor(Double valor) {
 
-	}
+    }
 
-	public Double getValor() {
-		return null;
-	}
+    public Double getValor() {
+        return null;
+    }
 
 }

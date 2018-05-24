@@ -1,7 +1,10 @@
+package sistema.hospitalar;
+
 public class Internacao extends Procedimento {
 
-	public void<<override> setValor(Double valor) {
-		return null;
-	}
+    @Override
+    public void setValor(Double valor) {
+        return null;
+    }
 
 }

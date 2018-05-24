@@ -87,12 +87,11 @@ public class DBManager {
 
     }
 
-    public void consultarFuncionario(long cpf){
-        
-        try (Connection conn = this.connect();){
+    public void consultarFuncionario(long cpf) {
+
+        try (Connection conn = this.connect();) {
             String sqlFunc = "select papel_id from Funcionario where cpf = ? ";
-            
-            
+
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
             sqlStatement1.setLong(1, cpf);
             ResultSet rs = sqlStatement1.executeQuery();
@@ -109,20 +108,18 @@ public class DBManager {
 //                rs
 //                System.out.println(rs.get);
             }
-        
-            
-        }catch (SQLException e) {
+
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        }
-    
-    public void removerFuncionario(int cpf)
-    {
-          try (Connection conn = this.connect();){
-        String sqlDelete= "DELETE FROM funcionario WHERE cpf = ?";
-        PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
-        sqlStatement.setInt(1, cpf);
-                } catch (SQLException e) {
+    }
+
+    public void removerFuncionario(int cpf) {
+        try (Connection conn = this.connect();) {
+            String sqlDelete = "DELETE FROM funcionario WHERE cpf = ?";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+            sqlStatement.setInt(1, cpf);
+        } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }

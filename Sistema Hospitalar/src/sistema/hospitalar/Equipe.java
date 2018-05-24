@@ -1,43 +1,45 @@
+package sistema.hospitalar;
+
 public class Equipe {
 
-	private String nome;
+    private String nome;
 
-	private Médico responsavel;
+    private Medico responsavel;
 
-	private Médico[] medicos;
+    private Medico[] medicos;
 
-	private Enfermeiro[] enfermeiros;
+    private Enfermeiro[] enfermeiros;
 
-	public void setNome(String nome) {
+    public void setNome(String nome) {
 
-	}
+    }
 
-	public String getNome() {
-		return null;
-	}
+    public String getNome() {
+        return null;
+    }
 
-	public void setResponsavel(Médico responsavel) {
+    public void setResponsavel(Medico responsavel) {
 
-	}
+    }
 
-	public Médico getResponsavel() {
-		return null;
-	}
+    public Medico getResponsavel() {
+        return null;
+    }
 
-	public void addMedicos(Médico[] medicos) {
+    public void addMedicos(Medico[] medicos) {
 
-	}
+    }
 
-	public Médico[] getMedicos() {
-		return null;
-	}
+    public Medico[] getMedicos() {
+        return null;
+    }
 
-	public void addEnfermeiros(Enfermeiro[] enfermeiros) {
+    public void addEnfermeiros(Enfermeiro[] enfermeiros) {
 
-	}
+    }
 
-	public Enfermeiro[] getEnfermeiros() {
-		return null;
-	}
+    public Enfermeiro[] getEnfermeiros() {
+        return null;
+    }
 
 }
