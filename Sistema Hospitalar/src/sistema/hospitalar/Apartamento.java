@@ -1,23 +1,25 @@
+package sistema.hospitalar;
+
 public class Apartamento extends Sala {
 
-	private String medicacao;
+    private String medicacao;
 
-	private String dieta;
+    private String dieta;
 
-	public void setMedicacao(String medicacao) {
+    public void setMedicacao(String medicacao) {
 
-	}
+    }
 
-	public String getMedicacao() {
-		return null;
-	}
+    public String getMedicacao() {
+        return null;
+    }
 
-	public void setDieta(String dieta) {
+    public void setDieta(String dieta) {
 
-	}
+    }
 
-	public String getDieta() {
-		return null;
-	}
+    public String getDieta() {
+        return null;
+    }
 
 }
