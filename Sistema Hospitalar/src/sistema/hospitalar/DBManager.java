@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.ResultSet;
+import jdk.nashorn.internal.objects.Global;
 
 /**
  *
@@ -18,25 +19,26 @@ import java.sql.ResultSet;
  */
 public class DBManager {
 
-    private Connection connect() {
-        Connection conn = null;
-        try {
-            // db parameters
-            String url = "jdbc:sqlite:careplus.db";
-            // create a connection to the database
-            conn = DriverManager.getConnection(url);
-
-            System.out.println("Connection to SQLite has been established.");
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
-        return conn;
-    }
+    private ConectorDB conector = new ConectorDB();
+//    private Connection connect() {
+//        Connection conn = null;
+//        try {
+//            // db parameters
+//            String url = "jdbc:sqlite:careplus.db";
+//            // create a connection to the database
+//            conn = DriverManager.getConnection(url);
+//
+//            System.out.println("Connection to SQLite has been established.");
+//        } catch (SQLException e) {
+//            System.out.println(e.getMessage());
+//        }
+//        return conn;
+//    }
 
     public void cadastrarMedico(Medico medico) {
         String sqlFunc = "INSERT INTO Funcionario(cpf,nome,datanasc,salario) VALUES(?,?,?,?)";
         String sqlMed = "INSERT INTO Medico(CRM,areaatuacao,especialidade,funcionario_CPF) VALUES(?,?,?,?)";
-        try (Connection conn = this.connect();) {
+        try (Connection conn = conector.connect();) {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
             PreparedStatement sqlStatement2 = conn.prepareStatement(sqlMed);
             sqlStatement1.setLong(1, medico.getCPF());
@@ -66,7 +68,7 @@ public class DBManager {
     public void cadastrarFuncionarioAdministrativo(FuncionarioAdministrativo funcadmin) {
         String sqlFunc = "INSERT INTO Funcionario(cpf,nome,datanasc,salario) VALUES(?,?,?,?)";
         String sqlFuncAdm = "INSERT INTO FuncionarioAdministrativo(cargo_ID,funcionario_CPF) VALUES(?,?)";
-        try (Connection conn = this.connect();) {
+        try (Connection conn = conector.connect();) {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
             PreparedStatement sqlStatement2 = conn.prepareStatement(sqlFuncAdm);
             sqlStatement1.setLong(1, funcadmin.getCPF());
@@ -89,7 +91,7 @@ public class DBManager {
      public void cadastrarEnfermeiro(Enfermeiro enfermeiro) {
         String sqlFunc = "INSERT INTO Funcionario(cpf,nome,datanasc,salario) VALUES(?,?,?,?)";
         String sqlEnf = "INSERT INTO Enfermeiro(tipo,funcionario_CPF) VALUES(?,?)";
-        try (Connection conn = this.connect();) {
+        try (Connection conn = conector.connect();) {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
             PreparedStatement sqlStatement2 = conn.prepareStatement(sqlEnf);
             sqlStatement1.setLong(1, enfermeiro.getCPF());
@@ -109,9 +111,9 @@ public class DBManager {
         }
 
     }
-    public void consultarFuncionario(long cpf){
-        
-        try (Connection conn = this.connect();){
+    public Funcionario consultarFuncionario(long cpf){
+        Funcionario func = null;
+        try (Connection conn = conector.connect();){
             String sqlFunc = "select papel_id from Funcionario where cpf = ?";
             
             String papelFuncionario = "";
@@ -122,43 +124,66 @@ public class DBManager {
             {
                     case 1: 
                         papelFuncionario =  "Enfermeiro";
+                        func = new Enfermeiro();
                         break;
 
                     case 2: 
                         papelFuncionario = "Medico";
+                        func = new Medico();
                         break;
                     case 3:
                         papelFuncionario = "FuncionarioAdmnistrativo";
+                        func = new FuncionarioAdministrativo();
                         break;
             }
            
             String sqlJoin = "select * FROM Funcionario LEFT JOIN " + papelFuncionario + " on Funcionario.cpf = " + papelFuncionario + ".funcionario_cpf where cpf = ?";
             
             PreparedStatement sqlStatement2 = conn.prepareStatement(sqlJoin);
-            //sqlStatement2.setLong(1, cpf);
+            sqlStatement2.setLong(1, cpf);
             ResultSet rs2 = sqlStatement2.executeQuery();
+            func.setNome(rs2.getString("nome"));
+            func.setCPF(rs2.getLong("cpf"));
+            func.setDataNascimento(rs2.getDate("datanasc"));
+            func.setSalario(rs2.getDouble("salario"));
             
-          
-//            while (rs.next())
-            {
-//                rs.getInt(cpf);
-//                rs
-//                System.out.println(rs.get);
-            }
+            
+            
+            
 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+         return func;
+    }
+
+    public void removerFuncionario(int cpf) {
+        try (Connection conn = conector.connect();) {
+            String sqlDelete = "DELETE FROM funcionario WHERE cpf = ?";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+            sqlStatement.setInt(1, cpf);
+            sqlStatement.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
-
-    public void removerFuncionario(int cpf) {
-        try (Connection conn = this.connect();) {
-            String sqlDelete = "DELETE FROM funcionario WHERE cpf = ?";
-            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
-            sqlStatement.setInt(1, cpf);
+    
+    public Receita criarReceita(String tipo, String textoReceita, Paciente paciente)
+    {
+        Receita receita= new Receita();
+//        paciente.getReceitas().add(textoReceita);
+        try (Connection conn = conector.connect();) {
+            String sqlReceitas = "INSERT INTO receita(paciente_cpf,tipo,descricao) VALUES(?,?,?)";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlReceitas);
+            sqlStatement.setLong(1, paciente.getCPF());
+            sqlStatement.setString(2, tipo);
+            sqlStatement.setString(3, textoReceita);
+            sqlStatement.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+        
+        return receita;
     }
     
     
