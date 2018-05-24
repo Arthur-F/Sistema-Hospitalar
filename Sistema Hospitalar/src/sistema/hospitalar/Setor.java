@@ -1,3 +1,5 @@
+package sistema.hospitalar;
+
 public class Setor {
 
     private String nome;
@@ -28,5 +30,4 @@ public class Setor {
         this.equipes = equipes;
     }
 
-	
 }

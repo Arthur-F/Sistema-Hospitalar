@@ -1,27 +1,30 @@
+package sistema.hospitalar;
+
 public class Exame extends Procedimento {
 
-	private String diagnostico;
+    private String diagnostico;
 
-	private String resultado;
+    private String resultado;
 
-	public void setDiagnostico(String diagnostico) {
+    public void setDiagnostico(String diagnostico) {
 
-	}
+    }
 
-	public String getDiagnostico() {
-		return null;
-	}
+    public String getDiagnostico() {
+        return null;
+    }
 
-	public void setResultado(String resultado) {
+    public void setResultado(String resultado) {
 
-	}
+    }
 
-	public String getResultado() {
-		return null;
-	}
+    public String getResultado() {
+        return null;
+    }
 
-	public void<<override> setValor(Double valor) {
-		return null;
-	}
+    @Override
+    public void setValor(Double valor) {
+        return null;
+    }
 
 }

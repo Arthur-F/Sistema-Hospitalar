@@ -1,13 +1,15 @@
+package sistema.hospitalar;
+
 public class SalaCirurgia extends Sala {
 
-	private Equipe equipeResponsavel;
+    private Equipe equipeResponsavel;
 
-	public void setEquipeResponsavel(Equipe equipeResponsavel) {
+    public void setEquipeResponsavel(Equipe equipeResponsavel) {
 
-	}
+    }
 
-	public Equipe getEquipeResponsavel() {
-		return null;
-	}
+    public Equipe getEquipeResponsavel() {
+        return null;
+    }
 
 }
