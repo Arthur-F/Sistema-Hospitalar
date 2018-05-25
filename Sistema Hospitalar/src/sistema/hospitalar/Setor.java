@@ -29,5 +29,4 @@ public class Setor {
     public void setEquipes(Equipe[] equipes) {
         this.equipes = equipes;
     }
-
 }
