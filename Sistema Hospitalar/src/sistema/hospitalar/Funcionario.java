@@ -9,7 +9,7 @@ public abstract class Funcionario {
 
     private String nome;
 
-    private String CPF;
+	private long CPF;
 
     private Date dataNascimento;
 
@@ -28,11 +28,11 @@ public abstract class Funcionario {
         this.nome = nome;
     }
 
-    public String getCPF() {
+    public long getCPF() {
         return CPF;
     }
 
-    public void setCPF(String CPF) {
+    public void setCPF(long CPF) {
         this.CPF = CPF;
     }
 

@@ -1,14 +1,16 @@
 package sistema.hospitalar;
 
+import java.util.List;
+
 public class Paciente {
 
     private String nome;
 
-    private String CPF;
+    private Long CPF;
 
     private String RG;
 
-    private String receita;
+    private List<String> receitas;
 
     public String getNome() {
         return nome;
@@ -18,11 +20,11 @@ public class Paciente {
         this.nome = nome;
     }
 
-    public String getCPF() {
+    public Long getCPF() {
         return CPF;
     }
 
-    public void setCPF(String CPF) {
+    public void setCPF(Long CPF) {
         this.CPF = CPF;
     }
 
@@ -34,12 +36,9 @@ public class Paciente {
         this.RG = RG;
     }
 
-    public String getReceita() {
-        return receita;
+    public List<String> getReceitas() {
+        return receitas;
     }
 
-    public void setReceita(String receita) {
-        this.receita = receita;
-    }
 
 }

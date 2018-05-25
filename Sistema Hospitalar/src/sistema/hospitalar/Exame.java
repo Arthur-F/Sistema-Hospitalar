@@ -22,9 +22,5 @@ public class Exame extends Procedimento {
         return null;
     }
 
-    @Override
-    public void setValor(Double valor) {
-        return null;
-    }
 
 }
