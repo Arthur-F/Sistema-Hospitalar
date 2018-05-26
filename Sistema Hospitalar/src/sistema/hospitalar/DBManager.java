@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.List;
 import jdk.nashorn.internal.objects.Global;
 
 /**
@@ -111,6 +112,8 @@ public class DBManager {
         }
 
     }
+  
+    // @TODO Fix  
     public Funcionario consultarFuncionario(long cpf){
         Funcionario func = null;
         try (Connection conn = conector.connect();){
@@ -185,6 +188,45 @@ public class DBManager {
         
         return receita;
     }
+    
+    public void cadastrarEquipe(Equipe equipe)
+    {
+        
+        String sqlEquipe = "INSERT INTO Equipe(nome,supervisor_cpf) VALUES(?,?)";
+        String sqlFuncionariosEquipe = "INSERT INTO Equipe_Funcionario(equipe_id,funcionario_cpf) VALUES(?,?)";
+       
+        try (Connection conn = conector.connect();) {
+            conn.setAutoCommit(false);
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlEquipe); 
+            sqlStatement.setString(1,equipe.getNome());
+            sqlStatement.setLong(2, equipe.getMedicoSupervisor().getCPF());
+            PreparedStatement sqlStatementMembros = conn.prepareStatement(sqlFuncionariosEquipe);
+            sqlStatement.execute();
+            
+            for (Medico medico : equipe.getMedicos())
+            {
+                sqlStatementMembros.setInt(1,equipe.getID());
+                sqlStatementMembros.setLong(2, medico.getCPF());
+                sqlStatementMembros.addBatch();
+            }
+            for (Enfermeiro enfermeiro : equipe.getEnfermeiros())
+            {
+                sqlStatementMembros.setInt(1,equipe.getID());
+                sqlStatementMembros.setLong(2, enfermeiro.getCPF());
+                sqlStatementMembros.addBatch();
+            }
+            conn.commit();
+            conn.close();
+            System.out.println("Gravado");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            
+        }
+
+        
+        
+    }
+   
     
     
 }

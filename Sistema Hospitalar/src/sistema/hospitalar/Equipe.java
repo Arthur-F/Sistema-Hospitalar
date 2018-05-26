@@ -1,45 +1,59 @@
 package sistema.hospitalar;
 
+import java.util.List;
+
 public class Equipe {
 
+    private int ID;
+    
     private String nome;
 
-    private Medico responsavel;
+    private Medico medicoSupervisor;
 
-    private Medico[] medicos;
+    private List<Medico> medicos;
 
-    private Enfermeiro[] enfermeiros;
+    private List<Enfermeiro> enfermeiros;
 
-    public void setNome(String nome) {
+    public int getID() {
+        return ID;
+    }
 
+    public void setID(int ID) {
+        this.ID = ID;
     }
 
     public String getNome() {
-        return null;
+        return nome;
     }
 
-    public void setResponsavel(Medico responsavel) {
-
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
-    public Medico getResponsavel() {
-        return null;
+    public Medico getMedicoSupervisor() {
+        return medicoSupervisor;
     }
 
-    public void addMedicos(Medico[] medicos) {
-
+    public void setMedicoSupervisor(Medico medicoSupervisor) {
+        this.medicoSupervisor = medicoSupervisor;
     }
 
-    public Medico[] getMedicos() {
-        return null;
+    public List<Medico> getMedicos() {
+        return medicos;
     }
 
-    public void addEnfermeiros(Enfermeiro[] enfermeiros) {
-
+    public void setMedicos(List<Medico> medicos) {
+        this.medicos = medicos;
     }
 
-    public Enfermeiro[] getEnfermeiros() {
-        return null;
+    public List<Enfermeiro> getEnfermeiros() {
+        return enfermeiros;
     }
+
+    public void setEnfermeiros(List<Enfermeiro> enfermeiros) {
+        this.enfermeiros = enfermeiros;
+    }
+
+   
 
 }
