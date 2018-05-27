@@ -61,6 +61,36 @@ public class DBManager {
         }
 
     }
+    
+    public void cadastrarPaciente(Paciente paciente) {
+        //Dúvida: receita só acontece após consulta, mesmo assim eu deveria colocá-la aqui?
+        String sqlPac = "INSERT INTO Paciente(cpf,nome,rg) VALUES(?,?,?)";
+        try (Connection conn = conector.connect();) {
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sqlPac);
+            sqlStatement1.setLong(1, paciente.getCPF());
+            sqlStatement1.setString(2, paciente.getNome());
+            sqlStatement1.setString(3, paciente.getRG());
+            sqlStatement1.executeUpdate();
+            conn.commit();
+            conn.close();
+            System.out.println("Gravado");
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+     public void removerPaciente(int cpf) {
+        try (Connection conn = conector.connect();) {
+            String sqlDelete = "DELETE FROM paciente WHERE cpf = ?";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+            sqlStatement.setInt(1, cpf);
+            sqlStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+     
+    
 
     {
 
