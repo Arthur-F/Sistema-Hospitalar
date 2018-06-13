@@ -11,6 +11,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.Date;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.List;
 import jdk.nashorn.internal.objects.Global;
 
@@ -69,7 +70,7 @@ public class DBManager {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlPac);
             sqlStatement1.setLong(1, paciente.getCPF());
             sqlStatement1.setString(2, paciente.getNome());
-            sqlStatement1.setString(3, paciente.getRG());
+            sqlStatement1.setLong(3, paciente.getRG());
             sqlStatement1.executeUpdate();
             conn.commit();
             conn.close();
@@ -251,12 +252,231 @@ public class DBManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             
-        }
-
-        
-        
+        }        
     }
    
+    public List<Funcionario> getFuncionarios(Long cpf){        
+        Funcionario func = new Funcionario() {};
+        ResultSet rs = null;
+        List<Funcionario> list_func = new ArrayList<>();
+        try (Connection conn = conector.connect();){
+            if (cpf != null) {
+                String sqlFunc = "select * from Funcionario where cpf = ?";
+                PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
+                sqlStatement1.setString(1, cpf.toString());
+                rs = sqlStatement1.executeQuery();
+            }else{
+                String sqlFunc = "select * from Funcionario";
+                PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
+                rs = sqlStatement1.executeQuery();
+            }
+            while (rs.next()) {                
+                Long func_cpf = Long.parseLong(rs.getString("cpf"));
+                func.setCPF(func_cpf);
+                func.setDataNascimento(rs.getDate("datanasc"));
+                func.setSenha(rs.getString("senha"));
+                list_func.add(func);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_func;
+    }
     
+    public List<Equipe> getEquipe(Equipe eq){
+        List<Equipe> list_eq = new ArrayList<>();
+        Equipe eq1 = new Equipe();
+        ResultSet rs = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect();){
+            if (eq != null) {
+                if(eq.getID() != 0){
+                    String sql = "select * from Equipe where id = ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    sqlStatement1.setInt(1, eq.getID());
+                    rs = sqlStatement1.executeQuery();
+                }
+                if(eq.getNome() != null){
+                    String sql = "select * from Equipe where nome = ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    sqlStatement1.setString(1, eq.getNome());
+                    rs = sqlStatement1.executeQuery();
+                }
+                if(eq.getSupervisor_cpf() != null){
+                    String sql = "select * from Equipe where supervisor_cpf = ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    sqlStatement1.setInt(1, eq.getSupervisor_cpf());
+                    rs = sqlStatement1.executeQuery();
+                }
+            }else{
+                String sql = "select * from Equipe";
+                sqlStatement1 = conn.prepareStatement(sql);
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                eq1.setID(rs.getInt("id"));
+                eq1.setNome(rs.getString("nome"));
+                eq1.setSupervisor_cpf(rs.getInt("supervisor_cpf"));
+                list_eq.add(eq1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_eq;
+    }
+    
+    public List<Procedimento> getProcedimento(Procedimento proc){
+        List<Procedimento> list_proc = new ArrayList<>();
+        Procedimento proc1 = new Procedimento() {};
+        ResultSet rs = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect();){
+            if(proc != null){
+                if(proc.getId() != 0){
+                    String sql = "select * from Procedimento where id = ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    sqlStatement1.setInt(1, proc.getId());
+                    rs = sqlStatement1.executeQuery();
+                }
+                if(proc.getNome() != null){
+                    String sql = "select * from Procedimento where nome = ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    sqlStatement1.setString(1, proc.getNome());
+                    rs = sqlStatement1.executeQuery();
+                }
+            }else{
+                String sql = "select * from Procedimento";
+                sqlStatement1 = conn.prepareStatement(sql);
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                proc1.setId(rs.getInt("id"));
+                proc1.setNome(rs.getString("nome"));
+                proc1.setValor(rs.getDouble("valor"));
+                list_proc.add(proc1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_proc;
+    }
+    
+    public List<Sala> getSala(Sala sl){
+        List<Sala> list_sl = new ArrayList<>();
+        Sala sl1 = new Sala(){};
+        ResultSet rs = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect();){
+            if(sl != null){
+                if(sl.getQuartos() != null){
+                    String sql = "select * from Sala where id = ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    sqlStatement1.setInt(1, sl.getQuartos());
+                    rs = sqlStatement1.executeQuery();
+                }
+                if(sl.getSubsetor_id() != null){
+                    String sql = "select * from Sala where subsetor_id = ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    sqlStatement1.setInt(1, sl.getSubsetor_id());
+                    rs = sqlStatement1.executeQuery();
+                }
+            }else{
+                String sql = "select * from Sala";
+                sqlStatement1 = conn.prepareStatement(sql);
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                sl1.setQuartos(rs.getInt("id"));
+                sl1.setSubsetor_id(rs.getInt("subsetor_id"));
+                list_sl.add(sl1);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_sl;
+    }
+    
+    public List<Paciente> getPaciente(Paciente pac){
+        List<Paciente> list_pac = new ArrayList<>();
+        Paciente pac1 = new Paciente();
+        ResultSet rs = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect();){
+            if(pac.getCPF() != null){
+                String sql = "select * from Paciente where cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,pac.getCPF().intValue());
+                rs = sqlStatement1.executeQuery();
+            }
+            if(pac.getNome() != null){
+                String sql = "select * from Paciente where nome = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,pac.getNome());
+                rs = sqlStatement1.executeQuery();
+            }
+            if(pac.getRG() != null){
+                String sql = "select * from Paciente where RG = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,pac.getRG().intValue());
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                pac1.setCPF(rs.getLong("cpf"));
+                pac1.setNome(rs.getString("nome"));
+                pac1.setRG(rs.getLong("RG"));
+                list_pac.add(pac1);
+            }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_pac;
+    }
+    
+    /*public List<Agendamento> consultarAgendamento(Date data){
+        List<Agendamento> list_ag = new ArrayList<>();
+        Agendamento ag = new Agendamento();
+        ResultSet rs = null;
+        PreparedStatement sqlStatementl = null;
+        try (Connection conn = conector.connect();){
+            String sql = "select * from Agendamento where data = ?";
+            sqlStatementl = conn.prepareStatement(sql);
+            sqlStatementl.setDate(1, data);
+            rs = sqlStatementl.executeQuery();
+            while (rs.next()) {
+                List<Equipe> lt_eq = new ArrayList<>();
+                Equipe eq = new Equipe();
+                eq.setId(rs.getInt("equipe_id"));
+                lt_eq = this.getEquipe(eq);
+                List<Paciente> lt_pac = new ArrayList<>();
+                Paciente pac = new Paciente();
+                pac.setCPF(rs.getLong("paciente_id"));
+                lt_pac = this.getPaciente(pac);
+                List<Procedimento> lt_proc = new ArrayList<>();
+                Procedimento proc = new Procedimento() {};
+                proc.setId(rs.getInt("equipe_id"));
+                lt_proc = this.getProcedimento(proc);
+                for (Equipe equip : lt_eq) {
+                    ag.setEquipe_id(rs.getInt("equipe_id"));
+                    ag.setEquipe_nome(equip.getNome());
+                }
+                for (Paciente paciente: lt_pac) {
+                    ag.setPaciente_id(rs.getLong("paciente_id"));
+                    ag.setPaciente_nome(paciente.getNome());
+                }
+                for (Procedimento procedimento : lt_proc) {
+                    ag.setProcedimento_id(rs.getInt("procedimento_id"));
+                    ag.setProcedimento_nome(procedimento.getNome());
+                }
+                ag.setData(data);
+                ag.setHora(rs.getTime("hora"));
+                ag.setId(rs.getInt("id"));
+                ag.setSala_id(rs.getInt("sala_id"));
+                list_ag.add(ag);
+            }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }        
+        return list_ag;
+    }*/
     
 }

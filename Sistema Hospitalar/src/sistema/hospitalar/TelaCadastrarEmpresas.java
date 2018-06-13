@@ -5,17 +5,28 @@
  */
 package sistema.hospitalar;
 
+import sun.print.Win32PrintService;
+
 /**
  *
  * @author Gabriel
  */
-public class TelaCadastrarFuncionários extends javax.swing.JFrame {
+public final class TelaCadastrarEmpresas extends javax.swing.JFrame {
 
     /**
      * Creates new form TelaCadastrarFuncionários
      */
-    public TelaCadastrarFuncionários() {
+    public TelaCadastrarEmpresas() {
         initComponents();
+        comboBoxProssifional();
+        
+    }  
+    
+    public void comboBoxProssifional(){
+        escolhaTipoProfissional.addItem("");
+        escolhaTipoProfissional.addItem("Administrativo");
+        escolhaTipoProfissional.addItem("Enfermeiro");
+        escolhaTipoProfissional.addItem("Medico");
     }
 
     /**
@@ -115,11 +126,11 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 702, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGap(0, 263, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Agenda", jPanel1);
@@ -176,7 +187,7 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Receitas", jPanel6);
 
-        jLabel2.setText("Criar novo funcionário:");
+        jLabel2.setText("Criar nova empresa conveniada:");
 
         jTextField1.setToolTipText("Nome");
         jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
@@ -219,7 +230,7 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
             }
         });
 
-        jLabel4.setText("CPF");
+        jLabel4.setText("CNPJ");
 
         jLabel12.setText("Data de nascimento");
 
@@ -558,12 +569,8 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
     }//GEN-LAST:event_campoEspecialidadeActionPerformed
 
     private void escolhaTipoProfissionalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_escolhaTipoProfissionalActionPerformed
-        escolhaTipoProfissional.addItem("");
-        escolhaTipoProfissional.addItem("Administrativo");
-        escolhaTipoProfissional.addItem("Enfermeiro");
-        escolhaTipoProfissional.addItem("Medico");
-        
-        if ((escolhaTipoProfissional.getSelectedItem() == "") || (escolhaTipoProfissional.getSelectedItem() == "Enfermeiro")){
+                
+        if ((escolhaTipoProfissional.getSelectedItem() == null) || (escolhaTipoProfissional.getSelectedItem() == "Enfermeiro")){
             campoCRM.setVisible(false);
             crm.setVisible(false);
             areaAtuacao.setVisible(false);
@@ -614,20 +621,23 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastrarFuncionários.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastrarEmpresas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastrarFuncionários.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastrarEmpresas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastrarFuncionários.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastrarEmpresas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(TelaCadastrarFuncionários.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(TelaCadastrarEmpresas.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TelaCadastrarFuncionários().setVisible(true);
+                new TelaCadastrarEmpresas().setVisible(true);
             }
         });
     }

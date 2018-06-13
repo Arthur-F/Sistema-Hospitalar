@@ -7,6 +7,8 @@ public class Equipe {
     private int ID;
     
     private String nome;
+    
+    private Integer supervisor_cpf;
 
     private Medico medicoSupervisor;
 
@@ -14,6 +16,14 @@ public class Equipe {
 
     private List<Enfermeiro> enfermeiros;
 
+    public Integer getSupervisor_cpf() {
+        return supervisor_cpf;
+    }
+
+    public void setSupervisor_cpf(Integer supervisor_cpf) {
+        this.supervisor_cpf = supervisor_cpf;
+    }
+    
     public int getID() {
         return ID;
     }

@@ -9,13 +9,23 @@ package sistema.hospitalar;
  *
  * @author Gabriel
  */
-public class TelaConsultarEquipe extends javax.swing.JFrame {
+public final class TelaConsultarEquipe extends javax.swing.JFrame {
 
     /**
      * Creates new form CadastroSetor
      */
     public TelaConsultarEquipe() {
         initComponents();
+        comboBoxEquipe();
+    }
+    
+    public void comboBoxEquipe(){
+        Equipe[] eq = new Equipe[1000];
+        DBManager dbm = new DBManager();
+        eq = dbm.getEquipeBox();
+        for(Equipe eq1 : eq){
+            ComboBox_equipe.addItem(eq1.getNome());
+        }
     }
 
     /**
@@ -32,6 +42,17 @@ public class TelaConsultarEquipe extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
+        label_paciente_ag = new javax.swing.JLabel();
+        TextField_paciente_ag = new javax.swing.JTextField();
+        label_medico_ag = new javax.swing.JLabel();
+        TextField_medico_ag = new javax.swing.JTextField();
+        Label_equipe = new javax.swing.JLabel();
+        ComboBox_equipe = new javax.swing.JComboBox<>();
+        Label_procedimento = new javax.swing.JLabel();
+        ComboBox_procedimento = new javax.swing.JComboBox<>();
+        Label_sala = new javax.swing.JLabel();
+        ComboBox_sala = new javax.swing.JComboBox<>();
+        Button_pesquisa = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
@@ -77,15 +98,79 @@ public class TelaConsultarEquipe extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Home", jPanel7);
 
+        label_paciente_ag.setLabelFor(TextField_paciente_ag);
+        label_paciente_ag.setText("Paciente");
+
+        label_medico_ag.setLabelFor(TextField_medico_ag);
+        label_medico_ag.setText("Médico");
+
+        Label_equipe.setLabelFor(ComboBox_equipe);
+        Label_equipe.setText("Equipe");
+
+        ComboBox_equipe.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Label_procedimento.setLabelFor(ComboBox_procedimento);
+        Label_procedimento.setText("Procedimento");
+
+        ComboBox_procedimento.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Label_sala.setLabelFor(ComboBox_sala);
+        Label_sala.setText("Sala");
+
+        ComboBox_sala.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Button_pesquisa.setText("Pesquisa");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(label_paciente_ag)
+                    .addComponent(label_medico_ag)
+                    .addComponent(Label_equipe)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
+                        .addComponent(Label_sala)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ComboBox_equipe, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Button_pesquisa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ComboBox_sala, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(ComboBox_procedimento, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(TextField_medico_ag)
+                    .addComponent(TextField_paciente_ag)
+                    .addComponent(Label_procedimento))
+                .addGap(0, 627, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(label_paciente_ag)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TextField_paciente_ag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(label_medico_ag)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(TextField_medico_ag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Label_equipe)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ComboBox_equipe, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Label_procedimento)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ComboBox_procedimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Label_sala)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ComboBox_sala, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(Button_pesquisa))
         );
 
         jTabbedPane1.addTab("Agenda", jPanel1);
@@ -271,7 +356,7 @@ public class TelaConsultarEquipe extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(22, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
@@ -280,7 +365,7 @@ public class TelaConsultarEquipe extends javax.swing.JFrame {
                         .addComponent(jLabel10)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel11)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -342,6 +427,15 @@ public class TelaConsultarEquipe extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_pesquisa;
+    private javax.swing.JComboBox<String> ComboBox_equipe;
+    private javax.swing.JComboBox<String> ComboBox_procedimento;
+    private javax.swing.JComboBox<String> ComboBox_sala;
+    private javax.swing.JLabel Label_equipe;
+    private javax.swing.JLabel Label_procedimento;
+    private javax.swing.JLabel Label_sala;
+    private javax.swing.JTextField TextField_medico_ag;
+    private javax.swing.JTextField TextField_paciente_ag;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox2;
@@ -366,5 +460,7 @@ public class TelaConsultarEquipe extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextField1;
+    private javax.swing.JLabel label_medico_ag;
+    private javax.swing.JLabel label_paciente_ag;
     // End of variables declaration//GEN-END:variables
 }

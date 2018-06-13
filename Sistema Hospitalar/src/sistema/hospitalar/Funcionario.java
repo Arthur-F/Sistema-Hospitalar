@@ -14,6 +14,16 @@ public abstract class Funcionario {
     private Date dataNascimento;
 
     private Double salario;
+    
+    private String senha;
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
 
     public boolean cadastrarFuncionario() {
 
