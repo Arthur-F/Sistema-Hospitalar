@@ -22,7 +22,7 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
     public void comboBoxEquipe(){
         Equipe[] eq = new Equipe[1000];
         DBManager dbm = new DBManager();
-        eq = dbm.getEquipeBox();
+        //eq = dbm.getEquipeBox();
         for(Equipe eq1 : eq){
             ComboBox_equipe.addItem(eq1.getNome());
         }
