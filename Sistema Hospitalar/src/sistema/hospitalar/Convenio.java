@@ -11,6 +11,5 @@ public class Convenio extends Pagamento {
     public void setNome(String nome) {
         this.nome = nome;
     }
-    
-    
+
 }

@@ -21,7 +21,7 @@ public class Consulta extends Procedimento {
     public String getExames() {
         return exames;
     }
-    
+
     @Override
     public void setValor(Double valor) {
         this.valor = valor;

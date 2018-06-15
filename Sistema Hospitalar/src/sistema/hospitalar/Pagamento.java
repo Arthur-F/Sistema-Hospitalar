@@ -9,11 +9,28 @@ public class Pagamento {
     private Paciente paciente;
 
     public void setValor(Double[] valor) {
-
+        this.valor = valor;
     }
 
     public Double[] getValor() {
-        return null;
+        return valor;
     }
 
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Paciente getPaciente() {
+        return paciente;
+    }
+
+    public void setPaciente(Paciente paciente) {
+        this.paciente = paciente;
+    }
+
+    
 }

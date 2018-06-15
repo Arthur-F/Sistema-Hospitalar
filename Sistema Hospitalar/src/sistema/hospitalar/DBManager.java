@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package sistema.hospitalar;
 
 import java.sql.Connection;
@@ -14,10 +9,6 @@ import java.sql.ResultSet;
 import java.util.List;
 import jdk.nashorn.internal.objects.Global;
 
-/**
- *
- * @author GabrielladaSilvadeSo
- */
 public class DBManager {
 
     private ConectorDB conector = new ConectorDB();
@@ -61,7 +52,7 @@ public class DBManager {
         }
 
     }
-    
+
     public void cadastrarPaciente(Paciente paciente) {
         //Dúvida: receita só acontece após consulta, mesmo assim eu deveria colocá-la aqui?
         String sqlPac = "INSERT INTO Paciente(cpf,nome,rg) VALUES(?,?,?)";
@@ -79,7 +70,8 @@ public class DBManager {
         }
 
     }
-     public void removerPaciente(int cpf) {
+
+    public void removerPaciente(int cpf) {
         try (Connection conn = conector.connect();) {
             String sqlDelete = "DELETE FROM paciente WHERE cpf = ?";
             PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
@@ -89,8 +81,6 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
     }
-     
-    
 
     {
 
@@ -119,7 +109,8 @@ public class DBManager {
         }
 
     }
-     public void cadastrarEnfermeiro(Enfermeiro enfermeiro) {
+
+    public void cadastrarEnfermeiro(Enfermeiro enfermeiro) {
         String sqlFunc = "INSERT INTO Funcionario(cpf,nome,datanasc,salario) VALUES(?,?,?,?)";
         String sqlEnf = "INSERT INTO Enfermeiro(tipo,funcionario_CPF) VALUES(?,?)";
         try (Connection conn = conector.connect();) {
@@ -142,36 +133,35 @@ public class DBManager {
         }
 
     }
-  
+
     // @TODO Fix  
-    public Funcionario consultarFuncionario(long cpf){
+    public Funcionario consultarFuncionario(long cpf) {
         Funcionario func = null;
-        try (Connection conn = conector.connect();){
+        try (Connection conn = conector.connect();) {
             String sqlFunc = "select papel_id from Funcionario where cpf = ?";
-            
+
             String papelFuncionario = "";
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
             sqlStatement1.setLong(1, cpf);
             ResultSet rs = sqlStatement1.executeQuery();
-            switch(rs.getInt("papel_id"))
-            {
-                    case 1: 
-                        papelFuncionario =  "Enfermeiro";
-                        func = new Enfermeiro();
-                        break;
+            switch (rs.getInt("papel_id")) {
+                case 1:
+                    papelFuncionario = "Enfermeiro";
+                    func = new Enfermeiro();
+                    break;
 
-                    case 2: 
-                        papelFuncionario = "Medico";
-                        func = new Medico();
-                        break;
-                    case 3:
-                        papelFuncionario = "FuncionarioAdmnistrativo";
-                        func = new FuncionarioAdministrativo();
-                        break;
+                case 2:
+                    papelFuncionario = "Medico";
+                    func = new Medico();
+                    break;
+                case 3:
+                    papelFuncionario = "FuncionarioAdmnistrativo";
+                    func = new FuncionarioAdministrativo();
+                    break;
             }
-           
+
             String sqlJoin = "select * FROM Funcionario LEFT JOIN " + papelFuncionario + " on Funcionario.cpf = " + papelFuncionario + ".funcionario_cpf where cpf = ?";
-            
+
             PreparedStatement sqlStatement2 = conn.prepareStatement(sqlJoin);
             sqlStatement2.setLong(1, cpf);
             ResultSet rs2 = sqlStatement2.executeQuery();
@@ -179,15 +169,11 @@ public class DBManager {
             func.setCPF(rs2.getLong("cpf"));
             func.setDataNascimento(rs2.getDate("datanasc"));
             func.setSalario(rs2.getDouble("salario"));
-            
-            
-            
-            
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-         return func;
+        return func;
     }
 
     public void removerFuncionario(int cpf) {
@@ -200,10 +186,9 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
     }
-    
-    public Receita criarReceita(String tipo, String textoReceita, Paciente paciente)
-    {
-        Receita receita= new Receita();
+
+    public Receita criarReceita(String tipo, String textoReceita, Paciente paciente) {
+        Receita receita = new Receita();
 //        paciente.getReceitas().add(textoReceita);
         try (Connection conn = conector.connect();) {
             String sqlReceitas = "INSERT INTO receita(paciente_cpf,tipo,descricao) VALUES(?,?,?)";
@@ -215,33 +200,30 @@ public class DBManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
-        
+
         return receita;
     }
-    
-    public void cadastrarEquipe(Equipe equipe)
-    {
-        
+
+    public void cadastrarEquipe(Equipe equipe) {
+
         String sqlEquipe = "INSERT INTO Equipe(nome,supervisor_cpf) VALUES(?,?)";
         String sqlFuncionariosEquipe = "INSERT INTO Equipe_Funcionario(equipe_id,funcionario_cpf) VALUES(?,?)";
-       
+
         try (Connection conn = conector.connect();) {
             conn.setAutoCommit(false);
-            PreparedStatement sqlStatement = conn.prepareStatement(sqlEquipe); 
-            sqlStatement.setString(1,equipe.getNome());
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlEquipe);
+            sqlStatement.setString(1, equipe.getNome());
             sqlStatement.setLong(2, equipe.getMedicoSupervisor().getCPF());
             PreparedStatement sqlStatementMembros = conn.prepareStatement(sqlFuncionariosEquipe);
             sqlStatement.execute();
-            
-            for (Medico medico : equipe.getMedicos())
-            {
-                sqlStatementMembros.setInt(1,equipe.getID());
+
+            for (Medico medico : equipe.getMedicos()) {
+                sqlStatementMembros.setInt(1, equipe.getID());
                 sqlStatementMembros.setLong(2, medico.getCPF());
                 sqlStatementMembros.addBatch();
             }
-            for (Enfermeiro enfermeiro : equipe.getEnfermeiros())
-            {
-                sqlStatementMembros.setInt(1,equipe.getID());
+            for (Enfermeiro enfermeiro : equipe.getEnfermeiros()) {
+                sqlStatementMembros.setInt(1, equipe.getID());
                 sqlStatementMembros.setLong(2, enfermeiro.getCPF());
                 sqlStatementMembros.addBatch();
             }
@@ -250,13 +232,9 @@ public class DBManager {
             System.out.println("Gravado");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
-            
+
         }
 
-        
-        
     }
-   
-    
-    
+
 }

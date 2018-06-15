@@ -11,19 +11,35 @@ public abstract class Procedimento {
     private Pagamento pagamento;
 
     public void setNome(String nome) {
-
+        this.nome = nome;
     }
 
     public String getNome() {
-        return null;
+        return nome;
     }
 
     public void setValor(Double valor) {
-
+        this.valor = valor;
     }
 
     public Double getValor() {
-        return null;
+        return valor;
+    }
+
+    public Equipe[] getEquipe() {
+        return equipe;
+    }
+
+    public void setEquipe(Equipe[] equipe) {
+        this.equipe = equipe;
+    }
+
+    public Pagamento getPagamento() {
+        return pagamento;
+    }
+
+    public void setPagamento(Pagamento pagamento) {
+        this.pagamento = pagamento;
     }
 
 }

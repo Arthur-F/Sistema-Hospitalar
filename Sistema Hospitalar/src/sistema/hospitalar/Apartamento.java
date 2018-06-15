@@ -2,10 +2,10 @@ package sistema.hospitalar;
 
 public class Apartamento extends Sala {
 
-  //Essa variável deve ir para paciente  
+    //Essa variável deve ir para paciente  
     private String medicacao;
 
-   //Essa variável deve ir para paciente 
+    //Essa variável deve ir para paciente 
     private String dieta;
 
     public void setMedicacao(String medicacao) {
