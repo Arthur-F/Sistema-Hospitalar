@@ -7,20 +7,19 @@ public class Exame extends Procedimento {
     private String resultado;
 
     public void setDiagnostico(String diagnostico) {
-
+        this.diagnostico = diagnostico;
     }
 
     public String getDiagnostico() {
-        return null;
+        return diagnostico;
     }
 
     public void setResultado(String resultado) {
-
+        this.resultado = resultado;
     }
 
     public String getResultado() {
-        return null;
+        return resultado;
     }
-
 
 }

@@ -13,8 +13,9 @@ public abstract class Funcionario {
 
     private Date dataNascimento;
 
-    private Double salario;
-
+    protected Double salario;
+    
+    //Esse método não deveria estar no dbmanager?
     public boolean cadastrarFuncionario() {
 
         return true;

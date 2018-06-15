@@ -34,5 +34,9 @@ public class Medico extends Funcionario {
 
     public Medico() {
     }
-
+  
+    @Override
+    public void setSalario(Double salario) {
+        this.salario = salario;
+    }
 }

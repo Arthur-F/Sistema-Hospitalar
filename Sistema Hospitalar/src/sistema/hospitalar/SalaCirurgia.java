@@ -5,11 +5,11 @@ public class SalaCirurgia extends Sala {
     private Equipe equipeResponsavel;
 
     public void setEquipeResponsavel(Equipe equipeResponsavel) {
-
+        this.equipeResponsavel = equipeResponsavel;
     }
 
     public Equipe getEquipeResponsavel() {
-        return null;
+        return equipeResponsavel;
     }
 
 }

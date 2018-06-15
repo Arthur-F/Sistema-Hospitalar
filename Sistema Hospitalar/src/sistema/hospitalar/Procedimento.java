@@ -4,7 +4,7 @@ public abstract class Procedimento {
 
     private String nome;
 
-    private Double valor;
+    protected Double valor;
 
     private Equipe[] equipe;
 
