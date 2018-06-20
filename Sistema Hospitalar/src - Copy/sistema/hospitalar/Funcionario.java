@@ -7,31 +7,20 @@ import java.sql.Date;
 
 public abstract class Funcionario {
 
-    protected String nome;
-    protected Long CPF;
-    protected String dataNascimento;
+    private String nome;
+    private Long CPF;
+    private String dataNascimento;
     protected Double salario;    
-    protected String senha;
-    protected Integer setor_id;
-    protected Integer papel_id;
+    private String senha;
+    private Integer setor_id;
+    private Integer papel_id;
 
     public String getSenha() {
         return senha;
     }
 
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-//    private Date dataNascimento;
-
-//    protected Double salario;
     
-    //Esse método não deveria estar no dbmanager?
-    public boolean cadastrarFuncionario() {
 
-        return true;
-    }
 
     public String getNome() {
         return nome;
@@ -75,6 +64,10 @@ public abstract class Funcionario {
 
     public Double getSalario() {
         return salario;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
     }
 
     public void setSalario(Double salario) {
