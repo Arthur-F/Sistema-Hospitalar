@@ -5,17 +5,82 @@
  */
 package sistema.hospitalar;
 
+import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gabriel
  */
-public class TelaInicial extends javax.swing.JFrame {
-
-    /**
-     * Creates new form TelaInicial
-     */
+public final class TelaInicial extends javax.swing.JFrame {
+    
+    private String usuario;
+    
     public TelaInicial() {
         initComponents();
+        TextField_pac_ag.setDocument(new SoNumeros(11));
+        TextField_med_ag.setDocument(new Tamanho(13));
+        limpaTelas();
+        iniTela();
+    }
+    
+    public void setUsuario(TelaLogin tela1, String user){
+        this.usuario = user;
+        List<Funcionario> list_func = new ArrayList<>();
+        DBManager dbm = new DBManager();
+        Long cpf = Long.parseLong(user);
+        list_func = dbm.getFuncionarios(cpf);
+        for (Funcionario funcionario : list_func) {
+            String saudacao = "Olá, " + funcionario.getNome() + ".";
+            Label_usuario.setText(saudacao);
+        }        
+    }
+    
+    public void iniTela(){
+        DBManager dbm = new DBManager();
+        List<Equipe> list_eq = new ArrayList<>();
+        List<Procedimento> list_proc = new ArrayList<>();
+        List<Sala> list_sl = new ArrayList<>();
+        list_eq = dbm.getEquipe(null);
+        list_proc = dbm.getProcedimento(null);
+        list_sl = dbm.getSala(null);        
+        ComboBox_eq_ag.addItem("");
+        ComboBox_proc_ag.addItem("");
+        ComboBox_sl_ag.addItem("");
+        for (Sala sala : list_sl) {
+            ComboBox_sl_ag.addItem(sala.getQuartos().toString());
+        }
+        for (Equipe equipe : list_eq) {
+            ComboBox_eq_ag.addItem(equipe.getNome());
+        }
+        for (Procedimento procedimento : list_proc) {
+            ComboBox_proc_ag.addItem(procedimento.getNome());
+        }
+    }
+    
+    public void limpaTelas(){
+        ComboBox_eq_ag.removeAllItems();
+        ComboBox_proc_ag.removeAllItems();
+        ComboBox_sl_ag.removeAllItems();
+        TextField_med_ag.setText(null);
+        TextField_pac_ag.setText(null);
+        DefaultTableModel tabela = (DefaultTableModel) Table_ag.getModel();
+        tabela.setNumRows(0);
+    }
+    
+    public void preencheTabelaAg(List<Agendamento> list){
+        DefaultTableModel model = (DefaultTableModel) Table_ag.getModel();
+        model.setNumRows(0);
+        for (Agendamento agendamento : list) {
+            model.addRow(new String[]{agendamento.getPac_nome(),agendamento.getPaciente_id().toString(),
+            agendamento.getData(),agendamento.getHora(),agendamento.getSala_id().toString(),
+            agendamento.getEq_nome()});
+        }
     }
 
     /**
@@ -28,38 +93,49 @@ public class TelaInicial extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel8 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        Label_usuario = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jPanel7 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jLabel7 = new javax.swing.JLabel();
+        Header_cadastrar = new javax.swing.JLabel();
+        Link_empresas = new javax.swing.JLabel();
+        Link_equipe = new javax.swing.JLabel();
+        Link_func = new javax.swing.JLabel();
+        Link_pac = new javax.swing.JLabel();
+        Link_proc = new javax.swing.JLabel();
+        Link_sala = new javax.swing.JLabel();
+        Link_setor = new javax.swing.JLabel();
+        Link_subsetor = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        Label_pac_ag = new javax.swing.JLabel();
+        TextField_pac_ag = new javax.swing.JTextField();
+        Label_med_ag = new javax.swing.JLabel();
+        TextField_med_ag = new javax.swing.JTextField();
+        Label_eq_ag = new javax.swing.JLabel();
+        ComboBox_eq_ag = new javax.swing.JComboBox<>();
+        Label_proc_ag = new javax.swing.JLabel();
+        ComboBox_proc_ag = new javax.swing.JComboBox<>();
+        Label_sl_ag = new javax.swing.JLabel();
+        ComboBox_sl_ag = new javax.swing.JComboBox<>();
+        Button_consultar = new javax.swing.JButton();
+        Calendar_ag = new com.toedter.calendar.JCalendar();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Table_ag = new javax.swing.JTable();
+        Button_canc_ag = new javax.swing.JButton();
+        Button_agendar = new javax.swing.JButton();
+        Button_sair = new javax.swing.JButton();
+        Button_alt_senha = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel8.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logo2_1.png"))); // NOI18N
 
-        jLabel9.setText("Usuário");
-
-        jLabel10.setText("Alterar Senha");
-
-        jLabel11.setText("Sair");
+        Label_usuario.setText("Olá, ......................");
 
         jLabel1.setText("Bem vindo!");
 
@@ -80,20 +156,7 @@ public class TelaInicial extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jTabbedPane1.addTab("Home", jPanel7);
-
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Agenda", jPanel1);
+        jTabbedPane1.addTab("Início", jPanel7);
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
@@ -147,106 +210,240 @@ public class TelaInicial extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Receitas", jPanel6);
 
-        jLabel2.setText("Consultar Setores:");
+        Header_cadastrar.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
+        Header_cadastrar.setText("Cadastros:");
 
-        jTextField1.setToolTipText("Nome");
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+        Link_empresas.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_empresas.setText("Empresas Conveniadas");
+        Link_empresas.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextField1MouseClicked(evt);
-            }
-        });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                Link_empresasMouseClicked(evt);
             }
         });
 
-        jLabel3.setText("Nome");
-
-        jLabel5.setText("Subsetores");
-
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setText("Equipes");
-
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        Link_equipe.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_equipe.setText("Equipes");
+        Link_equipe.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Link_equipeMouseClicked(evt);
             }
         });
 
-        jButton2.setText("Cadastrar novo");
+        Link_func.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_func.setText("Funcionários");
 
-        jLabel7.setText("Voltar");
+        Link_pac.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_pac.setText("Pacientes");
+
+        Link_proc.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_proc.setText("Procedimentos");
+
+        Link_sala.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_sala.setText("Salas");
+
+        Link_setor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_setor.setText("Setores");
+
+        Link_subsetor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
+        Link_subsetor.setText("Subsetores");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(280, 280, 280)
-                        .addComponent(jButton1)
-                        .addGap(29, 29, 29)
-                        .addComponent(jButton2))
+                        .addGap(259, 259, 259)
+                        .addComponent(Header_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 128, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel2Layout.createSequentialGroup()
-                        .addGap(211, 211, 211)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel2Layout.createSequentialGroup()
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel2Layout.createSequentialGroup()
-                                        .addGap(30, 30, 30)
-                                        .addComponent(jLabel3))
-                                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel5)
-                                        .addComponent(jLabel6)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jTextField1)
-                                    .addComponent(jComboBox1, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 204, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                                .addGap(108, 108, 108)
-                                .addComponent(jLabel2)
-                                .addGap(67, 67, 67)))))
-                .addGap(48, 221, Short.MAX_VALUE))
+                        .addGap(239, 239, 239)
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Link_equipe)
+                            .addComponent(Link_empresas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Link_func, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Link_pac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Link_proc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Link_sala, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Link_setor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Link_subsetor, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(50, 50, 50)
-                .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel7)
-                .addContainerGap())
+                .addComponent(Header_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_empresas)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_equipe)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_func)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_pac)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_proc)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_sala)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_setor)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Link_subsetor)
+                .addContainerGap(66, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Cadastros", jPanel2);
+
+        Label_pac_ag.setLabelFor(TextField_pac_ag);
+        Label_pac_ag.setText("CPF - Paciente");
+
+        Label_med_ag.setLabelFor(TextField_med_ag);
+        Label_med_ag.setText("CRM - Médico");
+
+        Label_eq_ag.setLabelFor(ComboBox_eq_ag);
+        Label_eq_ag.setText("Equipe");
+
+        ComboBox_eq_ag.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Label_proc_ag.setLabelFor(ComboBox_proc_ag);
+        Label_proc_ag.setText("Procedimento");
+
+        ComboBox_proc_ag.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Label_sl_ag.setLabelFor(ComboBox_sl_ag);
+        Label_sl_ag.setText("Sala");
+
+        ComboBox_sl_ag.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        Button_consultar.setText("Consultar");
+        Button_consultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_consultarActionPerformed(evt);
+            }
+        });
+
+        Table_ag.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Paciente", "CPF", "Data", "Hora", "Sala", "Equipe"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jScrollPane1.setViewportView(Table_ag);
+
+        Button_canc_ag.setText("Cancelar Agendamento");
+        Button_canc_ag.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_canc_agActionPerformed(evt);
+            }
+        });
+
+        Button_agendar.setText("Agendar");
+        Button_agendar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_agendarActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                            .addComponent(TextField_pac_ag, javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(TextField_med_ag)
+                            .addComponent(ComboBox_eq_ag, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ComboBox_proc_ag, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(ComboBox_sl_ag, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(18, 18, 18)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Label_pac_ag)
+                                            .addComponent(Label_med_ag)
+                                            .addComponent(Label_eq_ag)))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addContainerGap()
+                                        .addComponent(Label_proc_ag))
+                                    .addGroup(jPanel1Layout.createSequentialGroup()
+                                        .addGap(26, 26, 26)
+                                        .addComponent(Label_sl_ag)))
+                                .addGap(14, 14, 14)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Calendar_ag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Button_consultar)
+                        .addGap(18, 18, 18)
+                        .addComponent(Button_canc_ag)
+                        .addGap(18, 18, 18)
+                        .addComponent(Button_agendar)
+                        .addGap(0, 359, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(Label_pac_ag)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextField_pac_ag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Label_med_ag)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(TextField_med_ag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Label_eq_ag)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ComboBox_eq_ag, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Label_proc_ag)
+                        .addGap(7, 7, 7)
+                        .addComponent(ComboBox_proc_ag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(Label_sl_ag)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ComboBox_sl_ag, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(Calendar_ag, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Button_consultar)
+                    .addComponent(Button_canc_ag)
+                    .addComponent(Button_agendar))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Agenda", jPanel1);
+
+        Button_sair.setText("Sair");
+        Button_sair.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_sairActionPerformed(evt);
+            }
+        });
+
+        Button_alt_senha.setText("Alterar Senha");
+        Button_alt_senha.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_alt_senhaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -258,43 +455,160 @@ public class TelaInicial extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel8)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
-                .addGap(21, 21, 21))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(Button_alt_senha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Button_sair, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(452, 452, 452)
+                        .addComponent(Label_usuario, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel8)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addComponent(Label_usuario, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel10)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel11)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 291, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Button_alt_senha)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(Button_sair)))
+                .addGap(7, 7, 7)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 362, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
+
+        jTabbedPane1.getAccessibleContext().setAccessibleName("Início");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1MouseClicked
+    private void Button_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_consultarActionPerformed
+        String med = null;
+        Integer proc_id = null;
+        Integer equipe_id = null;
+        DBManager dbm = new DBManager();
+        if(TextField_med_ag.getText().length() > 0){
+            med = TextField_med_ag.getText();
+        }
+        Long pac = null;
+        if(TextField_pac_ag.getText().length() > 0){
+            pac = Long.parseLong(TextField_pac_ag.getText());
+        }
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String data = sdf.format(Calendar_ag.getDate());
+        if(ComboBox_proc_ag.getSelectedItem().toString() != ""){
+            List<Procedimento> list_proc = new ArrayList<>();
+            Procedimento proc = new Procedimento() {};
+            proc.setNome(ComboBox_proc_ag.getSelectedItem().toString());
+            list_proc = dbm.getProcedimento(proc);
+            for (Procedimento procedimento : list_proc) {
+                proc_id = procedimento.getId();
+            }
+        }        
+        Integer sala = null;
+        if(ComboBox_sl_ag.getSelectedItem().toString() != ""){
+            sala = Integer.parseInt(ComboBox_sl_ag.getSelectedItem().toString());
+        }
+        if(ComboBox_eq_ag.getSelectedItem().toString() != ""){            
+            List<Equipe> list_eq = new ArrayList<>();
+            Equipe eq = new Equipe();
+            eq.setNome(ComboBox_eq_ag.getSelectedItem().toString());
+            list_eq = dbm.getEquipe(eq);
+            for (Equipe equipe : list_eq) {
+                equipe_id = equipe.getID();
+            }
+        }        
+        List<Agendamento> list_ag = new ArrayList<>();
+        list_ag = dbm.consultarAgendamento(data);
+        List<Agendamento> list_ag1 = new ArrayList<>();
+        for (Agendamento agendamento : list_ag) {
+            if(pac != null){
+                if(agendamento.getPaciente_id().longValue() != pac.longValue()){
+                    continue;
+                }
+            }
+            if(proc_id != null){
+                if(agendamento.getProcedimento_id() != proc_id){
+                    continue;
+                }
+            }
+            if(sala != null){
+                if(agendamento.getSala_id() != sala){
+                    continue;
+                }
+            }
+            if(equipe_id != null){
+                if(agendamento.getEquipe_id() != equipe_id){
+                    continue;
+                }
+            }
+            if(med != null){
+                if(!agendamento.getSupervisor_crm().intern().equalsIgnoreCase(med.intern())){
+                    continue;
+                }
+            }
+            list_ag1.add(agendamento);
+            this.preencheTabelaAg(list_ag1);
+        }
+        if(list_ag1.size() == 0){
+            JOptionPane.showMessageDialog(null, "Não foi encontrado nenhuma agendamento");
+            DefaultTableModel model = (DefaultTableModel) Table_ag.getModel();
+            model.setNumRows(0);
+        }
+    }//GEN-LAST:event_Button_consultarActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void Button_sairActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_sairActionPerformed
+        if(JOptionPane.showConfirmDialog(null, "Desejar Sair?", "SAIR", JOptionPane.YES_NO_OPTION, 
+                JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+            this.dispose();
+        }
+    }//GEN-LAST:event_Button_sairActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void Button_alt_senhaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_alt_senhaActionPerformed
+        TelaAlterarSenha tela = new TelaAlterarSenha();
+        tela.setLocationRelativeTo(null);
+        tela.setVisible(true);
+        tela.setResizable(false);
+        tela.setUsuario(this, usuario);
+    }//GEN-LAST:event_Button_alt_senhaActionPerformed
+
+    private void Link_empresasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_empresasMouseClicked
+        new TelaCadastrarEmpresas().setVisible(true);
+    }//GEN-LAST:event_Link_empresasMouseClicked
+
+    private void Button_canc_agActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_canc_agActionPerformed
+        int linha = Table_ag.getSelectedRow();
+        if(linha >= 0){
+            if(JOptionPane.showConfirmDialog(null,"Tem certeza ?","APAGAR",JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                DBManager dbm = new DBManager();
+                List<Agendamento> list = new ArrayList<>();
+                Agendamento ag = new Agendamento();
+                ag.setData(Table_ag.getValueAt(linha,2).toString());
+                ag.setHora(Table_ag.getValueAt(linha,3).toString());
+                ag.setPaciente_id(Long.parseLong(Table_ag.getValueAt(linha,1).toString()));
+                list = dbm.cancelarAgendamento(ag);
+                this.preencheTabelaAg(list);
+                JOptionPane.showMessageDialog(null,"Cancelamento executado com sucesso!!!");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
+        }
+    }//GEN-LAST:event_Button_canc_agActionPerformed
+
+    private void Button_agendarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_agendarActionPerformed
+        new Agendar().setVisible(true);
+    }//GEN-LAST:event_Button_agendarActionPerformed
+
+    private void Link_equipeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_equipeMouseClicked
+        new TelaConsultarEquipe().setVisible(true);
+    }//GEN-LAST:event_Link_equipeMouseClicked
 
     /**
      * @param args the command line arguments
@@ -332,20 +646,35 @@ public class TelaInicial extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JButton Button_agendar;
+    private javax.swing.JButton Button_alt_senha;
+    private javax.swing.JButton Button_canc_ag;
+    private javax.swing.JButton Button_consultar;
+    private javax.swing.JButton Button_sair;
+    private com.toedter.calendar.JCalendar Calendar_ag;
+    private javax.swing.JComboBox<String> ComboBox_eq_ag;
+    private javax.swing.JComboBox<String> ComboBox_proc_ag;
+    private javax.swing.JComboBox<String> ComboBox_sl_ag;
+    private javax.swing.JLabel Header_cadastrar;
+    private javax.swing.JLabel Label_eq_ag;
+    private javax.swing.JLabel Label_med_ag;
+    private javax.swing.JLabel Label_pac_ag;
+    private javax.swing.JLabel Label_proc_ag;
+    private javax.swing.JLabel Label_sl_ag;
+    private javax.swing.JLabel Label_usuario;
+    private javax.swing.JLabel Link_empresas;
+    private javax.swing.JLabel Link_equipe;
+    private javax.swing.JLabel Link_func;
+    private javax.swing.JLabel Link_pac;
+    private javax.swing.JLabel Link_proc;
+    private javax.swing.JLabel Link_sala;
+    private javax.swing.JLabel Link_setor;
+    private javax.swing.JLabel Link_subsetor;
+    private javax.swing.JTable Table_ag;
+    private javax.swing.JTextField TextField_med_ag;
+    private javax.swing.JTextField TextField_pac_ag;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -353,7 +682,7 @@ public class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
     // End of variables declaration//GEN-END:variables
 }

@@ -4,9 +4,11 @@ import java.util.List;
 
 public class Equipe {
 
-    private int ID;
+    private Integer ID;
     
     private String nome;
+    
+    private String supervisor_cpf;
 
     private Medico medicoSupervisor;
 
@@ -14,11 +16,19 @@ public class Equipe {
 
     private List<Enfermeiro> enfermeiros;
 
-    public int getID() {
+    public String getSupervisor_cpf() {
+        return supervisor_cpf;
+    }
+
+    public void setSupervisor_cpf(String supervisor_cpf) {
+        this.supervisor_cpf = supervisor_cpf;
+    }
+    
+    public Integer getID() {
         return ID;
     }
 
-    public void setID(int ID) {
+    public void setID(Integer ID) {
         this.ID = ID;
     }
 

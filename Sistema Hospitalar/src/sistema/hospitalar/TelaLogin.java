@@ -5,6 +5,10 @@
  */
 package sistema.hospitalar;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Gabriel
@@ -16,6 +20,8 @@ public class TelaLogin extends javax.swing.JFrame {
      */
     public TelaLogin() {
         initComponents();
+        TextField_cpf.setDocument(new SoNumeros(11));
+        PasswordField.setDocument(new Tamanho(10));
     }
 
     /**
@@ -28,40 +34,41 @@ public class TelaLogin extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        txtLogin = new javax.swing.JTextField();
+        Label_cpf = new javax.swing.JLabel();
+        TextField_cpf = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jPasswordField1 = new javax.swing.JPasswordField();
+        Label_seha = new javax.swing.JLabel();
+        Button_logar = new javax.swing.JButton();
+        PasswordField = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logo2_1.png"))); // NOI18N
 
-        jLabel2.setText("CPF");
+        Label_cpf.setLabelFor(TextField_cpf);
+        Label_cpf.setText("CPF");
 
-        txtLogin.addActionListener(new java.awt.event.ActionListener() {
+        TextField_cpf.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginActionPerformed(evt);
+                TextField_cpfActionPerformed(evt);
             }
         });
 
         jLabel3.setText("Login");
 
-        jLabel4.setText("Senha");
+        Label_seha.setLabelFor(PasswordField);
+        Label_seha.setText("Senha");
 
-        jButton1.setText("Entrar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        Button_logar.setText("Entrar");
+        Button_logar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                Button_logarActionPerformed(evt);
             }
         });
 
-        jPasswordField1.setText("jPasswordField1");
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
+        PasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
+                PasswordFieldActionPerformed(evt);
             }
         });
 
@@ -80,15 +87,15 @@ public class TelaLogin extends javax.swing.JFrame {
                         .addComponent(jLabel1)
                         .addGap(148, 148, 148))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(Button_logar)
                         .addGap(165, 165, 165))))
             .addGroup(layout.createSequentialGroup()
                 .addGap(128, 128, 128)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel4)
-                    .addComponent(jLabel2)
-                    .addComponent(txtLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
-                    .addComponent(jPasswordField1))
+                    .addComponent(Label_seha)
+                    .addComponent(Label_cpf)
+                    .addComponent(TextField_cpf, javax.swing.GroupLayout.DEFAULT_SIZE, 151, Short.MAX_VALUE)
+                    .addComponent(PasswordField))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,32 +106,55 @@ public class TelaLogin extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel3)
                 .addGap(11, 11, 11)
-                .addComponent(jLabel2)
+                .addComponent(Label_cpf)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtLogin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(TextField_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel4)
+                .addComponent(Label_seha)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(13, 13, 13)
-                .addComponent(jButton1)
+                .addComponent(Button_logar)
                 .addContainerGap(31, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
+    private void TextField_cpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextField_cpfActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginActionPerformed
+    }//GEN-LAST:event_TextField_cpfActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void Button_logarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_logarActionPerformed
+       Long cpf = null;
+       if(TextField_cpf.getText().length() > 0){
+            cpf = Long.parseLong(TextField_cpf.getText());
+            String senha = PasswordField.getText();
+            DBManager dbm = new DBManager();
+            List<Funcionario> func = new ArrayList<>();
+            func = dbm.getFuncionarios(cpf);
+            for (Funcionario funcionario : func) {
+                if(funcionario.getSenha().equals(senha)){                    
+                    TelaInicial tela = new TelaInicial();
+                    tela.setLocationRelativeTo(null);
+                    tela.setVisible(true);
+                    tela.setResizable(false);
+                    tela.setUsuario(this, cpf.toString());
+                    this.dispose();
+                }else{                 
+                    JOptionPane.showMessageDialog(null, "Usuário ou Senha incorreto!");
+                }
+            }
+            if(func.size() == 0){
+                JOptionPane.showMessageDialog(null, "Usuário ou Senha incorreto!");
+            }
+       }
        
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_Button_logarActionPerformed
 
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
+    private void PasswordFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordFieldActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
+    }//GEN-LAST:event_PasswordFieldActionPerformed
 
     /**
      * @param args the command line arguments
@@ -162,12 +192,12 @@ public class TelaLogin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton Button_logar;
+    private javax.swing.JLabel Label_cpf;
+    private javax.swing.JLabel Label_seha;
+    private javax.swing.JPasswordField PasswordField;
+    private javax.swing.JTextField TextField_cpf;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JTextField txtLogin;
     // End of variables declaration//GEN-END:variables
 }
