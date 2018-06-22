@@ -76,7 +76,8 @@ public final class TelaCadastrarEmpresas extends javax.swing.JFrame {
             }
         });
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         Header_cadastro.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Header_cadastro.setText("EMPRESAS CONVENIADAS");

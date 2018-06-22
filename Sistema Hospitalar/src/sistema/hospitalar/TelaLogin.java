@@ -41,7 +41,10 @@ public class TelaLogin extends javax.swing.JFrame {
         Button_logar = new javax.swing.JButton();
         PasswordField = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setMaximumSize(new java.awt.Dimension(240, 240));
+        setMinimumSize(new java.awt.Dimension(240, 240));
+        setResizable(false);
 
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/logo2_1.png"))); // NOI18N
 
