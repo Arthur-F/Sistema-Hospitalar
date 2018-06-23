@@ -4,10 +4,6 @@ package sistema.hospitalar;
 import java.sql.Date;
 import java.sql.Time;
 
-/**
- *
- * @author Gabriel
- */
 public class Agendamento {
     
     private Integer id;
