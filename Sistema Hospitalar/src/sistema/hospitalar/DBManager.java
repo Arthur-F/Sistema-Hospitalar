@@ -715,5 +715,99 @@ public class DBManager {
 //        }
 //
 //    }
+    
+    public List<MembrosEquipe> consultarMembrosEquipe(Integer id){
+        List<MembrosEquipe> list_eq_func = new ArrayList<>();
+        try (Connection conn = conector.connect()){
+            String sql = "select * from Equipe_Funcionario where = equipe_id = ?";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,id);
+            ResultSet rs = sqlStatement1.executeQuery();
+            while(rs.next()){
+                MembrosEquipe eq_func = new MembrosEquipe();
+                eq_func.setId(rs.getInt("id"));
+                eq_func.setEquipe_id(rs.getInt("equipe_id"));
+                eq_func.setFunc_cpf(rs.getLong("funcionario_cpf"));
+                list_eq_func.add(eq_func);
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_eq_func;
+    }
+    
+    public List<MembrosEquipe> cadastrarMembrosEquipe(MembrosEquipe eq_func){
+        List<MembrosEquipe> list_eq_func = new ArrayList<>();
+        try (Connection conn = conector.connect()){
+            String sql = "insert into Equipe_Funcionario (equipe_id,funcionario_cpf) values (?,?)";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,eq_func.getEquipe_id());
+            sqlStatement1.setLong(2,eq_func.getFunc_cpf());
+            sqlStatement1.execute();
+            conn.close();
+            list_eq_func = this.consultarMembrosEquipe(eq_func.getEquipe_id());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_eq_func;
+    }
+    
+    public List<Enfermeiro> getEnfermeiros(Enfermeiro enf){
+        List<Enfermeiro> list_enf = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        try (Connection conn = conector.connect()){
+            if(enf != null && enf.getCPF() != null){
+                String sql = "select * from Enfermeiro where funcionario_cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setLong(1,enf.getCPF());
+                rs = sqlStatement1.executeQuery();
+            }else{
+                String sql = "select * from Enfermeiro";
+                sqlStatement1 = conn.prepareStatement(sql);
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                Enfermeiro enfe = new Enfermeiro();
+                enfe.setCPF(rs.getLong("funcionario_cpf"));
+                List<Funcionario> list_func = new ArrayList<>();
+                list_func = this.getFuncionarios(enfe.getCPF());
+                for (Funcionario funcionario : list_func) {
+                    enfe.setNome(funcionario.getNome());
+                    enfe.setDataNascimento(funcionario.getDataNascimento());
+                    enfe.setPapel_id(funcionario.getPapel_id());
+                    enfe.setSalario(funcionario.getSalario());
+                    enfe.setSetor_id(funcionario.getSetor_id());
+                }
+                if(enf != null && enf.getNome() != null){                    
+                    if(enfe.getNome().equalsIgnoreCase(enf.getNome())){
+                        list_enf.add(enfe);
+                    }
+                }else{
+                    list_enf.add(enfe);
+                }
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_enf;
+    }
+    
+    public List<MembrosEquipe> deletarMembrosEquipe(MembrosEquipe eq_func){
+        List<MembrosEquipe> list_eq_func = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect()){            
+            String sql = "delete from Equipe_Funcionario where id = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,eq_func.getId());
+            sqlStatement1.execute();
+            conn.close();
+            list_eq_func = this.consultarMembrosEquipe(eq_func.getEquipe_id());
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_eq_func;
+    }
 
 }

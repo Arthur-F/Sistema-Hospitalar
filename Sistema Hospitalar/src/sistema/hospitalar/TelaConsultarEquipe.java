@@ -323,7 +323,8 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
             tela.setLocationRelativeTo(null);
             tela.setVisible(true);
             tela.setResizable(false);
-            //tela.setEquipe(this,Integer.parseInt(Table.getValueAt(linha,0).toString()))
+            tela.setEquipe(this,Integer.parseInt(Table.getValueAt(linha,0).toString()));
+            tela.dispose();
         }else{
             JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
         }

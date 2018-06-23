@@ -5,6 +5,11 @@
  */
 package sistema.hospitalar;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gabriel
@@ -17,10 +22,44 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
      */
     public TelaMembrosEquipe() {
         initComponents();
+        IniciaComboBox();
     }
     
-    void setEquipe(TelaConsultarEquipe tela, Integer equipe){
+    public void setEquipe(TelaConsultarEquipe tela, Integer equipe){
         this.equipe_id = equipe;
+        List<MembrosEquipe> list = new ArrayList<>();
+        this.preencheTable(list);
+    }
+    
+    public void preencheTable(List<MembrosEquipe> list){
+        DefaultTableModel model = (DefaultTableModel) Table.getModel();
+        model.setNumRows(0);
+        String nome_eq = null;
+        List<Equipe> list_eq = new ArrayList<>();
+        Equipe eq = new Equipe();
+        eq.setID(equipe_id);
+        DBManager dbm = new DBManager();
+        list_eq = dbm.getEquipe(eq);
+        for (Equipe equipe : list_eq) {
+            nome_eq = equipe.getNome();
+        }
+        for (MembrosEquipe membrosEquipe : list) {
+            List<Funcionario> list_func = new ArrayList<>();
+            list_func = dbm.getFuncionarios(membrosEquipe.getFunc_cpf());
+            for (Funcionario funcionario : list_func) {
+                model.addRow(new String[]{membrosEquipe.getId().toString(),nome_eq,funcionario.getNome(),
+                membrosEquipe.getFunc_cpf().toString()});   
+            }
+        }
+    }
+    
+    public void IniciaComboBox(){
+        ComboBox_prof.removeAllItems();
+        ComboBox_prof.addItem("");
+        ComboBox_prof.addItem("Enfermeiro");
+        ComboBox_prof.addItem("Médico");
+        ComboBox_eq_func.removeAllItems();
+        ComboBox_eq_func.addItem("");
     }
 
     /**
@@ -36,11 +75,11 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
         Label_prof = new javax.swing.JLabel();
         ComboBox_prof = new javax.swing.JComboBox<>();
         Label_nome = new javax.swing.JLabel();
-        TextField_nome = new javax.swing.JTextField();
         Button_cad = new javax.swing.JButton();
         Button_ap = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
+        ComboBox_eq_func = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,12 +89,27 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
         Label_prof.setText("Profissional");
 
         ComboBox_prof.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        ComboBox_prof.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboBox_profItemStateChanged(evt);
+            }
+        });
 
         Label_nome.setText("Nome");
 
         Button_cad.setText("Cadastrar");
+        Button_cad.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_cadActionPerformed(evt);
+            }
+        });
 
         Button_ap.setText("Apagar");
+        Button_ap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_apActionPerformed(evt);
+            }
+        });
 
         Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -74,6 +128,8 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(Table);
+
+        ComboBox_eq_func.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -98,8 +154,8 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                     .addComponent(Button_ap, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Button_cad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                                    .addComponent(TextField_nome, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(ComboBox_prof, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                    .addComponent(ComboBox_prof, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(ComboBox_eq_func, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -118,7 +174,7 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(Label_nome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(TextField_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(ComboBox_eq_func, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(Button_cad)
                         .addGap(18, 18, 18)
@@ -129,6 +185,89 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Button_cadActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_cadActionPerformed
+        String nome = null;
+        String prof = null;
+        String validar = null;
+        if(ComboBox_prof.getSelectedItem().toString() != ""){
+            prof = ComboBox_prof.getSelectedItem().toString();
+        }
+        if(ComboBox_eq_func.getSelectedItem().toString() != ""){
+            nome = ComboBox_eq_func.getSelectedItem().toString();
+        }
+        if(nome != null && prof != null){
+            List<MembrosEquipe> list_eq_func = new ArrayList<>();
+            MembrosEquipe eq_func = new MembrosEquipe();
+            eq_func.setEquipe_id(equipe_id);
+            DBManager dbm = new DBManager();
+            List<Funcionario> func = new ArrayList<>();
+            func = dbm.getFuncionarios(null);
+            for (Funcionario funcionario : func) {
+                if (funcionario.getNome().equals(nome)) {
+                    list_eq_func = dbm.consultarMembrosEquipe(equipe_id);
+                    for (MembrosEquipe membro : list_eq_func) {
+                        if(membro.getFunc_cpf() == funcionario.getCPF()){
+                            validar = "X";
+                        }
+                    }
+                    if(validar == null){
+                        eq_func.setFunc_cpf(funcionario.getCPF());   
+                    }                    
+                }
+            }
+            if(validar == null){
+                list_eq_func = dbm.cadastrarMembrosEquipe(eq_func);
+                preencheTable(list_eq_func);
+                JOptionPane.showMessageDialog(null,"Cadastrado com sucesso!!!");
+            }else{
+                JOptionPane.showMessageDialog(null,"Funcionario já pertence a equipe.","ERRO",
+                        JOptionPane.ERROR_MESSAGE);
+            }            
+        }else{
+            JOptionPane.showMessageDialog(null,"Por favor informe todos os campos","ERRO",
+                    JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_Button_cadActionPerformed
+
+    private void ComboBox_profItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBox_profItemStateChanged
+        DBManager dbm = new DBManager();
+        if(ComboBox_prof.getSelectedItem().toString() == "Enfermeiro"){
+            List<Enfermeiro> list_enf = new ArrayList<>();
+            list_enf = dbm.getEnfermeiros(null);
+            for (Enfermeiro enfermeiro : list_enf) {
+                ComboBox_eq_func.addItem(enfermeiro.getNome());
+            }
+        }else if(ComboBox_prof.getSelectedItem().toString() == "Médico"){
+            List<Medico> list_med = new ArrayList<>();
+            list_med = dbm.getMedico(null);
+            for (Medico medico : list_med) {
+                List<Funcionario> list_func = new ArrayList<>();
+                list_func = dbm.getFuncionarios(medico.getCPF());
+                for (Funcionario funcionario : list_func) {
+                    ComboBox_eq_func.addItem(funcionario.getNome());
+                }
+            }
+        }
+    }//GEN-LAST:event_ComboBox_profItemStateChanged
+
+    private void Button_apActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_apActionPerformed
+        int linha = Table.getSelectedRow();
+        if(linha >= 0){
+            if(JOptionPane.showConfirmDialog(null,"Tem certeza ?","APAGAR",JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                DBManager dbm = new DBManager();
+                MembrosEquipe eq_func = new MembrosEquipe();
+                eq_func.setId(Integer.parseInt(Table.getValueAt(linha,0).toString()));
+                List<MembrosEquipe> list_eq_func = new ArrayList<>();
+                list_eq_func = dbm.deletarMembrosEquipe(eq_func);
+                this.preencheTable(list_eq_func);
+                JOptionPane.showMessageDialog(null,"Excluido com sucesso!!!");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
+        }
+    }//GEN-LAST:event_Button_apActionPerformed
 
     /**
      * @param args the command line arguments
@@ -168,12 +307,12 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton Button_ap;
     private javax.swing.JButton Button_cad;
+    private javax.swing.JComboBox<String> ComboBox_eq_func;
     private javax.swing.JComboBox<String> ComboBox_prof;
     private javax.swing.JLabel Labe_header;
     private javax.swing.JLabel Label_nome;
     private javax.swing.JLabel Label_prof;
     private javax.swing.JTable Table;
-    private javax.swing.JTextField TextField_nome;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }
