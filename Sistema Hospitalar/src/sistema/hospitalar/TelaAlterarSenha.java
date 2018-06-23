@@ -46,7 +46,8 @@ public class TelaAlterarSenha extends javax.swing.JFrame {
         PasswordField_con_nv = new javax.swing.JPasswordField();
         Button_cancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         Label_Alt_senha.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Label_Alt_senha.setText("Alterar Senha");

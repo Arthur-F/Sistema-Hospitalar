@@ -50,6 +50,7 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
         jComboBox1 = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         jLabel10.setText("Alterar Senha");
 
