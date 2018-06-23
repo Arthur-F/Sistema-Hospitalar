@@ -28,6 +28,8 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
     public void setEquipe(TelaConsultarEquipe tela, Integer equipe){
         this.equipe_id = equipe;
         List<MembrosEquipe> list = new ArrayList<>();
+        DBManager dbm = new DBManager();
+        list = dbm.consultarMembrosEquipe(equipe);
         this.preencheTable(list);
     }
     
@@ -53,12 +55,10 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
         }
     }
     
-    public void IniciaComboBox(){
-        ComboBox_prof.removeAllItems();
+    public void IniciaComboBox(){                        
         ComboBox_prof.addItem("");
         ComboBox_prof.addItem("Enfermeiro");
-        ComboBox_prof.addItem("Médico");
-        ComboBox_eq_func.removeAllItems();
+        ComboBox_prof.addItem("Médico");        
         ComboBox_eq_func.addItem("");
     }
 
@@ -81,14 +81,14 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
         Table = new javax.swing.JTable();
         ComboBox_eq_func = new javax.swing.JComboBox<>();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         Labe_header.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Labe_header.setText("Membros Equipe");
 
         Label_prof.setText("Profissional");
 
-        ComboBox_prof.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
         ComboBox_prof.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 ComboBox_profItemStateChanged(evt);
@@ -97,14 +97,14 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
 
         Label_nome.setText("Nome");
 
-        Button_cad.setText("Cadastrar");
+        Button_cad.setText("Incluir");
         Button_cad.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_cadActionPerformed(evt);
             }
         });
 
-        Button_ap.setText("Apagar");
+        Button_ap.setText("Excluir");
         Button_ap.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 Button_apActionPerformed(evt);
@@ -128,8 +128,9 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(Table);
-
-        ComboBox_eq_func.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        if (Table.getColumnModel().getColumnCount() > 0) {
+            Table.getColumnModel().getColumn(0).setHeaderValue("ID");
+        }
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -151,13 +152,18 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
                                 .addComponent(Label_nome))
                             .addGroup(layout.createSequentialGroup()
                                 .addContainerGap()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(Button_ap, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Button_cad, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
-                                    .addComponent(ComboBox_prof, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addComponent(ComboBox_eq_func, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(ComboBox_prof, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(ComboBox_eq_func, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(10, 10, 10)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addComponent(Button_ap, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(Button_cad, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 568, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -171,11 +177,11 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
                         .addComponent(Label_prof)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ComboBox_prof, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(Label_nome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(ComboBox_eq_func, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(49, 49, 49)
                         .addComponent(Button_cad)
                         .addGap(18, 18, 18)
                         .addComponent(Button_ap))
@@ -207,7 +213,7 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
                 if (funcionario.getNome().equals(nome)) {
                     list_eq_func = dbm.consultarMembrosEquipe(equipe_id);
                     for (MembrosEquipe membro : list_eq_func) {
-                        if(membro.getFunc_cpf() == funcionario.getCPF()){
+                        if(membro.getFunc_cpf().longValue() == funcionario.getCPF().longValue()){
                             validar = "X";
                         }
                     }
@@ -232,6 +238,8 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
 
     private void ComboBox_profItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBox_profItemStateChanged
         DBManager dbm = new DBManager();
+        ComboBox_eq_func.removeAllItems();
+        ComboBox_eq_func.addItem("");
         if(ComboBox_prof.getSelectedItem().toString() == "Enfermeiro"){
             List<Enfermeiro> list_enf = new ArrayList<>();
             list_enf = dbm.getEnfermeiros(null);
@@ -259,8 +267,9 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
                 DBManager dbm = new DBManager();
                 MembrosEquipe eq_func = new MembrosEquipe();
                 eq_func.setId(Integer.parseInt(Table.getValueAt(linha,0).toString()));
+                eq_func.setEquipe_id(equipe_id);
                 List<MembrosEquipe> list_eq_func = new ArrayList<>();
-                list_eq_func = dbm.deletarMembrosEquipe(eq_func);
+                list_eq_func = dbm.deletarMembrosEquipe(eq_func);                
                 this.preencheTable(list_eq_func);
                 JOptionPane.showMessageDialog(null,"Excluido com sucesso!!!");
             }

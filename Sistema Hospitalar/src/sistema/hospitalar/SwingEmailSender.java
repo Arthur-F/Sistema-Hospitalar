@@ -142,7 +142,7 @@ public class SwingEmailSender extends JFrame {
          
         try {
             Properties smtpProperties = configUtil.loadProperties();
-            EmailUtility.sendEmail(smtpProperties, toAddress, subject, message, attachFiles);
+            //EmailUtility.sendEmail(smtpProperties, toAddress, subject, message, attachFiles);
              
             JOptionPane.showMessageDialog(this,
                     "E-mail enviado com sucesso!");

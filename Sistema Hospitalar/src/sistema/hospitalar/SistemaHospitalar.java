@@ -10,7 +10,7 @@ public class SistemaHospitalar {
         DBManager dbManager = new DBManager();
         AccessManager accessmanager = new AccessManager();
         new TelaLogin().setVisible(true);
-        //new TelaCadastrarEmpresas().setVisible(true);
+        //new TelaConsultarEquipe().setVisible(true);
     }
 
 }

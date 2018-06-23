@@ -145,6 +145,10 @@ public class DBManager {
             sqlStatement1 = conn.prepareStatement(sql);
             sqlStatement1.setInt(1,eq.getID());
             sqlStatement1.execute();
+            sql = "delete from Equipe_Funcionario where equipe_id = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,eq.getID());
+            sqlStatement1.execute();
             conn.close();
             list_eq = this.getEquipe(null);
         }catch (SQLException e) {
@@ -719,7 +723,7 @@ public class DBManager {
     public List<MembrosEquipe> consultarMembrosEquipe(Integer id){
         List<MembrosEquipe> list_eq_func = new ArrayList<>();
         try (Connection conn = conector.connect()){
-            String sql = "select * from Equipe_Funcionario where = equipe_id = ?";
+            String sql = "select * from Equipe_Funcionario where equipe_id = ?";
             PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
             sqlStatement1.setInt(1,id);
             ResultSet rs = sqlStatement1.executeQuery();
