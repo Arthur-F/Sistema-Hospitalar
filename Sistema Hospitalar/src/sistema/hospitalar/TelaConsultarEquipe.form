@@ -49,17 +49,18 @@
                               <Component id="TextField_nome" alignment="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" alignment="0" attributes="0">
-                              <EmptySpace min="-2" pref="19" max="-2" attributes="0"/>
-                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="Button_consultar" min="-2" max="-2" attributes="0"/>
-                                  <Component id="Button_editar" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="Button_cadastrar" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="Button_apagar" alignment="1" max="32767" attributes="0"/>
-                              </Group>
-                          </Group>
-                          <Group type="102" alignment="0" attributes="0">
                               <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                               <Component id="Label_CRM" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <Group type="102" alignment="0" attributes="0">
+                              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="Button_consultar" max="32767" attributes="0"/>
+                                  <Component id="Button_editar" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="Button_cadastrar" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="Button_apagar" max="32767" attributes="0"/>
+                                  <Component id="Button_menbros" alignment="0" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -77,7 +78,8 @@
               <Component id="Header_eq" min="-2" pref="44" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" attributes="0">
+                  <Component id="jScrollPane1" alignment="0" min="-2" pref="323" max="-2" attributes="0"/>
+                  <Group type="102" alignment="0" attributes="0">
                       <Component id="Label_nome" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Component id="TextField_nome" min="-2" max="-2" attributes="0"/>
@@ -92,9 +94,10 @@
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="Button_editar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
+                      <Component id="Button_menbros" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="Button_apagar" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jScrollPane1" min="-2" pref="323" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
@@ -217,5 +220,13 @@
         </Component>
       </SubComponents>
     </Container>
+    <Component class="javax.swing.JButton" name="Button_menbros">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Membros"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_menbrosActionPerformed"/>
+      </Events>
+    </Component>
   </SubComponents>
 </Form>

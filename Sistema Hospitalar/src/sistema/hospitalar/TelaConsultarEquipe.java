@@ -62,6 +62,7 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
         Button_apagar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
+        Button_menbros = new javax.swing.JButton();
 
         jLabel4.setText("jLabel4");
 
@@ -129,6 +130,13 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Table);
 
+        Button_menbros.setText("Membros");
+        Button_menbros.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_menbrosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,15 +156,16 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
                                 .addComponent(ComboBox_crm, javax.swing.GroupLayout.Alignment.LEADING, 0, 125, Short.MAX_VALUE)
                                 .addComponent(TextField_nome, javax.swing.GroupLayout.Alignment.LEADING))
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(19, 19, 19)
+                                .addGap(32, 32, 32)
+                                .addComponent(Label_CRM))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(Button_consultar)
+                                    .addComponent(Button_consultar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Button_editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(Button_cadastrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(Button_apagar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(32, 32, 32)
-                                .addComponent(Label_CRM)))
+                                    .addComponent(Button_apagar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Button_menbros, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 566, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -168,6 +177,7 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
                 .addComponent(Header_eq, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(Label_nome)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -183,8 +193,9 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(Button_editar)
                         .addGap(18, 18, 18)
-                        .addComponent(Button_apagar))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Button_menbros)
+                        .addGap(18, 18, 18)
+                        .addComponent(Button_apagar)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -305,6 +316,19 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ComboBox_crmActionPerformed
 
+    private void Button_menbrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_menbrosActionPerformed
+        int linha = Table.getSelectedRow();
+        if( linha >= 0){
+            TelaMembrosEquipe tela = new TelaMembrosEquipe();
+            tela.setLocationRelativeTo(null);
+            tela.setVisible(true);
+            tela.setResizable(false);
+            //tela.setEquipe(this,Integer.parseInt(Table.getValueAt(linha,0).toString()))
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
+        }
+    }//GEN-LAST:event_Button_menbrosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -352,6 +376,7 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
     private javax.swing.JButton Button_cadastrar;
     private javax.swing.JButton Button_consultar;
     private javax.swing.JButton Button_editar;
+    private javax.swing.JButton Button_menbros;
     private javax.swing.JComboBox<String> ComboBox_crm;
     private javax.swing.JLabel Header_eq;
     private javax.swing.JLabel Label_CRM;
