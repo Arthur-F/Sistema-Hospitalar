@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
  
-import javax.mail.Authenticator;
+/**import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -16,12 +16,12 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
+import javax.mail.internet.MimeMultipart;*/
  
 /**
  * A utility class that sends an e-mail message with attachments.
  */
-public class EmailUtility {
+/**public class EmailUtility {
     public static void sendEmail(Properties smtpProperties, String toAddress,
             String subject, String message, File[] attachFiles)
             throws AddressException, MessagingException, IOException {
@@ -76,4 +76,4 @@ public class EmailUtility {
         Transport.send(msg);
  
     }
-}
+}*/

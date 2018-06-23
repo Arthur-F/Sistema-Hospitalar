@@ -21,10 +21,10 @@ public final class CadastrarFuncionario extends javax.swing.JFrame {
      */
     public CadastrarFuncionario() {
         initComponents();
-        iniciaTela();
+        //iniciaTela();
     }
 
-    public void iniciaTela(){
+    /**public void iniciaTela(){
         ComboBox_crm.removeAllItems();
         List<Medico> list = new ArrayList<>();
         DBManager dbm = new DBManager();
@@ -36,15 +36,15 @@ public final class CadastrarFuncionario extends javax.swing.JFrame {
         List<Equipe> list_eq = new ArrayList<>();
         list_eq = dbm.getEquipe(null);
         this.preencheTabela(list_eq);
-    }
+    }*/
     
-    public void preencheTabela(List<Equipe> list){
+    /**public void preencheTabela(List<Equipe> list){
         DefaultTableModel model = (DefaultTableModel) Table.getModel();
         model.setNumRows(0);
         for (Equipe equipe : list) {
             model.addRow(new String[]{equipe.getID().toString(),equipe.getNome(),equipe.getSupervisor_cpf()});
         }
-    }
+    }*/
     
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -239,7 +239,7 @@ public final class CadastrarFuncionario extends javax.swing.JFrame {
             eq.setNome(nome);
             eq.setSupervisor_cpf(CRM);
             list = dbm.getEquipe(eq);
-            this.preencheTabela(list);
+            //this.preencheTabela(list);
         }
     }//GEN-LAST:event_Button_consultarActionPerformed
 
@@ -261,7 +261,7 @@ public final class CadastrarFuncionario extends javax.swing.JFrame {
             list = dbm.cadastrarEquipe(eq);
             TextField_nome.setText(null);
             ComboBox_crm.setSelectedIndex(0);
-            this.preencheTabela(list);
+            //this.preencheTabela(list);
             JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso!!!");
         }else{
             JOptionPane.showMessageDialog(null,"Por favor informe todos os campos");
@@ -279,7 +279,7 @@ public final class CadastrarFuncionario extends javax.swing.JFrame {
         if(ComboBox_crm.getSelectedItem().toString() != ""){
             crm = ComboBox_crm.getSelectedItem().toString();
         }
-        int linha = Table.getSelectedRow();
+        /**int linha = Table.getSelectedRow();
         if(linha >= 0){
             if(nome != null && crm != null){
                 JOptionPane.showMessageDialog(null,"Somente um dos campos pode ser alterado","ERRO",JOptionPane.ERROR_MESSAGE);
@@ -312,11 +312,11 @@ public final class CadastrarFuncionario extends javax.swing.JFrame {
             }     
         }else{
             JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
-        }
+        }*/
     }//GEN-LAST:event_Button_editarActionPerformed
 
     private void Button_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_apagarActionPerformed
-        int linha = Table.getSelectedRow();
+        /**int linha = Table.getSelectedRow();
         if(linha >= 0){
             if(JOptionPane.showConfirmDialog(null,"Tem certeza ?","APAGAR",JOptionPane.YES_NO_OPTION,
                     JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
@@ -330,7 +330,7 @@ public final class CadastrarFuncionario extends javax.swing.JFrame {
             }                      
         }else{
             JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
-        }
+        }*/
     }//GEN-LAST:event_Button_apagarActionPerformed
 
     private void ComboBox_crmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox_crmActionPerformed
