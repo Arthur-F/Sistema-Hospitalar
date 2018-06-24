@@ -16,23 +16,24 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
  
 /**
- * Displays a setting form that allows configuring SMTP settings.
+ * Formulário que permite configurar as configurações SMTP.
  */
+
 public class SettingsDialog extends JDialog {
  
     private ConfigUtility configUtil;
      
-    private JLabel labelHost = new JLabel("Host name: ");
-    private JLabel labelPort = new JLabel("Port number: ");
-    private JLabel labelUser = new JLabel("Username: ");
-    private JLabel labelPass = new JLabel("Password: ");
+    private JLabel labelHost = new JLabel("Nome do host: ");
+    private JLabel labelPort = new JLabel("Número da porta: ");
+    private JLabel labelUser = new JLabel("E-mail: ");
+    private JLabel labelPass = new JLabel("Senha: ");
      
     private JTextField textHost = new JTextField(20);
     private JTextField textPort = new JTextField(20);
     private JTextField textUser = new JTextField(20);
     private JTextField textPass = new JTextField(20);
      
-    private JButton buttonSave = new JButton("Save");
+    private JButton buttonSave = new JButton("Salvar");
      
     public SettingsDialog(JFrame parent, ConfigUtility configUtil) {
         super(parent, "SMTP Settings", true);
@@ -100,7 +101,7 @@ public class SettingsDialog extends JDialog {
             configProps = configUtil.loadProperties();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this,
-                    "Error reading settings: " + ex.getMessage(),
+                    "Erro ao ler as configurações: " + ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }
          
@@ -117,11 +118,11 @@ public class SettingsDialog extends JDialog {
                     textUser.getText(),
                     textPass.getText());
             JOptionPane.showMessageDialog(SettingsDialog.this,
-                    "Properties were saved successfully!");    
+                    "Configurações salvas com sucesso!");    
             dispose();
         } catch (IOException ex) {
             JOptionPane.showMessageDialog(this,
-                    "Error saving properties file: " + ex.getMessage(),
+                    "Erro ao salvar configurações: " + ex.getMessage(),
                     "Error", JOptionPane.ERROR_MESSAGE);
         }      
     }

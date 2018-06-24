@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.Properties;
  
-/**import javax.mail.Authenticator;
+import javax.mail.Authenticator;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -16,12 +16,12 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;*/
+import javax.mail.internet.MimeMultipart;
  
 /**
- * A utility class that sends an e-mail message with attachments.
+ * Classe utitilária para enviar e-mail com anexo.
  */
-/**public class EmailUtility {
+public class EmailUtility {
     public static void sendEmail(Properties smtpProperties, String toAddress,
             String subject, String message, File[] attachFiles)
             throws AddressException, MessagingException, IOException {
@@ -29,7 +29,7 @@ import javax.mail.internet.MimeMultipart;*/
         final String userName = smtpProperties.getProperty("mail.user");
         final String password = smtpProperties.getProperty("mail.password");
          
-        // creates a new session with an authenticator
+        // Criar nova sessão com autenticador.
         Authenticator auth = new Authenticator() {
             public PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(userName, password);
@@ -37,7 +37,7 @@ import javax.mail.internet.MimeMultipart;*/
         };
         Session session = Session.getInstance(smtpProperties, auth);
  
-        // creates a new e-mail message
+        // Criar uma nova mensagem de e-mail.
         Message msg = new MimeMessage(session);
  
         msg.setFrom(new InternetAddress(userName));
@@ -46,15 +46,12 @@ import javax.mail.internet.MimeMultipart;*/
         msg.setSubject(subject);
         msg.setSentDate(new Date());
  
-        // creates message part
         MimeBodyPart messageBodyPart = new MimeBodyPart();
         messageBodyPart.setContent(message, "text/html");
  
-        // creates multi-part
         Multipart multipart = new MimeMultipart();
         multipart.addBodyPart(messageBodyPart);
  
-        // adds attachments
         if (attachFiles != null && attachFiles.length > 0) {
             for (File aFile : attachFiles) {
                 MimeBodyPart attachPart = new MimeBodyPart();
@@ -69,11 +66,9 @@ import javax.mail.internet.MimeMultipart;*/
             }
         }
  
-        // sets the multi-part as e-mail's content
         msg.setContent(multipart);
  
-        // sends the e-mail
         Transport.send(msg);
  
     }
-}*/
+}

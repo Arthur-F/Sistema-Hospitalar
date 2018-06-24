@@ -43,7 +43,6 @@ public class JFilePicker extends JPanel {
          
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
  
-        // creates the GUI
         label = new JLabel(textFieldLabel);
          
         textField = new JTextField(30);
