@@ -26,31 +26,31 @@ import javax.swing.UIManager;
 import sistema.hospitalar.JFilePicker;
  
 /**
- * A Swing application that allows sending e-mail messages from a SMTP server.
+ * Aplicação para enviar e-mails com anexos via servidor SMTP.
  */
 public class SwingEmailSender extends JFrame {
     private ConfigUtility configUtil = new ConfigUtility();
      
     private JMenuBar menuBar = new JMenuBar();
-    private JMenu menuFile = new JMenu("File");
-    private JMenuItem menuItemSetting = new JMenuItem("Settings..");
+    private JMenu menuFile = new JMenu("Arquivo");
+    private JMenuItem menuItemSetting = new JMenuItem("Configurações..");
      
-    private JLabel labelTo = new JLabel("To: ");
-    private JLabel labelSubject = new JLabel("Subject: ");
+    private JLabel labelTo = new JLabel("Para: ");
+    private JLabel labelSubject = new JLabel("Assunto: ");
      
     private JTextField fieldTo = new JTextField(30);
     private JTextField fieldSubject = new JTextField(30);
      
-    private JButton buttonSend = new JButton("SEND");
+    private JButton buttonSend = new JButton("ENVIAR");
      
-    private JFilePicker filePicker = new JFilePicker("Attached", "Attach File...");
+    private JFilePicker filePicker = new JFilePicker("Anexo", "Anexar arquivo...");
      
     private JTextArea textAreaMessage = new JTextArea(10, 30);
      
     private GridBagConstraints constraints = new GridBagConstraints();
      
     public SwingEmailSender() {
-        super("Swing E-mail Sender Program");
+        super("Enviar e-mail");
          
         // set up layout
         setLayout(new GridBagLayout());
@@ -157,7 +157,7 @@ public class SwingEmailSender extends JFrame {
     private boolean validateFields() {
         if (fieldTo.getText().equals("")) {
             JOptionPane.showMessageDialog(this,
-                    "Please enter To address!",
+                    "Adicione um destinatário!",
                     "Error", JOptionPane.ERROR_MESSAGE);
             fieldTo.requestFocus();
             return false;
@@ -165,7 +165,7 @@ public class SwingEmailSender extends JFrame {
          
         if (fieldSubject.getText().equals("")) {
             JOptionPane.showMessageDialog(this,
-                    "Please enter subject!",
+                    "Adicione o assunto do e-mail!",
                     "Error", JOptionPane.ERROR_MESSAGE);
             fieldSubject.requestFocus();
             return false;
@@ -173,7 +173,7 @@ public class SwingEmailSender extends JFrame {
          
         if (textAreaMessage.getText().equals("")) {
             JOptionPane.showMessageDialog(this,
-                    "Please enter message!",
+                    "Adicione uma mensagem!",
                     "Error", JOptionPane.ERROR_MESSAGE);
             textAreaMessage.requestFocus();
             return false;
@@ -183,7 +183,6 @@ public class SwingEmailSender extends JFrame {
     }
      
     public static void main(String[] args) {
-        // set look and feel to system dependent
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         } catch (Exception ex) {

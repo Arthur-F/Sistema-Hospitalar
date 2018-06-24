@@ -9,15 +9,16 @@ import java.io.OutputStream;
 import java.util.Properties;
  
 /**
- * A utility class that reads/saves SMTP settings from/to a properties file.
+ * Classe utilitária para ler/salvar as configurações de e-mail de/para um arquivo.
  */
+
 public class ConfigUtility {
     private File configFile = new File("smtp.properties");
     private Properties configProps;
      
     public Properties loadProperties() throws IOException {
         Properties defaultProps = new Properties();
-        // sets default properties
+        // Configurações padrão
         defaultProps.setProperty("mail.smtp.host", "smtp.gmail.com");
         defaultProps.setProperty("mail.smtp.port", "587");
         defaultProps.setProperty("mail.user", "careplusgestaohospitalar@gmail.com");
@@ -27,7 +28,7 @@ public class ConfigUtility {
          
         configProps = new Properties(defaultProps);
          
-        // loads properties from file
+        // Carregar configurações
         if (configFile.exists()) {
             InputStream inputStream = new FileInputStream(configFile);
             configProps.load(inputStream);
