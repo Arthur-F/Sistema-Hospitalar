@@ -813,5 +813,79 @@ public class DBManager {
         }
         return list_eq_func;
     }
+    
+    public List<Setor> getSetor(Setor setor){
+        List<Setor> list_setor = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        String sql = null;
+        try (Connection conn = conector.connect()){
+            if(setor != null && setor.getId() != null){
+                sql = "select * from Setor where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,setor.getId());
+                rs = sqlStatement1.executeQuery();
+            }else if(setor != null && setor.getNome() != null){
+                sql = "select * from Setor where nome like ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                String str = "%" + setor.getNome() + "%";
+                sqlStatement1.setString(1,str);
+                rs = sqlStatement1.executeQuery();
+            }else{
+                sql = "select * from Setor";
+                sqlStatement1 = conn.prepareStatement(sql);                
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                Setor st = new Setor();
+                st.setId(rs.getInt("id"));
+                st.setNome(rs.getString("nome"));
+                list_setor.add(st);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_setor;
+    }
+    
+    public List<Subsetor> getSubSetor(Subsetor ssetor){
+        List<Subsetor> list_ssetor = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        String sql = null;
+        try (Connection conn = conector.connect()){
+            if(ssetor != null && ssetor.getId() != null){
+                sql = "select * from Subsetor where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,ssetor.getId());
+                rs = sqlStatement1.executeQuery();
+            }else if(ssetor != null && ssetor.getSetor_id() != null){
+                sql = "select * from Subsetor where setor_id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,ssetor.getSetor_id());
+                rs = sqlStatement1.executeQuery();
+            }else if(ssetor != null && ssetor.getNome() != null){
+                sql = "select * from Subsetor where nome like ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                String str = "%" + ssetor.getNome() + "%";
+                sqlStatement1.setString(1,str);
+                rs = sqlStatement1.executeQuery();
+            }else{
+                sql = "select * from Subsetor";
+                sqlStatement1 = conn.prepareStatement(sql);                
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                Subsetor subsetor = new Subsetor();
+                subsetor.setId(rs.getInt("id"));
+                subsetor.setNome(rs.getString("nome"));
+                subsetor.setSetor_id(rs.getInt("setor_id"));
+                list_ssetor.add(subsetor);
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_ssetor;
+    }
 
 }
