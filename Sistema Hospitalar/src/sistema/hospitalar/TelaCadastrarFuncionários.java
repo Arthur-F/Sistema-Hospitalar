@@ -35,6 +35,8 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
         DBManager dbm = new DBManager();
         list_setor = dbm.getSetor(null);
         list_subsetor = dbm.getSubSetor(null);
+        ComboBox_setor.addItem("");
+        ComboBox_subsetor.addItem("");
         for (Subsetor subsetor : list_subsetor) {
             ComboBox_subsetor.addItem(subsetor.getNome());
         }
@@ -116,6 +118,12 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
 
         Label_prof.setText("Profissional");
 
+        ComboBox_prof.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                ComboBox_profItemStateChanged(evt);
+            }
+        });
+
         Label_salario.setText("Salário");
 
         Label_1.setText("label");
@@ -123,6 +131,11 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
         Label_area.setText("Área de atuação");
 
         Button_gravar.setText("Gravar");
+        Button_gravar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_gravarActionPerformed(evt);
+            }
+        });
 
         Button_canc.setText("Cancelar");
 
@@ -163,11 +176,12 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
                             .addComponent(Label_dt)
                             .addComponent(Label_cpf)
                             .addComponent(Label_prof)
-                            .addComponent(Label_1, javax.swing.GroupLayout.PREFERRED_SIZE, 52, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(Button_gravar)
                                 .addGap(18, 18, 18)
-                                .addComponent(Button_canc)))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(Label_1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(Button_canc, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(TextField_cpf)
@@ -237,6 +251,57 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
     private void TextField_cpfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_TextField_cpfActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_TextField_cpfActionPerformed
+
+    private void ComboBox_profItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ComboBox_profItemStateChanged
+        if(ComboBox_prof.getSelectedItem().toString().equals("Médico")){
+            Label_1.setText("CRM");
+            Label_1.setVisible(true);
+            TextField_1.setVisible(true);
+            Label_area.setVisible(true);
+            TextField_area.setVisible(true);
+        }else if(ComboBox_prof.getSelectedItem().toString().equals("Enfermeiro")){
+            Label_1.setText("Especialidade");
+            Label_1.setVisible(true);
+            TextField_1.setVisible(true);
+            Label_area.setVisible(false);
+            TextField_area.setVisible(false);
+        }else if(ComboBox_prof.getSelectedItem().toString().equals("Administrativo")){
+            Label_1.setText("Cargo");
+            Label_1.setVisible(true);
+            TextField_1.setVisible(true);
+            Label_area.setVisible(false);
+            TextField_area.setVisible(false);
+        }else{
+            Label_1.setVisible(false);
+            Label_area.setVisible(false);
+            TextField_1.setVisible(false);
+            TextField_area.setVisible(false);
+        }
+    }//GEN-LAST:event_ComboBox_profItemStateChanged
+
+    private void Button_gravarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_gravarActionPerformed
+        String nome = null;
+        Long cpf = null;
+        String setor = null;
+        String subsetor = null;
+        String prof = null;
+        Long salario = null;
+        String str = null;
+        String area = null;
+        DBManager dbm = new DBManager();
+        if(TextField_nome.getText().length() > 0){
+            nome = TextField_nome.getText();           
+        }
+        if(TextField_cpf.getText().length() > 0){
+            cpf  = Long.parseLong(TextField_cpf.getText());
+        }
+        if(ComboBox_setor.getSelectedItem().toString() != ""){
+            List<Setor> list_setor = new ArrayList<>();
+            Setor st = new Setor();
+            st.setNome(setor);
+            list_setor = dbm.getSetor(st);
+        }
+    }//GEN-LAST:event_Button_gravarActionPerformed
 
     /**
      * @param args the command line arguments

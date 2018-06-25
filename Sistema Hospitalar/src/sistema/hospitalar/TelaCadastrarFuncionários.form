@@ -78,11 +78,13 @@
                           <Component id="Label_dt" min="-2" max="-2" attributes="0"/>
                           <Component id="Label_cpf" min="-2" max="-2" attributes="0"/>
                           <Component id="Label_prof" alignment="1" min="-2" max="-2" attributes="0"/>
-                          <Component id="Label_1" alignment="1" min="-2" pref="52" max="-2" attributes="0"/>
                           <Group type="102" alignment="1" attributes="0">
                               <Component id="Button_gravar" min="-2" max="-2" attributes="0"/>
                               <EmptySpace type="separate" max="-2" attributes="0"/>
-                              <Component id="Button_canc" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="Label_1" max="32767" attributes="0"/>
+                                  <Component id="Button_canc" max="32767" attributes="0"/>
+                              </Group>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -233,6 +235,9 @@
           <StringArray count="0"/>
         </Property>
       </Properties>
+      <Events>
+        <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="ComboBox_profItemStateChanged"/>
+      </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
@@ -262,6 +267,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Gravar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="Button_gravarActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="Button_canc">
       <Properties>
