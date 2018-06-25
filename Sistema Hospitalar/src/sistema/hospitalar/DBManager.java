@@ -27,6 +27,7 @@ public class DBManager {
 //     
     }
     
+ 
     public List<Funcionario> getFuncionarios(Long cpf){                
         ResultSet rs = null;
         List<Funcionario> list_func = new ArrayList<>();
@@ -888,4 +889,32 @@ public class DBManager {
         return list_ssetor;
     }
 
+    public List<Receita> getReceitasDoPaciente(Long cpf)
+    {
+        List listareceitas = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        try (Connection conn = conector.connect()){
+
+                String sql = "select * from Receita where paciente_cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setLong(1,cpf);
+                rs = sqlStatement1.executeQuery();
+            while(rs.next()){
+                Receita receita = new Receita();
+                receita.setCpfpaciente(rs.getLong("paciente_cpf"));
+                receita.setReceita(rs.getString("descricao"));
+                receita.setTipo(rs.getString("tipo"));
+                listareceitas.add(receita);
+               
+                
+                
+            }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return listareceitas;
+        
+            
+    }
 }
