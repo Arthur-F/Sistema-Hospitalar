@@ -842,6 +842,7 @@ public class DBManager {
                 st.setNome(rs.getString("nome"));
                 list_setor.add(st);
             }
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -882,10 +883,105 @@ public class DBManager {
                 subsetor.setSetor_id(rs.getInt("setor_id"));
                 list_ssetor.add(subsetor);
             }
+            conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
         return list_ssetor;
     }
-
+    
+    public void cadastrarFuncionario(Funcionario func){
+        String sql = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect()){
+            if(func.getDataNascimento() != null && func.getSalario() != null && func.getSetor_id() != null){
+                sql = "insert into Funcionario (nome,cpf,datanasc,salario,setor_id,senha) values (?,?,?,?,?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,func.getNome());
+                sqlStatement1.setLong(2,func.getCPF());
+                sqlStatement1.setString(3,func.getDataNascimento());
+                sqlStatement1.setDouble(4,func.getSalario());
+                sqlStatement1.setInt(5,func.getSetor_id());
+                sqlStatement1.setString(6,"admin");
+                sqlStatement1.execute();
+            }else if(func.getDataNascimento() != null && func.getSalario() != null){
+                sql = "insert into Funcionario (nome,cpf,datanasc,salario,senha) values (?,?,?,?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,func.getNome());
+                sqlStatement1.setLong(2,func.getCPF());
+                sqlStatement1.setString(3,func.getDataNascimento());
+                sqlStatement1.setDouble(4,func.getSalario());                
+                sqlStatement1.setString(5,"admin");
+                sqlStatement1.execute();
+            }else if(func.getDataNascimento() != null){
+                sql = "insert into Funcionario (nome,cpf,datanasc,senha) values (?,?,?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,func.getNome());
+                sqlStatement1.setLong(2,func.getCPF());
+                sqlStatement1.setString(3,func.getDataNascimento());                               
+                sqlStatement1.setString(4,"admin");
+                sqlStatement1.execute();
+            }else{
+                sql = "insert into Funcionario (nome,cpf,senha) values (?,?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,func.getNome());
+                sqlStatement1.setLong(2,func.getCPF());              
+                sqlStatement1.setString(3,"admin");
+                sqlStatement1.execute();
+            }
+            conn.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void cadastrarMedico1(Medico med){
+        String sql = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect()){
+            if(med.getAreaDeAtuacao() != null){
+                sql = "insert into Medico (CRM,areaatuacao,funcionario_cpf) values (?,?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,med.getCRM());
+                sqlStatement1.setString(2,med.getAreaDeAtuacao());
+                sqlStatement1.setLong(3,med.getCPF());            
+                sqlStatement1.execute();
+            }else{
+                sql = "insert into Medico (CRM,funcionario_cpf) values (?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,med.getCRM());                
+                sqlStatement1.setLong(2,med.getCPF());            
+                sqlStatement1.execute();
+            }     
+            conn.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void cadastrarEnfermeiro1(Enfermeiro enf){
+        try (Connection conn = conector.connect()){
+            String sql = "insert into Enfermeiro (tipo,funcionario_cpf) values (?,?)";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,enf.getTipo());
+            sqlStatement1.setLong(2,enf.getCPF());            
+            sqlStatement1.execute();
+            conn.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void cadastrarFuncAdm(FuncionarioAdministrativo funcAd){
+        try (Connection conn = conector.connect()){
+            String sql = "insert into FuncionarioAdministrativo (cargo,funcionariocpf) values (?,?)";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,funcAd.getCargo());
+            sqlStatement1.setLong(2,funcAd.getCPF());            
+            sqlStatement1.execute();
+            conn.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 }

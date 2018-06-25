@@ -17,7 +17,7 @@ public class SoLetras extends PlainDocument{
         if(str == null){
             return;
         }else if((getLength() + str.length()) <= limit){
-            super.insertString(offs, str.replaceAll("[^a-z|^A-Z]", ""), a); 
+            super.insertString(offs, str.replaceAll("[^a-z|^A-Z|^' ']", ""), a); 
         }
     }
     
