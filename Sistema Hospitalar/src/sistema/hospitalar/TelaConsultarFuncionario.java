@@ -26,23 +26,24 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
 
     public void iniciaTela(){
         ComboBox_crm.removeAllItems();
-        List<Medico> list = new ArrayList<>();
+        List<Funcionario> list = new ArrayList<>();
         DBManager dbm = new DBManager();
-        list = dbm.getMedico(null);
-        ComboBox_crm.addItem("");
-        for (Medico medico : list) {
-            ComboBox_crm.addItem(medico.getCRM());
+        list = dbm.getFuncionarios(null);
+       // ComboBox_crm.addItem("");
+        for (Funcionario func : list) {
+      //      ComboBox_crm.addItem(.getCRM());
         }
-        List<Equipe> list_eq = new ArrayList<>();
-        list_eq = dbm.getEquipe(null);
-        this.preencheTabela(list_eq);
+        List<Funcionario> list_func = new ArrayList<>();
+        list_func = dbm.getFuncionarios(null);
+        this.preencheTabela(list_func);
     }
     
-    public void preencheTabela(List<Equipe> list){
+    public void preencheTabela(List<Funcionario> list){
         DefaultTableModel model = (DefaultTableModel) Table.getModel();
         model.setNumRows(0);
-        for (Equipe equipe : list) {
-            model.addRow(new String[]{equipe.getID().toString(),equipe.getNome(),equipe.getSupervisor_cpf()});
+        for (Funcionario func : list) {
+            
+            model.addRow(new String[]{func.getNome().toString(),func.getCPF().toString(),func.dataNascimento,func.getSalario().toString(),"",""});
         }
     }
     
@@ -249,113 +250,19 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Button_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_consultarActionPerformed
-        Equipe eq = new Equipe();
-        String nome = null;
-        String CRM = null;
-        List<Equipe> list = new ArrayList<>();
-        DBManager dbm = new DBManager();
-        if(TextField_nome.getText().length() > 0){
-            nome = TextField_nome.getText();
-        }
-        if(ComboBox_crm.getSelectedItem().toString() != ""){
-            CRM = ComboBox_crm.getSelectedItem().toString();
-        }
-        if(nome != null || CRM != null){
-            eq.setNome(nome);
-            eq.setSupervisor_cpf(CRM);
-            list = dbm.getEquipe(eq);
-            this.preencheTabela(list);
-        }
+    
     }//GEN-LAST:event_Button_consultarActionPerformed
 
     private void Button_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_cadastrarActionPerformed
-        String nome = null;
-        String crm = null;
-        DBManager dbm = new DBManager();
-        if(TextField_nome.getText().length() > 0){
-            nome = TextField_nome.getText();
-        }
-        if(ComboBox_crm.getSelectedItem().toString() != ""){
-            crm = ComboBox_crm.getSelectedItem().toString();
-        }
-        if(nome != null && crm != null){
-            List<Equipe> list = new ArrayList<>();
-            Equipe eq = new Equipe();
-            eq.setNome(nome);
-            eq.setSupervisor_cpf(crm);
-            list = dbm.cadastrarEquipe(eq);
-            TextField_nome.setText(null);
-            ComboBox_crm.setSelectedIndex(0);
-            this.preencheTabela(list);
-            JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso!!!");
-        }else{
-            JOptionPane.showMessageDialog(null,"Por favor informe todos os campos");
-        }
+       
     }//GEN-LAST:event_Button_cadastrarActionPerformed
 
     private void Button_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_editarActionPerformed
-        String nome = null;
-        String crm = null;
-        DBManager dbm = new DBManager();
-        List<Equipe> list = new ArrayList<>();
-        if(TextField_nome.getText().length() > 0){
-            nome = TextField_nome.getText();
-        }
-        if(ComboBox_crm.getSelectedItem().toString() != ""){
-            crm = ComboBox_crm.getSelectedItem().toString();
-        }
-        int linha = Table.getSelectedRow();
-        if(linha >= 0){
-            if(nome != null && crm != null){
-                JOptionPane.showMessageDialog(null,"Somente um dos campos pode ser alterado","ERRO",JOptionPane.ERROR_MESSAGE);
-            }else if(nome != null){
-                if(JOptionPane.showConfirmDialog(null,"Tem certeza ?","EDITAR",JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
-                    Equipe eq = new Equipe();
-                    eq.setID(Integer.parseInt(Table.getValueAt(linha,0).toString()));
-                    eq.setSupervisor_cpf(Table.getValueAt(linha,2).toString());
-                    eq.setNome(nome);
-                    list = dbm.editarEquipe(eq);
-                    TextField_nome.setText(null);
-                    ComboBox_crm.setSelectedIndex(0);
-                    this.preencheTabela(list);
-                    JOptionPane.showMessageDialog(null,"Alteração realizada com sucesso!!!");
-                }
-            }else if(crm != null){
-                if(JOptionPane.showConfirmDialog(null,"Tem certeza ?","EDITAR",JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
-                    Equipe eq = new Equipe();
-                    eq.setID(Integer.parseInt(Table.getValueAt(linha,0).toString()));
-                    eq.setSupervisor_cpf(crm);
-                    eq.setNome(Table.getValueAt(linha,1).toString());
-                    list = dbm.editarEquipe(eq);
-                    TextField_nome.setText(null);
-                    ComboBox_crm.setSelectedIndex(0);
-                    this.preencheTabela(list);
-                    JOptionPane.showMessageDialog(null,"Alteração realizada com sucesso!!!");
-                }
-            }     
-        }else{
-            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
-        }
+        
     }//GEN-LAST:event_Button_editarActionPerformed
 
     private void Button_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_apagarActionPerformed
-        int linha = Table.getSelectedRow();
-        if(linha >= 0){
-            if(JOptionPane.showConfirmDialog(null,"Tem certeza ?","APAGAR",JOptionPane.YES_NO_OPTION,
-                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
-                List<Equipe> list = new ArrayList<>();
-                Equipe eq = new Equipe();
-                DBManager dbm = new DBManager();
-                eq.setID(Integer.parseInt(Table.getValueAt(linha,0).toString()));
-                list = dbm.deletarEquipe(eq);
-                this.preencheTabela(list);
-                JOptionPane.showMessageDialog(null,"Deleção realizada com sucesso!!!");
-            }                      
-        }else{
-            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
-        }
+   
     }//GEN-LAST:event_Button_apagarActionPerformed
 
     private void ComboBox_crmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox_crmActionPerformed

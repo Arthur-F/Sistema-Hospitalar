@@ -6,6 +6,7 @@
 package sistema.hospitalar;
 
 //import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
+import java.awt.print.PrinterException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         TextField_med_ag.setDocument(new Tamanho(13));
         limpaTelas();
         iniTela();
+        
     }
     
     public void setUsuario(TelaLogin tela1, String user){
@@ -100,6 +102,13 @@ public final class TelaInicial extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jPanel4 = new javax.swing.JPanel();
         jPanel5 = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jTextArea1 = new javax.swing.JTextArea();
+        jButton2 = new javax.swing.JButton();
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         Header_cadastrar = new javax.swing.JLabel();
@@ -185,15 +194,63 @@ public final class TelaInicial extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Pagamentos", jPanel4);
 
+        jScrollPane2.setViewportView(jTextPane1);
+
+        jLabel2.setText("CPF do Paciente:");
+
+        jButton1.setText("Buscar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jTextArea1.setEditable(false);
+        jTextArea1.setColumns(20);
+        jTextArea1.setRows(5);
+        jScrollPane3.setViewportView(jTextArea1);
+
+        jButton2.setText("Imprimir Prontuário");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
         jPanel5.setLayout(jPanel5Layout);
         jPanel5Layout.setHorizontalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButton2)
+                    .addComponent(jScrollPane3))
+                .addContainerGap())
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel5Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton1))
+                    .addComponent(jLabel2))
+                .addGap(381, 381, 381))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+            .addGroup(jPanel5Layout.createSequentialGroup()
+                .addGap(7, 7, 7)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jButton2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         jTabbedPane1.addTab("Prontuários", jPanel5);
@@ -611,6 +668,42 @@ public final class TelaInicial extends javax.swing.JFrame {
         new TelaConsultarEquipe().setVisible(true);
     }//GEN-LAST:event_Link_equipeMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        jTextArea1.setText("");
+        DBManager dbm = new DBManager();
+        Paciente pac = new Paciente();
+        if(!jTextPane1.getText().isEmpty())
+        { 
+             Long cpfpac = Long.parseLong(jTextPane1.getText());
+             pac.setCPF(cpfpac);       
+        
+           
+        if (!dbm.getPaciente(pac).isEmpty())
+        {
+             pac = dbm.getPaciente(pac).get(0);
+             jTextArea1.append(pac.getNome() + "\nCPF:" + pac.getCPF() + "\n\n");
+           for(Receita receita : dbm.getReceitasDoPaciente(cpfpac))
+             {
+            jTextArea1.append("Tipo de receita: " + receita.getTipo() + "\n");
+            jTextArea1.append("Prescrição: " + receita.getReceita());
+        }
+        }
+        
+        
+        }
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        try{
+            jTextArea1.print();
+        }catch (PrinterException p){
+            System.out.println(p.getMessage());
+        }
+        
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -674,7 +767,10 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JTable Table_ag;
     private javax.swing.JTextField TextField_med_ag;
     private javax.swing.JTextField TextField_pac_ag;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
@@ -684,6 +780,10 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextPane jTextPane1;
     // End of variables declaration//GEN-END:variables
 }
