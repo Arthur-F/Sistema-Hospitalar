@@ -9,9 +9,9 @@ public class SistemaHospitalar {
         // TODO code application logic here
         DBManager dbManager = new DBManager();
         AccessManager accessmanager = new AccessManager();
-        //new TelaLogin().setVisible(true);
-        //new SwingEmailSender().setVisible(true);
-        new TelaCadastrarFuncionários().setVisible(true);
+        new TelaLogin().setVisible(true);
+        new SwingEmailSender().setVisible(true);
+        //new TelaCadastrarFuncionários().setVisible(true);
     }
 
 }
