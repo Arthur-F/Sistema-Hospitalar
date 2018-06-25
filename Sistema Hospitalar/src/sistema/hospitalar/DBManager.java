@@ -553,7 +553,21 @@ public class DBManager {
         }
 
     }
-
+public void alterarPaciente(Paciente paciente){
+        try (Connection conn = conector.connect();){
+            String sql = "update Paciente set cpf = ?, nome = ?, rg = ? where cpf = ?";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setLong(1, paciente.getCPF());
+            sqlStatement1.setString(2, paciente.getNome());
+            sqlStatement1.setString(3, paciente.getRG());
+            sqlStatement1.executeUpdate();
+            conn.commit();
+            conn.close();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
     public void removerPaciente(int cpf) {
         try (Connection conn = conector.connect();) {
             String sqlDelete = "DELETE FROM paciente WHERE cpf = ?";
