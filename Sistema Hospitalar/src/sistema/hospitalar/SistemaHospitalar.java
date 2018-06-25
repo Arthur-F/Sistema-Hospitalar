@@ -11,7 +11,7 @@ public class SistemaHospitalar {
         AccessManager accessmanager = new AccessManager();
         new TelaLogin().setVisible(true);
         new SwingEmailSender().setVisible(true);
-        //new TelaConsultarEquipe().setVisible(true);
+        //new TelaCadastrarFuncionários().setVisible(true);
     }
 
 }
