@@ -41,9 +41,9 @@
                               <Component id="Label_nome" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="0" groupAlignment="1" attributes="0">
-                              <Component id="TextField_nome1" min="-2" pref="125" max="-2" attributes="0"/>
+                              <Component id="TextField_cpf" min="-2" pref="125" max="-2" attributes="0"/>
                               <Group type="103" groupAlignment="1" max="-2" attributes="0">
-                                  <Component id="ComboBox_crm" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="ComboBox_setor" alignment="0" max="32767" attributes="0"/>
                                   <Component id="TextField_nome" alignment="0" min="-2" pref="125" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -51,21 +51,21 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="50" max="-2" attributes="0"/>
-                      <Component id="Label_nome1" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_cpf" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="ComboBox_crm1" alignment="1" max="32767" attributes="0"/>
+                  <Component id="ComboBox_prof" alignment="1" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="35" max="-2" attributes="0"/>
-                      <Component id="Label_CRM1" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_prof" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="47" max="-2" attributes="0"/>
-                      <Component id="Label_CRM" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_setor" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="ComboBox_crm2" alignment="0" max="32767" attributes="0"/>
+                  <Component id="ComboBox_subsetor" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
-                      <Component id="Label_CRM2" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_subsetor" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
@@ -105,21 +105,21 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="TextField_nome" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
-                      <Component id="Label_nome1" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_cpf" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="TextField_nome1" min="-2" max="-2" attributes="0"/>
+                      <Component id="TextField_cpf" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="Label_CRM1" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_prof" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="ComboBox_crm1" min="-2" max="-2" attributes="0"/>
+                      <Component id="ComboBox_prof" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="Label_CRM" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_setor" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Component id="ComboBox_crm" min="-2" max="-2" attributes="0"/>
+                      <Component id="ComboBox_setor" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="Label_CRM2" min="-2" max="-2" attributes="0"/>
+                      <Component id="Label_subsetor" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="2" max="-2" attributes="0"/>
-                      <Component id="ComboBox_crm2" min="-2" max="-2" attributes="0"/>
+                      <Component id="ComboBox_subsetor" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="1" max="32767" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" pref="0" max="32767" attributes="0"/>
@@ -152,27 +152,22 @@
     </Component>
     <Component class="javax.swing.JTextField" name="TextField_nome">
     </Component>
-    <Component class="javax.swing.JLabel" name="Label_CRM">
+    <Component class="javax.swing.JLabel" name="Label_setor">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="ComboBox_crm"/>
+          <ComponentRef name="ComboBox_setor"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Setor"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBox_crm">
+    <Component class="javax.swing.JComboBox" name="ComboBox_setor">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBox_crmActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBox_setorActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
@@ -300,60 +295,50 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="javax.swing.JTextField" name="TextField_nome1">
+    <Component class="javax.swing.JTextField" name="TextField_cpf">
     </Component>
-    <Component class="javax.swing.JLabel" name="Label_nome1">
+    <Component class="javax.swing.JLabel" name="Label_cpf">
       <Properties>
         <Property name="text" type="java.lang.String" value="CPF"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JLabel" name="Label_CRM1">
+    <Component class="javax.swing.JLabel" name="Label_prof">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="ComboBox_crm"/>
+          <ComponentRef name="ComboBox_setor"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Profissional"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBox_crm1">
+    <Component class="javax.swing.JComboBox" name="ComboBox_prof">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBox_crm1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBox_profActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
       </AuxValues>
     </Component>
-    <Component class="javax.swing.JLabel" name="Label_CRM2">
+    <Component class="javax.swing.JLabel" name="Label_subsetor">
       <Properties>
         <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-          <ComponentRef name="ComboBox_crm"/>
+          <ComponentRef name="ComboBox_setor"/>
         </Property>
         <Property name="text" type="java.lang.String" value="Subsetor"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JComboBox" name="ComboBox_crm2">
+    <Component class="javax.swing.JComboBox" name="ComboBox_subsetor">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
-          </StringArray>
+          <StringArray count="0"/>
         </Property>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBox_crm2ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ComboBox_subsetorActionPerformed"/>
       </Events>
       <AuxValues>
         <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>

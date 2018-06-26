@@ -345,7 +345,8 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
             func.setDataNascimento(data);
             func.setNome(nome);
             func.setSalario(salario);
-            func.setSetor_id(setor_id);            
+            func.setSetor_id(setor_id);
+            func.setPapel_id(subsetor);
             if(prof.equals("Médico")){
                 if(str != null){
                    dbm.cadastrarFuncionario(func);

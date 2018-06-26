@@ -47,7 +47,9 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
         }
         for (MembrosEquipe membrosEquipe : list) {
             List<Funcionario> list_func = new ArrayList<>();
-            list_func = dbm.getFuncionarios(membrosEquipe.getFunc_cpf());
+            Funcionario func = new Funcionario() {};
+            func.setCPF(membrosEquipe.getFunc_cpf());
+            list_func = dbm.getFuncionarios(func);
             for (Funcionario funcionario : list_func) {
                 model.addRow(new String[]{membrosEquipe.getId().toString(),nome_eq,funcionario.getNome(),
                 membrosEquipe.getFunc_cpf().toString()});   
@@ -251,7 +253,9 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
             list_med = dbm.getMedico(null);
             for (Medico medico : list_med) {
                 List<Funcionario> list_func = new ArrayList<>();
-                list_func = dbm.getFuncionarios(medico.getCPF());
+                Funcionario func = new Funcionario() {};
+                func.setCPF(medico.getCPF());
+                list_func = dbm.getFuncionarios(func);
                 for (Funcionario funcionario : list_func) {
                     ComboBox_eq_func.addItem(funcionario.getNome());
                 }

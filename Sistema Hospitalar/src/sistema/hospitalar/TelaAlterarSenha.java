@@ -146,7 +146,9 @@ public class TelaAlterarSenha extends javax.swing.JFrame {
         }else if(PasswordField_nv.getText().toString().equals(PasswordField_atual.getText().toString())){
             JOptionPane.showMessageDialog(null,"Senha atual igual a nova.");
         }else{
-        list_func = dbm.getFuncionarios(user);
+            Funcionario func = new Funcionario() {};
+            func.setCPF(user);
+            list_func = dbm.getFuncionarios(func);
             for (Funcionario funcionario : list_func) {
                 if(funcionario.getSenha().equals(PasswordField_atual.getText().toString())){
                    funcionario.setSenha(PasswordField_nv.getText().toString());

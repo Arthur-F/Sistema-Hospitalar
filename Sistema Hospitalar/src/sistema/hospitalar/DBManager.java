@@ -27,18 +27,36 @@ public class DBManager {
 //     
     }
     
-    public List<Funcionario> getFuncionarios(Long cpf){                
+    public List<Funcionario> getFuncionarios(Funcionario funcio){                
         ResultSet rs = null;
+        String sqlFunc = null;
+        PreparedStatement sqlStatement1 = null;
         List<Funcionario> list_func = new ArrayList<>();
         try (Connection conn = conector.connect();){
-            if (cpf != null) {
-                String sqlFunc = "select * from Funcionario where cpf = ?";
-                PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
-                sqlStatement1.setString(1, cpf.toString());
+            if (funcio != null && funcio.getCPF() != null) {
+                sqlFunc = "select * from Funcionario where cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sqlFunc);
+                sqlStatement1.setLong(1,funcio.getCPF());
+                rs = sqlStatement1.executeQuery();
+            }else if(funcio != null && funcio.getNome() != null){
+                sqlFunc = "select * from Funcionario where nome like ?";
+                sqlStatement1 = conn.prepareStatement(sqlFunc);
+                String str = "%" + funcio.getNome() + "%";
+                sqlStatement1.setString(1,str);
+                rs = sqlStatement1.executeQuery();
+            }else if (funcio != null && funcio.getSetor_id() != null) {
+                sqlFunc = "select * from Funcionario where setor_id = ?";
+                sqlStatement1 = conn.prepareStatement(sqlFunc);
+                sqlStatement1.setInt(1,funcio.getSetor_id());
+                rs = sqlStatement1.executeQuery();
+            }else if (funcio != null && funcio.getPapel_id() != null) {
+                sqlFunc = "select * from Funcionario where papel_id = ?";
+                sqlStatement1 = conn.prepareStatement(sqlFunc);
+                sqlStatement1.setInt(1,funcio.getPapel_id());
                 rs = sqlStatement1.executeQuery();
             }else{
-                String sqlFunc = "select * from Funcionario";
-                PreparedStatement sqlStatement1 = conn.prepareStatement(sqlFunc);
+                sqlFunc = "select * from Funcionario";
+                sqlStatement1 = conn.prepareStatement(sqlFunc);
                 rs = sqlStatement1.executeQuery();
             }
             while (rs.next()) {       
@@ -565,10 +583,6 @@ public class DBManager {
         }
     }
 
-    {
-
-    }
-
     public void cadastrarFuncionarioAdministrativo(FuncionarioAdministrativo funcadmin) {
         String sqlFunc = "INSERT INTO Funcionario(cpf,nome,datanasc,salario) VALUES(?,?,?,?)";
         String sqlFuncAdm = "INSERT INTO FuncionarioAdministrativo(cargo_ID,funcionario_CPF) VALUES(?,?)";
@@ -776,7 +790,9 @@ public class DBManager {
                 Enfermeiro enfe = new Enfermeiro();
                 enfe.setCPF(rs.getLong("funcionario_cpf"));
                 List<Funcionario> list_func = new ArrayList<>();
-                list_func = this.getFuncionarios(enfe.getCPF());
+                Funcionario func = new Funcionario() {};
+                func.setCPF(enfe.getCPF());
+                list_func = this.getFuncionarios(func);
                 for (Funcionario funcionario : list_func) {
                     enfe.setNome(funcionario.getNome());
                     enfe.setDataNascimento(funcionario.getDataNascimento());
@@ -894,14 +910,25 @@ public class DBManager {
         String sql = null;
         PreparedStatement sqlStatement1 = null;
         try (Connection conn = conector.connect()){
-            if(func.getDataNascimento() != null && func.getSalario() != null && func.getSetor_id() != null){
-                sql = "insert into Funcionario (nome,cpf,datanasc,salario,setor_id,senha) values (?,?,?,?,?,?)";
+            if(func.getDataNascimento() != null && func.getSalario() != null && func.getSetor_id() != null && func.getPapel_id() != null){
+                sql = "insert into Funcionario (nome,cpf,datanasc,salario,setor_id,papel_id,senha) values (?,?,?,?,?,?,?)";
                 sqlStatement1 = conn.prepareStatement(sql);
                 sqlStatement1.setString(1,func.getNome());
                 sqlStatement1.setLong(2,func.getCPF());
                 sqlStatement1.setString(3,func.getDataNascimento());
                 sqlStatement1.setDouble(4,func.getSalario());
                 sqlStatement1.setInt(5,func.getSetor_id());
+                sqlStatement1.setInt(6,func.getPapel_id());
+                sqlStatement1.setString(7,"admin");
+                sqlStatement1.execute();
+            }else if(func.getDataNascimento() != null && func.getSalario() != null && func.getSetor_id() != null){
+                sql = "insert into Funcionario (nome,cpf,datanasc,salario,setor_id,senha) values (?,?,?,?,?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,func.getNome());
+                sqlStatement1.setLong(2,func.getCPF());
+                sqlStatement1.setString(3,func.getDataNascimento());
+                sqlStatement1.setDouble(4,func.getSalario());
+                sqlStatement1.setInt(5,func.getSetor_id());                
                 sqlStatement1.setString(6,"admin");
                 sqlStatement1.execute();
             }else if(func.getDataNascimento() != null && func.getSalario() != null){
@@ -983,5 +1010,40 @@ public class DBManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
+    }
+    
+    public List<FuncionarioAdministrativo> getFuncAdm(FuncionarioAdministrativo funcAd){
+        List<FuncionarioAdministrativo> list = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        String sql = null;
+        try (Connection conn = conector.connect()){
+            if(funcAd != null && funcAd.getCPF() != null){
+                sql = "select * from FuncionarioAdministrativo where funcionariocpf = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setLong(1,funcAd.getCPF());
+                rs = sqlStatement1.executeQuery();
+            }else if(funcAd != null && funcAd.getCargo() != null){
+                sql = "select * from FuncionarioAdministrativo where cargo = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                String str = "%" + funcAd.getCargo() + "%";
+                sqlStatement1.setString(1,str);
+                rs = sqlStatement1.executeQuery();
+            }else{
+                sql = "select * from FuncionarioAdministrativo";
+                sqlStatement1 = conn.prepareStatement(sql);
+                rs = sqlStatement1.executeQuery();
+            }
+            while(rs.next()){
+                FuncionarioAdministrativo funcAdm = new FuncionarioAdministrativo();
+                funcAdm.setCPF(rs.getLong("funcionariocpf"));
+                funcAdm.setCargo(rs.getString("cargo"));
+                list.add(funcAdm);
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list;
     }
 }

@@ -34,7 +34,9 @@ public final class TelaInicial extends javax.swing.JFrame {
         List<Funcionario> list_func = new ArrayList<>();
         DBManager dbm = new DBManager();
         Long cpf = Long.parseLong(user);
-        list_func = dbm.getFuncionarios(cpf);
+        Funcionario func = new Funcionario() {};
+        func.setCPF(cpf);
+        list_func = dbm.getFuncionarios(func);
         for (Funcionario funcionario : list_func) {
             String saudacao = "Olá, " + funcionario.getNome() + ".";
             Label_usuario.setText(saudacao);

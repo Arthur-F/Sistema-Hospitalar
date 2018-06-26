@@ -135,7 +135,9 @@ public class TelaLogin extends javax.swing.JFrame {
             String senha = PasswordField.getText();
             DBManager dbm = new DBManager();
             List<Funcionario> func = new ArrayList<>();
-            func = dbm.getFuncionarios(cpf);
+            Funcionario func1 = new Funcionario() {};
+            func1.setCPF(cpf);
+            func = dbm.getFuncionarios(func1);
             for (Funcionario funcionario : func) {
                 if(funcionario.getSenha().equals(senha)){                    
                     TelaInicial tela = new TelaInicial();
