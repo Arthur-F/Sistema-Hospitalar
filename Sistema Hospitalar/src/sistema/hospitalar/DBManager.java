@@ -891,8 +891,28 @@ public class DBManager {
         return list_ssetor;
     }
 
+    public void alterarReceita(Receita receita)
+    {
+        
+       
+        try (Connection conn = conector.connect()){
+
+                PreparedStatement sqlStatement1 = null;
+                String sql = "update Receita set descricao = ?  where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(2,receita.getId());
+                sqlStatement1.setString(1, receita.getReceita());
+                sqlStatement1.executeUpdate();
+                conn.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+    }
     public List<Receita> getReceitasDoPaciente(Long cpf)
     {
+        
         List listareceitas = new ArrayList<>();
         PreparedStatement sqlStatement1 = null;
         ResultSet rs = null;
@@ -907,6 +927,7 @@ public class DBManager {
                 receita.setCpfpaciente(rs.getLong("paciente_cpf"));
                 receita.setReceita(rs.getString("descricao"));
                 receita.setTipo(rs.getString("tipo"));
+                receita.setId(rs.getInt("id"));
                 listareceitas.add(receita);
                
                 
@@ -916,9 +937,8 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
         return listareceitas;
-        
+    }
             
-=======
     
     public void cadastrarFuncionario(Funcionario func){
         String sql = null;
@@ -1013,6 +1033,6 @@ public class DBManager {
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
->>>>>>> 32abb195a0809dc9e139df2c0a324233c7ec9f8c
+
     }
 }

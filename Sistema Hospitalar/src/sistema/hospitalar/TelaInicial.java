@@ -6,12 +6,16 @@
 package sistema.hospitalar;
 
 //import com.sun.org.apache.bcel.internal.generic.BREAKPOINT;
+import java.awt.event.ComponentListener;
 import java.awt.print.PrinterException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -21,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public final class TelaInicial extends javax.swing.JFrame {
     
     private String usuario;
+    private String receitaAux;
     
     public TelaInicial() {
         initComponents();
@@ -30,7 +35,25 @@ public final class TelaInicial extends javax.swing.JFrame {
         iniTela();
         
     }
-    
+    public Paciente buscarPaciente(String cpf){
+        
+        DBManager dbm = new DBManager();
+        Paciente pac = new Paciente();
+        if(!cpf.isEmpty())
+        { 
+             Long cpfpac = Long.parseLong(cpf);
+             pac.setCPF(cpfpac);       
+        
+           
+            if (!dbm.getPaciente(pac).isEmpty())
+            {
+                 pac = dbm.getPaciente(pac).get(0);
+                return pac;
+            }
+        }
+        
+        return null;
+    }
     public void setUsuario(TelaLogin tela1, String user){
         this.usuario = user;
         List<Funcionario> list_func = new ArrayList<>();
@@ -63,6 +86,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         for (Procedimento procedimento : list_proc) {
             ComboBox_proc_ag.addItem(procedimento.getNome());
         }
+        
     }
     
     public void limpaTelas(){
@@ -94,6 +118,8 @@ public final class TelaInicial extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jScrollPane7 = new javax.swing.JScrollPane();
+        jTextArea3 = new javax.swing.JTextArea();
         jLabel8 = new javax.swing.JLabel();
         Label_usuario = new javax.swing.JLabel();
         jTabbedPane1 = new javax.swing.JTabbedPane();
@@ -109,7 +135,6 @@ public final class TelaInicial extends javax.swing.JFrame {
         jScrollPane3 = new javax.swing.JScrollPane();
         jTextArea1 = new javax.swing.JTextArea();
         jButton2 = new javax.swing.JButton();
-        jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         Header_cadastrar = new javax.swing.JLabel();
         Link_empresas = new javax.swing.JLabel();
@@ -137,8 +162,25 @@ public final class TelaInicial extends javax.swing.JFrame {
         Table_ag = new javax.swing.JTable();
         Button_canc_ag = new javax.swing.JButton();
         Button_agendar = new javax.swing.JButton();
+        jPanel6 = new javax.swing.JPanel();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jTextPane2 = new javax.swing.JTextPane();
+        jLabel3 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jScrollPane5 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton8 = new javax.swing.JButton();
         Button_sair = new javax.swing.JButton();
         Button_alt_senha = new javax.swing.JButton();
+
+        jTextArea3.setColumns(20);
+        jTextArea3.setRows(5);
+        jScrollPane7.setViewportView(jTextArea3);
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
@@ -223,30 +265,29 @@ public final class TelaInicial extends javax.swing.JFrame {
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton2)
-                    .addComponent(jScrollPane3))
-                .addContainerGap())
-            .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(10, 10, 10)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jButton1))
-                    .addComponent(jLabel2))
-                .addGap(381, 381, 381))
+                        .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton2, javax.swing.GroupLayout.Alignment.CENTER)
+                            .addGroup(jPanel5Layout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton1))
+                            .addComponent(jLabel2))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel5Layout.createSequentialGroup()
-                .addGap(7, 7, 7)
+                .addContainerGap()
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton2)
@@ -254,19 +295,6 @@ public final class TelaInicial extends javax.swing.JFrame {
         );
 
         jTabbedPane1.addTab("Prontuários", jPanel5);
-
-        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-        jPanel6.setLayout(jPanel6Layout);
-        jPanel6Layout.setHorizontalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPanel6Layout.setVerticalGroup(
-            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-
-        jTabbedPane1.addTab("Receitas", jPanel6);
 
         Header_cadastrar.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Header_cadastrar.setText("Cadastros:");
@@ -489,6 +517,121 @@ public final class TelaInicial extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Agenda", jPanel1);
 
+        jScrollPane4.setViewportView(jTextPane2);
+
+        jLabel3.setText("CPF do Paciente:");
+
+        jButton3.setText("Buscar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                jList1ValueChanged(evt);
+            }
+        });
+        jScrollPane5.setViewportView(jList1);
+
+        jTextArea2.setEditable(false);
+        jTextArea2.setColumns(20);
+        jTextArea2.setRows(5);
+        jScrollPane6.setViewportView(jTextArea2);
+
+        jButton4.setText("Criar Nova Receita");
+        jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton4MouseClicked(evt);
+            }
+            public void mouseReleased(java.awt.event.MouseEvent evt) {
+                jButton4MouseReleased(evt);
+            }
+        });
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
+
+        jButton5.setText("Editar Receita");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
+        jButton6.setText("Cancelar");
+        jButton6.setVisible(false);
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        jButton8.setVisible(false);
+        jButton8.setText("Salvar");
+        jButton8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton8ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+        jPanel6.setLayout(jPanel6Layout);
+        jPanel6Layout.setHorizontalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(jButton3))
+                            .addComponent(jLabel3))
+                        .addGap(431, 431, 431))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                        .addComponent(jButton4)
+                        .addGap(109, 109, 109)
+                        .addComponent(jButton5)
+                        .addGap(138, 138, 138)
+                        .addComponent(jButton8)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6)
+                        .addGap(94, 94, 94))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(62, 62, 62))))
+        );
+        jPanel6Layout.setVerticalGroup(
+            jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane6)
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6)
+                    .addComponent(jButton8))
+                .addContainerGap())
+        );
+
+        jTabbedPane1.addTab("Receitas", jPanel6);
+
         Button_sair.setText("Sair");
         Button_sair.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -615,7 +758,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             this.preencheTabelaAg(list_ag1);
         }
         if(list_ag1.size() == 0){
-            JOptionPane.showMessageDialog(null, "Não foi encontrado nenhuma agendamento");
+            JOptionPane.showMessageDialog(null, "Não foi encontrado nenhum agendamento");
             DefaultTableModel model = (DefaultTableModel) Table_ag.getModel();
             model.setNumRows(0);
         }
@@ -670,24 +813,22 @@ public final class TelaInicial extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         jTextArea1.setText("");
-        DBManager dbm = new DBManager();
         Paciente pac = new Paciente();
+        DBManager dbm = new DBManager();
         if(!jTextPane1.getText().isEmpty())
         { 
-             Long cpfpac = Long.parseLong(jTextPane1.getText());
-             pac.setCPF(cpfpac);       
+             pac = buscarPaciente(jTextPane1.getText());
         
            
-        if (!dbm.getPaciente(pac).isEmpty())
-        {
-             pac = dbm.getPaciente(pac).get(0);
+        
+             
              jTextArea1.append(pac.getNome() + "\nCPF:" + pac.getCPF() + "\n\n");
-           for(Receita receita : dbm.getReceitasDoPaciente(cpfpac))
-             {
+           for(Receita receita : dbm.getReceitasDoPaciente(pac.getCPF()))
+            {
             jTextArea1.append("Tipo de receita: " + receita.getTipo() + "\n");
-            jTextArea1.append("Prescrição: " + receita.getReceita());
-        }
-        }
+            jTextArea1.append("Prescrição:\n\n " + receita.getReceita()+ "\n\n");
+            }
+        
         
         
         }
@@ -703,6 +844,75 @@ public final class TelaInicial extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        Paciente pac;
+        DBManager dbm = new DBManager();
+        pac = buscarPaciente(jTextPane2.getText());
+        DefaultListModel<Receita> modelReceitas;
+        modelReceitas = new DefaultListModel();
+        List<Receita> listaReceitas;
+        listaReceitas = new ArrayList();
+        listaReceitas = dbm.getReceitasDoPaciente(pac.getCPF());
+        for(Receita receita : listaReceitas)
+        {
+            modelReceitas.addElement(receita);  
+        }
+        
+        jList1.setModel(modelReceitas);
+        
+        
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        jTextArea2.setText("");
+        jTextArea2.append(jList1.getSelectedValue().getReceita()+ "\n\n");
+        
+    }//GEN-LAST:event_jList1ValueChanged
+
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+      
+        jTextArea2.setEditable(true);
+        jButton8.setVisible(true);
+        jButton6.setVisible(true);
+        receitaAux = jTextArea2.getText();
+    }//GEN-LAST:event_jButton5ActionPerformed
+
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        jTextArea2.setEditable(false);
+        jButton8.setVisible(false);
+        jButton6.setVisible(false);
+        jTextArea2.setText(receitaAux);
+        
+    }//GEN-LAST:event_jButton6ActionPerformed
+
+    private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton8ActionPerformed
+        
+         DBManager dbm;
+        dbm = new DBManager();
+        jList1.getSelectedValue().setReceita(jTextArea2.getText());
+        dbm.alterarReceita(jList1.getSelectedValue());
+         jButton8.setVisible(false);
+        jButton6.setVisible(false);
+        jTextArea2.setEditable(false);
+    }//GEN-LAST:event_jButton8ActionPerformed
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void jButton4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseReleased
+        TelaCriarReceita telacriarreceita = new TelaCriarReceita(jTextPane2.getText());
+        telacriarreceita.setVisible(true);
+        telacriarreceita.
+        
+        
+        
+    }//GEN-LAST:event_jButton4MouseReleased
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -769,9 +979,16 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JTextField TextField_pac_ag;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel8;
+    private javax.swing.JList<Receita> jList1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -782,8 +999,15 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextArea jTextArea1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextArea jTextArea3;
     private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JTextPane jTextPane2;
     // End of variables declaration//GEN-END:variables
 }
