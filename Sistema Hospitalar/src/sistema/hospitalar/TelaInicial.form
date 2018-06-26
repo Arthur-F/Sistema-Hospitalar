@@ -313,6 +313,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Funcion&#xe1;rios"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Link_funcMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="Link_pac">
               <Properties>
