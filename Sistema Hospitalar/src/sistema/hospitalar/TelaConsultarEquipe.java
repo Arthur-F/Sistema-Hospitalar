@@ -259,6 +259,21 @@ public final class TelaConsultarEquipe extends javax.swing.JFrame {
             eq.setNome(nome);
             eq.setSupervisor_cpf(crm);
             list = dbm.cadastrarEquipe(eq);
+            int count = 0;
+            for (Equipe equipe : list) {
+                count = equipe.getID();
+            }
+            List<Medico> list_med = new ArrayList<>();
+            Medico med = new Medico();
+            med.setCRM(crm);
+            list_med = dbm.getMedico(med);
+            for (Medico medico : list_med) {
+                List<MembrosEquipe> list_mem = new ArrayList<>();
+                MembrosEquipe mem = new MembrosEquipe();
+                mem.setEquipe_id(count);
+                mem.setFunc_cpf(medico.getCPF());
+                list_mem = dbm.cadastrarMembrosEquipe(mem);
+            }
             TextField_nome.setText(null);
             ComboBox_crm.setSelectedIndex(0);
             this.preencheTabela(list);

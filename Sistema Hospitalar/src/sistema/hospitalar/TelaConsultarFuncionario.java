@@ -48,7 +48,65 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
     
     public void preencheTabela(List<Funcionario> list){
         DefaultTableModel model = (DefaultTableModel) Table.getModel();
-        model.setNumRows(0);       
+        model.setNumRows(0);
+        DBManager dbm = new DBManager();
+        for (Funcionario funcionario : list) {
+            String nome = "";
+            String cpf  = "";
+            String data = "";
+            String salario = "";
+            String setor = "";
+            String subsetor = "";
+            String prof = "";
+            String crm = "";
+            String area = "";
+            String espec = "";
+            String cargo = "";
+            List<Medico> list_med = new ArrayList<>();
+            Medico med = new Medico();
+            med.setCPF(funcionario.getCPF());
+            list_med = dbm.getMedico(med);
+            for (Medico medico : list_med) {
+                prof = "Médico";
+                crm = medico.getCRM();
+                area = medico.getAreaDeAtuacao();
+            }
+            List<Enfermeiro> list_enf = new ArrayList<>();
+            Enfermeiro enf = new Enfermeiro();
+            enf.setCPF(funcionario.getCPF());
+            list_enf = dbm.getEnfermeiros(enf);
+            for (Enfermeiro enfermeiro : list_enf) {
+                prof = "Enfermeiro";
+                espec = enfermeiro.getTipo();
+            }
+            List<FuncionarioAdministrativo> list_func = new ArrayList<>();
+            FuncionarioAdministrativo func = new FuncionarioAdministrativo();
+            func.setCPF(funcionario.getCPF());
+            list_func = dbm.getFuncAdm(func);
+            for (FuncionarioAdministrativo funcionarioAdministrativo : list_func) {
+                prof = "Administrativo";
+                cargo = funcionarioAdministrativo.getCargo();
+            }
+            List<Setor> list_setor = new ArrayList<>();
+            Setor st = new Setor();
+            st.setId(funcionario.getSetor_id());
+            list_setor = dbm.getSetor(st);
+            for (Setor setor1 : list_setor) {
+                setor = setor1.getNome();
+            }
+            List<Subsetor> list_subsetor = new ArrayList<>();
+            Subsetor subst = new Subsetor();
+            subst.setId(funcionario.getPapel_id());
+            list_subsetor = dbm.getSubSetor(subst);
+            for (Subsetor subsetor1 : list_subsetor) {
+                subsetor = subsetor1.getNome();
+            }
+            nome = funcionario.getNome();;
+            cpf = funcionario.getCPF().toString();
+            data = funcionario.getDataNascimento();
+            salario = funcionario.getSalario().toString();
+            model.addRow(new String[]{nome,cpf,data,salario,setor,subsetor,prof,crm,area,espec,cargo});
+        }
     }
     
     @SuppressWarnings("unchecked")
@@ -194,20 +252,18 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 846, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
+                .addGap(0, 306, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(Header_eq, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(390, 390, 390))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addComponent(Header_eq, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(Button_consultar)
                         .addGap(18, 18, 18)
-                        .addComponent(Button_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Button_cadastrar, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(Button_editar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(Button_apagar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(294, 294, 294))))
+                        .addComponent(Button_apagar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(294, 294, 294))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -251,6 +307,8 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void Button_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_consultarActionPerformed
+        DefaultTableModel model = (DefaultTableModel) Table.getModel();
+        model.setNumRows(0);
         String lv_nome = null;
         Long lv_cpf = null;
         String lv_prof = null;
@@ -305,21 +363,33 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
                 list_med = dbm.getMedico(null);
                 for (Medico medico : list_med) {
                     func.setCPF(medico.getCPF());
-                    list_aux = dbm.getFuncionarios(func);
+                    List<Funcionario> list_teste = new ArrayList<>();
+                    list_teste = dbm.getFuncionarios(func);
+                    for (Funcionario funcionario : list_teste) {
+                        list_aux.add(funcionario);
+                    }
                 }
             }else if(lv_prof.equals("Enfermeiro")){
                 List<Enfermeiro> list_enf = new ArrayList<>();
                 list_enf = dbm.getEnfermeiros(null);
                 for (Enfermeiro enfermeiro : list_enf) {
                     func.setCPF(enfermeiro.getCPF());
-                    list_aux = dbm.getFuncionarios(func);
+                    List<Funcionario> list_teste = new ArrayList<>();
+                    list_teste = dbm.getFuncionarios(func);
+                    for (Funcionario funcionario : list_teste) {
+                        list_aux.add(funcionario);
+                    }
                 }
             }else if(lv_prof.equals("Administrativo")){
                 List<FuncionarioAdministrativo> list_funcAd = new ArrayList<>();
                 list_funcAd = dbm.getFuncAdm(null);
                 for (FuncionarioAdministrativo funcionarioAdministrativo : list_funcAd) {
                     func.setCPF(funcionarioAdministrativo.getCPF());
-                    list_aux = dbm.getFuncionarios(func);
+                    List<Funcionario> list_teste = new ArrayList<>();
+                    list_teste = dbm.getFuncionarios(func);
+                    for (Funcionario funcionario : list_teste) {
+                        list_aux.add(funcionario);
+                    }
                 }
             }                      
         }else{
@@ -335,28 +405,28 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
             if(lv_subsetor != null && funcionario.getPapel_id().intValue() != lv_subsetor.intValue()){
                 continue;
             }
-            if(lv_prof.equals("Médico")){
+            if(lv_prof != null && lv_prof.equals("Médico")){
                 List<Medico> list_prof = new ArrayList<>();
                 Medico prof_med = new Medico();
                 prof_med.setCPF(funcionario.getCPF());
                 list_prof = dbm.getMedico(prof_med);
-                if(list_prof.size() < 0){
+                if(list_prof.size() == 0){
                     continue;
                 }
-            }else if(lv_prof.equals("Enfermeiro")){
+            }else if(lv_prof != null && lv_prof.equals("Enfermeiro")){
                 List<Enfermeiro> list_prof = new ArrayList<>();
                 Enfermeiro prof_enf = new Enfermeiro();
                 prof_enf.setCPF(funcionario.getCPF());
                 list_prof = dbm.getEnfermeiros(prof_enf);
-                if(list_prof.size() < 0){
+                if(list_prof.size() == 0){
                     continue;
                 }
-            }else if(lv_prof.equals("Administrativo")){
+            }else if(lv_prof != null && lv_prof.equals("Administrativo")){
                 List<FuncionarioAdministrativo> list_prof = new ArrayList<>();
                 FuncionarioAdministrativo prof_funcAdm = new FuncionarioAdministrativo();
                 prof_funcAdm.setCPF(funcionario.getCPF());
                 list_prof = dbm.getFuncAdm(prof_funcAdm);
-                if(list_prof.size() < 0){
+                if(list_prof.size() == 0){
                     continue;
                 }
             }
@@ -370,7 +440,7 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_consultarActionPerformed
 
     private void Button_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_cadastrarActionPerformed
-        
+        new TelaCadastrarFuncionários().setVisible(true);
     }//GEN-LAST:event_Button_cadastrarActionPerformed
 
     private void Button_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_editarActionPerformed
@@ -378,7 +448,28 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_editarActionPerformed
 
     private void Button_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_apagarActionPerformed
-        
+        int linha = Table.getSelectedRow();
+        if(linha >= 0){
+            if(JOptionPane.showConfirmDialog(null,"Tem certeza ?","APAGAR",JOptionPane.YES_NO_OPTION,
+                    JOptionPane.WARNING_MESSAGE) == JOptionPane.YES_OPTION){
+                DBManager dbm = new DBManager();
+                Long cpf = Long.parseLong(Table.getValueAt(linha,1).toString());
+                List<MembrosEquipe> list_eq_func = new ArrayList<>();
+                MembrosEquipe mem_eq = new MembrosEquipe();
+                mem_eq.setFunc_cpf(cpf);
+                list_eq_func = dbm.consultarMembrosEquipe(mem_eq);
+                if(list_eq_func.size() <= 0){
+                    Funcionario func = new Funcionario() {};
+                    func.setCPF(cpf);
+                    dbm.deletarFuncionario(func);
+                    JOptionPane.showMessageDialog(null,"Excluido com sucesso!!!");
+                }else{
+                    JOptionPane.showMessageDialog(null,"Funcionario pertence ao alguma equipe.","ERRO",JOptionPane.ERROR_MESSAGE);
+                }               
+            }            
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha");
+        }
     }//GEN-LAST:event_Button_apagarActionPerformed
 
     private void ComboBox_setorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboBox_setorActionPerformed

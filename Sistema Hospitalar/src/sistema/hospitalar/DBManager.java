@@ -748,13 +748,32 @@ public void alterarPaciente(Paciente paciente){
 //
 //    }
     
-    public List<MembrosEquipe> consultarMembrosEquipe(Integer id){
+    public List<MembrosEquipe> consultarMembrosEquipe(MembrosEquipe mem_eq){
         List<MembrosEquipe> list_eq_func = new ArrayList<>();
+        String sql = null;
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
         try (Connection conn = conector.connect()){
-            String sql = "select * from Equipe_Funcionario where equipe_id = ?";
-            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
-            sqlStatement1.setInt(1,id);
-            ResultSet rs = sqlStatement1.executeQuery();
+            if(mem_eq !=  null && mem_eq.getEquipe_id() != null){
+                sql = "select * from Equipe_Funcionario where equipe_id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,mem_eq.getEquipe_id());
+                rs = sqlStatement1.executeQuery();
+            }else if(mem_eq !=  null && mem_eq.getFunc_cpf() != null){
+                sql = "select * from Equipe_Funcionario where funcionario_cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setLong(1,mem_eq.getFunc_cpf());
+                rs = sqlStatement1.executeQuery();
+            }else if(mem_eq !=  null && mem_eq.getFunc_cpf() != null){
+                sql = "select * from Equipe_Funcionario where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,mem_eq.getId());
+                rs = sqlStatement1.executeQuery();
+            }else{
+                sql = "select * from Equipe_Funcionario";
+                sqlStatement1 = conn.prepareStatement(sql);                
+                rs = sqlStatement1.executeQuery();
+            }
             while(rs.next()){
                 MembrosEquipe eq_func = new MembrosEquipe();
                 eq_func.setId(rs.getInt("id"));
@@ -778,7 +797,9 @@ public void alterarPaciente(Paciente paciente){
             sqlStatement1.setLong(2,eq_func.getFunc_cpf());
             sqlStatement1.execute();
             conn.close();
-            list_eq_func = this.consultarMembrosEquipe(eq_func.getEquipe_id());
+            MembrosEquipe mem_eq = new MembrosEquipe();
+            mem_eq.setEquipe_id(eq_func.getEquipe_id());
+            list_eq_func = this.consultarMembrosEquipe(mem_eq);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -803,6 +824,7 @@ public void alterarPaciente(Paciente paciente){
             while(rs.next()){
                 Enfermeiro enfe = new Enfermeiro();
                 enfe.setCPF(rs.getLong("funcionario_cpf"));
+                enfe.setTipo(rs.getString("tipo"));
                 List<Funcionario> list_func = new ArrayList<>();
                 Funcionario func = new Funcionario() {};
                 func.setCPF(enfe.getCPF());
@@ -837,7 +859,9 @@ public void alterarPaciente(Paciente paciente){
             sqlStatement1.setInt(1,eq_func.getId());
             sqlStatement1.execute();
             conn.close();
-            list_eq_func = this.consultarMembrosEquipe(eq_func.getEquipe_id());
+            MembrosEquipe mem_eq = new MembrosEquipe();
+            mem_eq.setEquipe_id(eq_func.getEquipe_id());
+            list_eq_func = this.consultarMembrosEquipe(mem_eq);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -1059,5 +1083,35 @@ public void alterarPaciente(Paciente paciente){
             System.out.println(e.getMessage());
         }
         return list;
+    }
+    
+    public void deletarFuncionario(Funcionario func){
+        PreparedStatement sqlStatement1 = null;
+        String sql = null;
+        try (Connection conn = conector.connect()){
+            //Enfermeiro
+            sql = "delete from Enfermeiro where funcionario_cpf = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setLong(1,func.getCPF());
+            sqlStatement1.execute();
+            //Médico
+            sql = "delete from Medico where funcionario_cpf = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setLong(1,func.getCPF());
+            sqlStatement1.execute();
+            //Funcionario Administrativo
+            sql = "delete from FuncionarioAdministrativo where funcionariocpf = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setLong(1,func.getCPF());
+            sqlStatement1.execute();
+            //Funcionario
+            sql = "delete from Funcionario where cpf = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setLong(1,func.getCPF());
+            sqlStatement1.execute();
+            conn.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

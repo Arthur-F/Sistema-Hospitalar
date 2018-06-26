@@ -73,23 +73,20 @@
               <EmptySpace max="-2" attributes="0"/>
           </Group>
           <Group type="102" alignment="1" attributes="0">
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="306" max="32767" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Group type="102" alignment="1" attributes="0">
-                      <Component id="Header_eq" min="-2" pref="164" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="390" max="-2" attributes="0"/>
-                  </Group>
-                  <Group type="102" alignment="1" attributes="0">
+                  <Component id="Header_eq" min="-2" pref="164" max="-2" attributes="0"/>
+                  <Group type="102" attributes="0">
                       <Component id="Button_consultar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="Button_cadastrar" min="-2" pref="79" max="-2" attributes="0"/>
+                      <Component id="Button_cadastrar" min="-2" pref="98" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="Button_editar" min="-2" pref="79" max="-2" attributes="0"/>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Component id="Button_apagar" min="-2" pref="79" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="294" max="-2" attributes="0"/>
                   </Group>
               </Group>
+              <EmptySpace min="-2" pref="294" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

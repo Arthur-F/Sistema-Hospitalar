@@ -29,7 +29,9 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
         this.equipe_id = equipe;
         List<MembrosEquipe> list = new ArrayList<>();
         DBManager dbm = new DBManager();
-        list = dbm.consultarMembrosEquipe(equipe);
+        MembrosEquipe mem_eq = new MembrosEquipe();
+        mem_eq.setEquipe_id(equipe);
+        list = dbm.consultarMembrosEquipe(mem_eq);
         this.preencheTable(list);
     }
     
@@ -213,7 +215,9 @@ public class TelaMembrosEquipe extends javax.swing.JFrame {
             func = dbm.getFuncionarios(null);
             for (Funcionario funcionario : func) {
                 if (funcionario.getNome().equals(nome)) {
-                    list_eq_func = dbm.consultarMembrosEquipe(equipe_id);
+                    MembrosEquipe mem_eq = new MembrosEquipe();
+                    mem_eq.setEquipe_id(equipe_id);
+                    list_eq_func = dbm.consultarMembrosEquipe(mem_eq);
                     for (MembrosEquipe membro : list_eq_func) {
                         if(membro.getFunc_cpf().longValue() == funcionario.getCPF().longValue()){
                             validar = "X";
