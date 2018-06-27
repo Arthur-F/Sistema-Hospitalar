@@ -1114,4 +1114,37 @@ public void alterarPaciente(Paciente paciente){
             System.out.println(e.getMessage());
         }
     }
+    
+    public List<Setor> cadastrarSetor(Setor setor){
+        List<Setor> list_setor = new ArrayList<>();
+        try (Connection conn = conector.connect()){
+            String sql = "insert into Setor (nome) values (?)";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,setor.getNome());                      
+            sqlStatement1.execute();
+            conn.close();
+            list_setor = this.getSetor(null);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_setor;
+    }
+    
+    public List<Subsetor> cadastrarSubsetor(Subsetor subsetor){
+        List<Subsetor> list_subsetor = new ArrayList<>();
+        try (Connection conn = conector.connect()){
+            String sql = "insert into Subsetor (nome,setor_id) values (?,?)";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,subsetor.getNome());
+            sqlStatement1.setInt(2,subsetor.getSetor_id());
+            sqlStatement1.execute();
+            conn.close();
+            list_subsetor = this.getSubSetor(null);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_subsetor;
+    }
+    
+    
 }
