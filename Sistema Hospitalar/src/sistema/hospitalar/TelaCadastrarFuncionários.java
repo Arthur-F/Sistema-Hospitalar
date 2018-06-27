@@ -5,8 +5,10 @@
  */
 package sistema.hospitalar;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -25,6 +27,97 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
         TextField_cpf.setDocument(new SoNumeros(11));
         TextField_salario.setDocument(new SoNumeros(10));
         InicioTela();
+    }
+    
+    private Long gv_cpf = null;
+    
+    public void EditarFunc(TelaConsultarFuncionario tela, Long cpf, String prof) throws ParseException{
+        this.gv_cpf = cpf;
+        List<Funcionario> list_func = new ArrayList<>();
+        DBManager dbm = new DBManager();
+        Funcionario func = new Funcionario() {};
+        func.setCPF(cpf);
+        list_func = dbm.getFuncionarios(func);
+        List<Setor> list_setor = new ArrayList<>();
+        List<Subsetor> list_subsetor = new ArrayList<>();
+        list_setor = dbm.getSetor(null);
+        list_subsetor = dbm.getSubSetor(null);
+        for (Funcionario funcionario : list_func) {
+            TextField_cpf.setText(cpf.toString());
+            TextField_cpf.setEnabled(false);
+            TextField_nome.setText(funcionario.getNome());
+            if(funcionario.getDataNascimento() != null){
+                Date data = new SimpleDateFormat("yyyyMMdd").parse(funcionario.getDataNascimento());
+                DateChooser.setDate(data);
+                DateChooser.setEnabled(false);
+            }            
+            TextField_salario.setText(funcionario.getSalario().toString());
+            int lv_count = 1;
+            int lv_aux = 0;
+            for (Setor setor : list_setor) {
+                if(setor.getId().intValue() == funcionario.getSetor_id().intValue()){
+                    lv_aux = lv_count;
+                }else{
+                    lv_count = lv_count + 1;
+                }
+            }
+            ComboBox_setor.setSelectedIndex(lv_aux);
+            lv_aux = 0;
+            lv_count = 1;
+            for (Subsetor subsetor : list_subsetor) {
+                if(subsetor.getId().intValue() == funcionario.getPapel_id().intValue()){
+                    lv_aux = lv_count;
+                }else{
+                    lv_count = lv_count + 1;
+                }
+            }
+            ComboBox_subsetor.setSelectedIndex(lv_aux);
+            if(prof == "Médico"){
+                ComboBox_prof.setSelectedIndex(1);
+                Label_1.setText("CRM");
+                Label_1.setVisible(true);
+                TextField_1.setVisible(true);
+                Label_area.setVisible(true);
+                TextField_area.setVisible(true);
+                List<Medico> list_med = new ArrayList<>();
+                Medico med = new Medico();
+                med.setCPF(cpf);
+                list_med = dbm.getMedico(med);
+                for (Medico medico : list_med) {
+                    TextField_1.setText(medico.getCRM());
+                    TextField_1.setEditable(false);
+                    TextField_area.setText(medico.getAreaDeAtuacao());
+                }
+            }else if(prof == "Enfermeiro"){
+                ComboBox_prof.setSelectedIndex(2);
+                Label_1.setText("Especialidade");
+                Label_1.setVisible(true);
+                TextField_1.setVisible(true);
+                Label_area.setVisible(false);
+                TextField_area.setVisible(false);
+                List<Enfermeiro> list_enf = new ArrayList<>();
+                Enfermeiro enfe = new Enfermeiro();
+                enfe.setCPF(cpf);
+                list_enf = dbm.getEnfermeiros(enfe);
+                for (Enfermeiro enfermeiro : list_enf) {
+                    TextField_1.setText(enfermeiro.getTipo());                    
+                }
+            }else if(prof == "Administrativo"){
+                ComboBox_prof.setSelectedIndex(3);
+                Label_1.setText("Cargo");
+                Label_1.setVisible(true);
+                TextField_1.setVisible(true);                
+                Label_area.setVisible(false);
+                TextField_area.setVisible(false);
+                List<FuncionarioAdministrativo> list_funcad = new ArrayList<>();
+                FuncionarioAdministrativo funcad = new FuncionarioAdministrativo();
+                funcad.setCPF(cpf);
+                list_funcad = dbm.getFuncAdm(funcad);
+                for (FuncionarioAdministrativo funcionarioAdministrativo : list_funcad) {
+                    TextField_1.setText(funcionarioAdministrativo.getCargo());
+                }
+            }
+        }
     }
     
     public void InicioTela(){
@@ -264,24 +357,28 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
             Label_1.setText("CRM");
             Label_1.setVisible(true);
             TextField_1.setVisible(true);
+            TextField_1.setText("");
             Label_area.setVisible(true);
             TextField_area.setVisible(true);
         }else if(ComboBox_prof.getSelectedItem().toString().equals("Enfermeiro")){
             Label_1.setText("Especialidade");
             Label_1.setVisible(true);
             TextField_1.setVisible(true);
+            TextField_1.setText("");
             Label_area.setVisible(false);
             TextField_area.setVisible(false);
         }else if(ComboBox_prof.getSelectedItem().toString().equals("Administrativo")){
             Label_1.setText("Cargo");
             Label_1.setVisible(true);
             TextField_1.setVisible(true);
+            TextField_1.setText("");
             Label_area.setVisible(false);
             TextField_area.setVisible(false);
         }else{
             Label_1.setVisible(false);
             Label_area.setVisible(false);
             TextField_1.setVisible(false);
+            TextField_1.setText("");
             TextField_area.setVisible(false);
         }
     }//GEN-LAST:event_ComboBox_profItemStateChanged
@@ -296,6 +393,7 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
         String str = null;
         String area = null;
         String data = null;
+        String mensagem = null;
         DBManager dbm = new DBManager();
         if(TextField_nome.getText().length() > 0){
             nome = TextField_nome.getText();           
@@ -349,35 +447,53 @@ public class TelaCadastrarFuncionários extends javax.swing.JFrame {
             func.setPapel_id(subsetor);
             if(prof.equals("Médico")){
                 if(str != null){
+                    if(gv_cpf != null){
+                        dbm.deletarFuncionario(func);
+                        mensagem = "Alteração realizada com sucesso!";
+                    }else{
+                        mensagem = "Cadastro realizado com sucesso!";
+                    }
                    dbm.cadastrarFuncionario(func);
                    Medico med = new Medico();
                    med.setCRM(str);
                    med.setCPF(cpf);
                    med.setAreaDeAtuacao(area);
                    dbm.cadastrarMedico1(med);
-                   JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso!");
+                   JOptionPane.showMessageDialog(null,mensagem);
                 }else{
                     JOptionPane.showMessageDialog(null,"O CRM deve está preenchido!","ERRO",JOptionPane.ERROR_MESSAGE);
                 }
             }else if(prof.equals("Enfermeiro")){
                 if(str != null){
+                    if(gv_cpf != null){
+                        dbm.deletarFuncionario(func);
+                        mensagem = "Alteração realizada com sucesso!";
+                    }else{
+                        mensagem = "Cadastro realizado com sucesso!";
+                    }
                     dbm.cadastrarFuncionario(func);
                     Enfermeiro enf = new Enfermeiro();
                     enf.setTipo(str);
                     enf.setCPF(cpf);
                     dbm.cadastrarEnfermeiro1(enf);
-                    JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso!");
+                    JOptionPane.showMessageDialog(null,mensagem);
                 }else{
                     JOptionPane.showMessageDialog(null,"O Tipo deve está preenchido!","ERRO",JOptionPane.ERROR_MESSAGE);
                 }
             }else if(prof.equals("Administrativo")){
                 if(str != null){
+                    if(gv_cpf != null){
+                        dbm.deletarFuncionario(func);
+                        mensagem = "Alteração realizada com sucesso!";
+                    }else{
+                        mensagem = "Cadastro realizado com sucesso!";
+                    }
                     dbm.cadastrarFuncionario(func);
                     FuncionarioAdministrativo funcAd = new FuncionarioAdministrativo();
                     funcAd.setCargo(str);
                     funcAd.setCPF(cpf);
                     dbm.cadastrarFuncAdm(funcAd);
-                    JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso!");
+                    JOptionPane.showMessageDialog(null,mensagem);
                 }else{
                     JOptionPane.showMessageDialog(null,"O Cargo deve está preenchido!","ERRO",JOptionPane.ERROR_MESSAGE);
                 }

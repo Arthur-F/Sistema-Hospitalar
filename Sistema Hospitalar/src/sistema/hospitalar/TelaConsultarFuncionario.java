@@ -5,8 +5,11 @@
  */
 package sistema.hospitalar;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -444,7 +447,20 @@ public final class TelaConsultarFuncionario extends javax.swing.JFrame {
     }//GEN-LAST:event_Button_cadastrarActionPerformed
 
     private void Button_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_editarActionPerformed
-        
+        int linha = Table.getSelectedRow();
+        if(linha >= 0){
+            Long cpf = Long.parseLong(Table.getValueAt(linha,1).toString());
+            String prof = Table.getValueAt(linha,6).toString();
+            TelaCadastrarFuncionários tela = new TelaCadastrarFuncionários();
+            tela.setLocationRelativeTo(null);
+            tela.setVisible(true);
+            tela.setResizable(false);
+            try {
+                tela.EditarFunc(this,cpf,prof);
+            } catch (ParseException ex) {
+                Logger.getLogger(TelaConsultarFuncionario.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }        
     }//GEN-LAST:event_Button_editarActionPerformed
 
     private void Button_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_apagarActionPerformed
