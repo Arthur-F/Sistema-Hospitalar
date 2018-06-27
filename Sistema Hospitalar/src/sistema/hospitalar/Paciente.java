@@ -21,13 +21,13 @@ public class Paciente {
     
     private Integer papel_id;
     
-    private String RG;
+    private Long RG;
 
-    public String getRG() {
+    public Long getRG() {
         return RG;
     }
 
-    public void setRG(String RG) {
+    public void setRG(Long RG) {
         this.RG = RG;
     }
 

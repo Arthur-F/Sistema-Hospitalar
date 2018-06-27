@@ -48,6 +48,7 @@ public class TelaCriarReceita extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setAlwaysOnTop(true);
         addFocusListener(new java.awt.event.FocusAdapter() {
             public void focusLost(java.awt.event.FocusEvent evt) {
                 formFocusLost(evt);
@@ -139,7 +140,7 @@ public class TelaCriarReceita extends javax.swing.JFrame {
         DBManager dbm = new DBManager();
         Paciente pac = new Paciente();
         pac.setCPF(Long.parseLong(jTextField1.getText()));
-        dbm.criarReceita(jTextArea1.getText(), jTextField1.getText(), pac);
+        dbm.criarReceita(jTextField2.getText(), jTextArea1.getText(), pac);
         this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 

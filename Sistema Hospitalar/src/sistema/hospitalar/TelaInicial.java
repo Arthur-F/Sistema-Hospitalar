@@ -54,6 +54,23 @@ public final class TelaInicial extends javax.swing.JFrame {
         
         return null;
     }
+    public void popularReceitas(Paciente pac)
+    {
+        DBManager dbm = new DBManager();
+        pac = buscarPaciente(jTextPane2.getText());
+        DefaultListModel<Receita> modelReceitas;
+        modelReceitas = new DefaultListModel();
+        List<Receita> listaReceitas;
+        listaReceitas = new ArrayList();
+        listaReceitas = dbm.getReceitasDoPaciente(pac.getCPF());
+        for(Receita receita : listaReceitas)
+        {
+            modelReceitas.addElement(receita);  
+        }
+        
+        jList1.setModel(modelReceitas);
+        
+    }
     public void setUsuario(TelaLogin tela1, String user){
         this.usuario = user;
         List<Funcionario> list_func = new ArrayList<>();
@@ -175,6 +192,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         jButton5 = new javax.swing.JButton();
         jButton6 = new javax.swing.JButton();
         jButton8 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
         Button_sair = new javax.swing.JButton();
         Button_alt_senha = new javax.swing.JButton();
 
@@ -517,6 +535,12 @@ public final class TelaInicial extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("Agenda", jPanel1);
 
+        jPanel6.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                jPanel6FocusGained(evt);
+            }
+        });
+
         jScrollPane4.setViewportView(jTextPane2);
 
         jLabel3.setText("CPF do Paciente:");
@@ -578,6 +602,13 @@ public final class TelaInicial extends javax.swing.JFrame {
             }
         });
 
+        jButton7.setText("Excluir Receita");
+        jButton7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton7ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -594,18 +625,22 @@ public final class TelaInicial extends javax.swing.JFrame {
                             .addComponent(jLabel3))
                         .addGap(431, 431, 431))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(jButton4)
-                        .addGap(109, 109, 109)
-                        .addComponent(jButton5)
-                        .addGap(138, 138, 138)
-                        .addComponent(jButton8)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jButton4)
+                                .addGap(0, 0, Short.MAX_VALUE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton6)
-                        .addGap(94, 94, 94))
-                    .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 445, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(jButton5)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton8)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton6)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton7))
+                            .addComponent(jScrollPane6))
                         .addGap(62, 62, 62))))
         );
         jPanel6Layout.setVerticalGroup(
@@ -620,13 +655,14 @@ public final class TelaInicial extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane6)
-                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 197, Short.MAX_VALUE))
+                    .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 210, Short.MAX_VALUE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton4)
                     .addComponent(jButton5)
                     .addComponent(jButton6)
-                    .addComponent(jButton8))
+                    .addComponent(jButton8)
+                    .addComponent(jButton7))
                 .addContainerGap())
         );
 
@@ -846,21 +882,11 @@ public final class TelaInicial extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        Paciente pac;
-        DBManager dbm = new DBManager();
-        pac = buscarPaciente(jTextPane2.getText());
-        DefaultListModel<Receita> modelReceitas;
-        modelReceitas = new DefaultListModel();
-        List<Receita> listaReceitas;
-        listaReceitas = new ArrayList();
-        listaReceitas = dbm.getReceitasDoPaciente(pac.getCPF());
-        for(Receita receita : listaReceitas)
-        {
-            modelReceitas.addElement(receita);  
-        }
         
-        jList1.setModel(modelReceitas);
-        
+        Paciente pac = new Paciente();
+        pac.setCPF(Long.parseLong(jTextPane2.getText()));
+        popularReceitas(pac);
+       
         
     }//GEN-LAST:event_jButton3ActionPerformed
 
@@ -892,7 +918,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         dbm = new DBManager();
         jList1.getSelectedValue().setReceita(jTextArea2.getText());
         dbm.alterarReceita(jList1.getSelectedValue());
-         jButton8.setVisible(false);
+        jButton8.setVisible(false);
         jButton6.setVisible(false);
         jTextArea2.setEditable(false);
     }//GEN-LAST:event_jButton8ActionPerformed
@@ -903,8 +929,13 @@ public final class TelaInicial extends javax.swing.JFrame {
 
     private void jButton4MouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseReleased
         TelaCriarReceita telacriarreceita = new TelaCriarReceita(jTextPane2.getText());
+        
         telacriarreceita.setVisible(true);
-        telacriarreceita.
+        jList1.clearSelection();
+        DefaultListModel listmodel = (DefaultListModel) jList1.getModel();
+        listmodel.removeAllElements();
+        jTextArea2.setText("");
+       // telacriarreceita.
         
         
         
@@ -913,6 +944,21 @@ public final class TelaInicial extends javax.swing.JFrame {
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jPanel6FocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jPanel6FocusGained
+        
+    }//GEN-LAST:event_jPanel6FocusGained
+
+    private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton7ActionPerformed
+        // TODO add your handling code here:
+        DBManager dbm = new DBManager();
+        dbm.removerReceita(jList1.getSelectedValue());
+        Paciente pac = new Paciente();
+        pac.setCPF(Long.parseLong(jTextPane2.getText()));
+        popularReceitas(pac);
+        jList1.clearSelection();
+        jList1.updateUI();
+    }//GEN-LAST:event_jButton7ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -983,6 +1029,7 @@ public final class TelaInicial extends javax.swing.JFrame {
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
     private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButton8;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

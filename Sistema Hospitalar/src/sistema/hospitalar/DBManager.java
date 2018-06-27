@@ -103,6 +103,74 @@ public class DBManager {
         }
         return list_eq;
     }
+    public void cadastrarSetor(String nome)
+    {
+         try (Connection conn = conector.connect();){
+            String sql = "insert into Setor (nome) values (?)";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,nome);
+            sqlStatement1.execute();
+            conn.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void removerSetor(Setor setor)
+    {
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect();){
+            String sql = "delete from Setor where id = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,setor.getId());
+            sqlStatement1.execute();
+            conn.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void alterarSetor(Setor setor)
+    {
+        try (Connection conn = conector.connect();){
+            String sql = "update Setor set nome = ? where id = ?";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,setor.getNome());
+            sqlStatement1.setInt(2,setor.getId());
+            sqlStatement1.executeUpdate();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+    }
+    public List<Setor> getSetores()
+    {
+        List<Setor> listasetor = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        try (Connection conn = conector.connect();){
+            String sql = "select * from Setor";
+            sqlStatement1 = conn.prepareStatement(sql);
+            
+            rs = sqlStatement1.executeQuery();
+           
+            while (rs.next())
+            {
+                Setor setor = new Setor();
+                setor.setId(rs.getInt("id"));
+                setor.setNome(rs.getString("nome"));
+                
+                listasetor.add(setor);
+            
+            }
+             conn.close();
+            
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return listasetor;
+        
+    }
     
     public List<Equipe> cadastrarEquipe(Equipe eq){
         List<Equipe> list_eq = new ArrayList<>();
@@ -251,14 +319,14 @@ public class DBManager {
             if(pac.getRG() != null){
                 String sql = "select * from Paciente where RG = ?";
                 sqlStatement1 = conn.prepareStatement(sql);
-                sqlStatement1.setString(1,pac.getRG());
+                sqlStatement1.setLong(1,pac.getRG());
                 rs = sqlStatement1.executeQuery();
             }
             while(rs.next()){
                 Paciente pac1 = new Paciente();
                 pac1.setCPF(rs.getLong("cpf"));
                 pac1.setNome(rs.getString("nome"));
-                pac1.setRG(rs.getString("RG"));
+                pac1.setRG(rs.getLong("RG"));
                 list_pac.add(pac1);
             }
             conn.close();
@@ -544,7 +612,7 @@ public class DBManager {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlPac);
             sqlStatement1.setLong(1, paciente.getCPF());
             sqlStatement1.setString(2, paciente.getNome());
-            sqlStatement1.setString(3, paciente.getRG());
+            sqlStatement1.setLong(3, paciente.getRG());
             sqlStatement1.executeUpdate();
             conn.commit();
             conn.close();
@@ -687,7 +755,18 @@ public class DBManager {
 
         return receita;
     }
-
+    public void removerReceita(Receita receita)
+    {
+        try (Connection conn = conector.connect();) {
+            String sqlDelete = "DELETE FROM Receita WHERE id = ?";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+            sqlStatement.setInt(1, receita.getId());
+            sqlStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
 //    public void cadastrarEquipe(Equipe equipe) {
 //
 //        String sqlEquipe = "INSERT INTO Equipe(nome,supervisor_cpf) VALUES(?,?)";
@@ -849,6 +928,7 @@ public class DBManager {
         }
         return list_setor;
     }
+    
     
     public List<Subsetor> getSubSetor(Subsetor ssetor){
         List<Subsetor> list_ssetor = new ArrayList<>();
@@ -1035,4 +1115,5 @@ public class DBManager {
         }
 
     }
+
 }
