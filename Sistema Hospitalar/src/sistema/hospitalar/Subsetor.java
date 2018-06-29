@@ -39,9 +39,4 @@ public class Subsetor {
         this.salas = salas;
     }
 
-    @Override
-    public String toString() {
-        return "Subsetor " + id + ": " + nome;
-    }
-    
 }
