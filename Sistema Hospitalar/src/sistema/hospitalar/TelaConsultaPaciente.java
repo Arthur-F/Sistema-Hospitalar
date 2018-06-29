@@ -5,6 +5,10 @@
  */
 package sistema.hospitalar;
 
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Gabriel
@@ -14,8 +18,29 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
     /**
      * Creates new form CadastroSetor
      */
+      /**
+     * Creates new form TelaCadastrarFuncionários
+     */
     public TelaConsultaPaciente() {
         initComponents();
+        cpfPaciente.setDocument(new SoNumeros(11));
+        nomePaciente.setDocument(new Tamanho(100));
+        iniciaTela();
+    } 
+    
+    public void iniciaTela(){
+        List<Paciente> list = new ArrayList<>();
+        DBManager dbm = new DBManager();
+        list = dbm.getPaciente(null);
+        this.preencherTabela(list);
+    }
+    
+    public void preencherTabela(List<Empresa> list){
+        DefaultTableModel model = (DefaultTableModel) Table.getModel();
+        model.setNumRows(0);
+        for (Empresa empresa : list) {
+            model.addRow(new String[]{empresa.getCnpj().toString(),empresa.getNome()});
+        }
     }
 
     /**
@@ -38,13 +63,13 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
         jPanel6 = new javax.swing.JPanel();
         jPanel2 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        cpfPaciente = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         jLabel12 = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        nomePaciente = new javax.swing.JTextField();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -143,16 +168,16 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
 
         jLabel2.setText("Consultar Pacientes:");
 
-        jTextField1.setToolTipText("Nome");
-        jTextField1.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField1.addMouseListener(new java.awt.event.MouseAdapter() {
+        cpfPaciente.setToolTipText("Nome");
+        cpfPaciente.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        cpfPaciente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextField1MouseClicked(evt);
+                cpfPacienteMouseClicked(evt);
             }
         });
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        cpfPaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                cpfPacienteActionPerformed(evt);
             }
         });
 
@@ -166,21 +191,26 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
         });
 
         jButton2.setText("Cadastrar novo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setText("Voltar");
 
         jLabel12.setText("CPF");
 
-        jTextField2.setToolTipText("Nome");
-        jTextField2.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-        jTextField2.addMouseListener(new java.awt.event.MouseAdapter() {
+        nomePaciente.setToolTipText("Nome");
+        nomePaciente.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        nomePaciente.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jTextField2MouseClicked(evt);
+                nomePacienteMouseClicked(evt);
             }
         });
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        nomePaciente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                nomePacienteActionPerformed(evt);
             }
         });
 
@@ -204,7 +234,7 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jTextField2))
+                                .addComponent(nomePaciente))
                             .addGroup(jPanel2Layout.createSequentialGroup()
                                 .addComponent(jLabel12)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -213,7 +243,7 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
                                         .addComponent(jButton1)
                                         .addGap(33, 33, 33)
                                         .addComponent(jButton2))
-                                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))))
+                                    .addComponent(cpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, 213, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                 .addGap(48, 217, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -224,11 +254,11 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(nomePaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(11, 11, 11)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel12)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cpfPaciente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
@@ -284,25 +314,74 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField1MouseClicked
+    private void cpfPacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_cpfPacienteMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1MouseClicked
+    }//GEN-LAST:event_cpfPacienteMouseClicked
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void cpfPacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cpfPacienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_cpfPacienteActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        String pacienteNome = null;
+        String pacienteCpf = null;
+        DBManager dbm = new DBManager();
+        if (nomePaciente.getText().length() > 0) {
+            pacienteNome = nomePaciente.getText();
+        }
+        if (cpfPaciente.getText().length() > 0) {
+            pacienteCpf = cpfPaciente.getText();
+        }
+        if (pacienteCpf != null) {
+            List<Paciente> list = new ArrayList<>();
+            Paciente pac = new Paciente();
+            pac.setNome(pacienteNome);
+            pac.setCPF(pacienteCpf);
+            list = dbm.getPaciente(pac);
+            this.preencherTabela(list);
+            if (list.size() < 0) {
+                JOptionPane.showMessageDialog(null, "Paciente não encontrado.");
+            }
+        } else {
+            List<Paciente> list = new ArrayList<>();
+            list = dbm.getPaciente(null);
+            this.preencherTabela(list);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jTextField2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextField2MouseClicked
+    private void nomePacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nomePacienteMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2MouseClicked
+    }//GEN-LAST:event_nomePacienteMouseClicked
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void nomePacienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nomePacienteActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_nomePacienteActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        String pacienteNome = null;
+        String pacienteCpf = null;
+
+        DBManager dbm = new DBManager();
+
+        if (nomePaciente.getText().length() > 0) {
+            pacienteNome = nomePaciente.getText();
+        }
+        if (cpfPaciente.getText().length() > 0) {
+            pacienteCpf = cpfPaciente.getText();
+        }
+        if (pacienteCpf != null && pacienteNome != null) {
+            List<Paciente> list = new ArrayList<>();
+            Paciente pac = new Paciente();
+            pac.setCPF(pacienteCpf);
+            pac.setNome(pacienteNome);
+            list = dbm.cadastrarPaciente(pac);
+            this.preencherTabela(list);
+            nomePaciente.setText(null);
+            cpfPaciente.setText(null);
+        } else {
+            JOptionPane.showMessageDialog(null, "Por favor informe todos os campos");
+        }
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -347,6 +426,7 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField cpfPaciente;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
@@ -367,7 +447,6 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField nomePaciente;
     // End of variables declaration//GEN-END:variables
 }
