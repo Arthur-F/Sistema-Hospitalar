@@ -38,10 +38,4 @@ public class Setor {
     public void setEquipes(Equipe[] equipes) {
         this.equipes = equipes;
     }
-    
-    @Override
-    public String toString() {
-        return this.nome; //To change body of generated methods, choose Tools | Templates.
-    }
-    
 }

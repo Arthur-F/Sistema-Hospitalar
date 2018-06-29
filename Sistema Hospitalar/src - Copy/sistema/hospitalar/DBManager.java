@@ -451,7 +451,6 @@ public class DBManager {
         }
     }
     
-    }
     public List<Medico> getMedico(Medico med){
         List<Medico> list_med = new ArrayList<>();
         ResultSet rs = null;
