@@ -15,9 +15,37 @@ public class DBManager {
     private ConectorDB conector = new ConectorDB();
 
     DBManager() {
-//     
+//     this.
     }
+    
+    public void alterarSubsetor(Subsetor subsetor)
+    {
+        try (Connection conn = conector.connect();) {
+            String sql = "update Subsetor set nome = ?, setor_id = ? where id = ?";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1, subsetor.getNome());
+            sqlStatement1.setInt(2, subsetor.getSetor_id());
+            sqlStatement1.setInt(3, subsetor.getId());
+            sqlStatement1.executeUpdate();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void excluirSubsetor(Subsetor subsetor)
+    {
+        try (Connection conn = conector.connect();) {
+            String sqlDelete = "DELETE FROM Subsetor WHERE id = ?";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+            sqlStatement.setInt(1, subsetor.getId());
+            sqlStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
 
+    
     public void cadastrarFuncionario(Funcionario func) {
         String sql = null;
         PreparedStatement sqlStatement1 = null;
@@ -700,6 +728,7 @@ public class DBManager {
 //        }
 //        return conn;
 //    }
+    
     public void cadastrarPaciente(Paciente paciente) {
         //Dúvida: receita só acontece após consulta, mesmo assim eu deveria colocá-la aqui?
         String sqlPac = "INSERT INTO Paciente(cpf,nome,rg) VALUES(?,?,?)";
@@ -753,7 +782,7 @@ public class DBManager {
         }
         return list_pac;
     }
-
+    
     public void alterarPaciente(Paciente paciente) {
         try (Connection conn = conector.connect();) {
             String sql = "update Paciente set cpf = ?, nome = ?, rg = ? where cpf = ?";

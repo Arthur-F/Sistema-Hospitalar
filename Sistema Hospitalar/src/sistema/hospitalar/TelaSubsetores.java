@@ -114,8 +114,18 @@ public class TelaSubsetores extends javax.swing.JFrame {
         jLabel3.setText("Subsetores");
 
         jButton1.setText("Excluir");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Salvar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -221,14 +231,34 @@ public class TelaSubsetores extends javax.swing.JFrame {
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         Subsetor subsetor = new Subsetor();
         subsetor = jList1.getSelectedValue();
-        subsetor.setNome(jTextField1.getName());
+        subsetor.setNome(jTextField1.getText());
         subsetor.setSetor_id(((Setor)jComboBox1.getSelectedItem()).getId());
-//        dbm.
+        dbm.alterarSubsetor(subsetor);
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        popularSubsetores((Setor)jComboBox1.getSelectedItem());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
+        if(!jList1.isSelectionEmpty())
         jTextField1.setText(jList1.getSelectedValue().getNome());
     }//GEN-LAST:event_jList1ValueChanged
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        jButton2.setVisible(false);
+        jButton3.setVisible(false);
+        jTextField1.setText("");
+        jList1.clearSelection();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if(!jList1.isSelectionEmpty())
+        {
+            dbm.excluirSubsetor(jList1.getSelectedValue());
+            jTextField1.setText("");
+            popularSubsetores((Setor)jComboBox1.getSelectedItem());
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
