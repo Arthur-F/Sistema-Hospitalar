@@ -18,6 +18,52 @@ public class DBManager {
 //     this.
     }
     
+    public void realizarPagamento(int id, String tipo)
+    {  
+        try (Connection conn = conector.connect();) {
+            String sql = "update Pagamento set tipo = ?, pago = ? where id = ?";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1, tipo);
+            sqlStatement1.setString(2, "true");
+            sqlStatement1.setInt(3, id);
+            sqlStatement1.executeUpdate();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+    public ArrayList<Pagamento> buscarPagamentos(Long cpf)
+    {
+        ResultSet rs = null;
+        String sqlFunc = null;
+        PreparedStatement sqlStatement1 = null;
+        ArrayList<Pagamento> list_pagto = new ArrayList<>();
+        try (Connection conn = conector.connect();) {
+          
+                sqlFunc = "select * from Pagamento where paciente_cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sqlFunc);
+                sqlStatement1.setLong(1, cpf);
+                rs = sqlStatement1.executeQuery();
+            
+            while (rs.next()) {
+                Pagamento pagamento = new Pagamento();
+                Paciente pac = new Paciente();
+                pac.setCPF(rs.getLong("paciente_cpf"));
+                pagamento.setPaciente(getPaciente(pac).get(0));
+                pagamento.setId(rs.getInt("id"));
+                pagamento.setTipo(rs.getString("tipo"));
+                pagamento.setPago(Boolean.parseBoolean(rs.getString("pago")));
+                pagamento.setValor(rs.getDouble("valor"));
+                
+                list_pagto.add(pagamento);
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return list_pagto;
+    }
     public void alterarSubsetor(Subsetor subsetor)
     {
         try (Connection conn = conector.connect();) {
