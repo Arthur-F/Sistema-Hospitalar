@@ -1195,5 +1195,57 @@ public class DBManager {
         }
         return list_ssetor;
     }
+    
+    public void cadastrarSala(Sala sala){
+        String sql = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect()){
+            if(sala.getQuartos() != null && sala.getSubsetor_id() != null){
+                sql = "insert into Sala (id,subsetor_id) values (?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,sala.getQuartos());                      
+                sqlStatement1.setInt(2,sala.getSubsetor_id());
+                sqlStatement1.execute();
+            }else if(sala.getQuartos() != null){
+                sql = "insert into Sala (id) values (?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,sala.getQuartos());                                      
+                sqlStatement1.execute(); 
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    
+    public void AlteraSala(Sala sala){
+        String sql = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect()){
+            sql = "update Sala set subsetor_id = ? where id = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,sala.getSubsetor_id());
+            sqlStatement1.setInt(2,sala.getQuartos());            
+            sqlStatement1.executeUpdate();
+            conn.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    
+    public void deletarSala(Sala sala){
+        String sql = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect()){
+            sql = "delete from Sala where id = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,sala.getQuartos());                       
+            sqlStatement1.execute();
+            conn.close();            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }
