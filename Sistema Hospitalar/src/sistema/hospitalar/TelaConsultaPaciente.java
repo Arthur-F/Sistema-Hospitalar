@@ -25,23 +25,23 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
         initComponents();
         cpfPaciente.setDocument(new SoNumeros(11));
         nomePaciente.setDocument(new Tamanho(100));
-        iniciaTela();
+//        iniciaTela();
     } 
     
-    public void iniciaTela(){
-        List<Paciente> list = new ArrayList<>();
-        DBManager dbm = new DBManager();
-        list = dbm.getPaciente(null);
-        this.preencherTabela(list);
-    }
+//    public void iniciaTela(){
+//        List<Paciente> list = new ArrayList<>();
+//        DBManager dbm = new DBManager();
+//        list = dbm.getPaciente(null);
+//        this.preencherTabela(list);
+//    }
     
-    public void preencherTabela(List<Empresa> list){
-        DefaultTableModel model = (DefaultTableModel) Table.getModel();
-        model.setNumRows(0);
-        for (Empresa empresa : list) {
-            model.addRow(new String[]{empresa.getCnpj().toString(),empresa.getNome()});
-        }
-    }
+//    public void preencherTabela(List<Empresa> list){
+//        DefaultTableModel model = (DefaultTableModel) Table.getModel();
+//        model.setNumRows(0);
+//        for (Empresa empresa : list) {
+//            model.addRow(new String[]{empresa.getCnpj().toString(),empresa.getNome()});
+//        }
+//    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -323,30 +323,30 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_cpfPacienteActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        String pacienteNome = null;
-        String pacienteCpf = null;
-        DBManager dbm = new DBManager();
-        if (nomePaciente.getText().length() > 0) {
-            pacienteNome = nomePaciente.getText();
-        }
-        if (cpfPaciente.getText().length() > 0) {
-            pacienteCpf = cpfPaciente.getText();
-        }
-        if (pacienteCpf != null) {
-            List<Paciente> list = new ArrayList<>();
-            Paciente pac = new Paciente();
-            pac.setNome(pacienteNome);
-            pac.setCPF(pacienteCpf);
-            list = dbm.getPaciente(pac);
-            this.preencherTabela(list);
-            if (list.size() < 0) {
-                JOptionPane.showMessageDialog(null, "Paciente não encontrado.");
-            }
-        } else {
-            List<Paciente> list = new ArrayList<>();
-            list = dbm.getPaciente(null);
-            this.preencherTabela(list);
-        }
+//        String pacienteNome = null;
+//        String pacienteCpf = null;
+//        DBManager dbm = new DBManager();
+//        if (nomePaciente.getText().length() > 0) {
+//            pacienteNome = nomePaciente.getText();
+//        }
+//        if (cpfPaciente.getText().length() > 0) {
+//            pacienteCpf = cpfPaciente.getText();
+//        }
+//        if (pacienteCpf != null) {
+//            List<Paciente> list = new ArrayList<>();
+//            Paciente pac = new Paciente();
+//            pac.setNome(pacienteNome);
+//            pac.setCPF(pacienteCpf);
+//            list = dbm.getPaciente(pac);
+//            this.preencherTabela(list);
+//            if (list.size() < 0) {
+//                JOptionPane.showMessageDialog(null, "Paciente não encontrado.");
+//            }
+//        } else {
+//            List<Paciente> list = new ArrayList<>();
+//            list = dbm.getPaciente(null);
+//            this.preencherTabela(list);
+//        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void nomePacienteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_nomePacienteMouseClicked
@@ -358,29 +358,29 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
     }//GEN-LAST:event_nomePacienteActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        String pacienteNome = null;
-        String pacienteCpf = null;
-
-        DBManager dbm = new DBManager();
-
-        if (nomePaciente.getText().length() > 0) {
-            pacienteNome = nomePaciente.getText();
-        }
-        if (cpfPaciente.getText().length() > 0) {
-            pacienteCpf = cpfPaciente.getText();
-        }
-        if (pacienteCpf != null && pacienteNome != null) {
-            List<Paciente> list = new ArrayList<>();
-            Paciente pac = new Paciente();
-            pac.setCPF(pacienteCpf);
-            pac.setNome(pacienteNome);
-            list = dbm.cadastrarPaciente(pac);
-            this.preencherTabela(list);
-            nomePaciente.setText(null);
-            cpfPaciente.setText(null);
-        } else {
-            JOptionPane.showMessageDialog(null, "Por favor informe todos os campos");
-        }
+//        String pacienteNome = null;
+//        String pacienteCpf = null;
+//
+//        DBManager dbm = new DBManager();
+//
+//        if (nomePaciente.getText().length() > 0) {
+//            pacienteNome = nomePaciente.getText();
+//        }
+//        if (cpfPaciente.getText().length() > 0) {
+//            pacienteCpf = cpfPaciente.getText();
+//        }
+//        if (pacienteCpf != null && pacienteNome != null) {
+//            List<Paciente> list = new ArrayList<>();
+//            Paciente pac = new Paciente();
+//            pac.setCPF(pacienteCpf);
+//            pac.setNome(pacienteNome);
+//            list = dbm.cadastrarPaciente(pac);
+//            this.preencherTabela(list);
+//            nomePaciente.setText(null);
+//            cpfPaciente.setText(null);
+//        } else {
+//            JOptionPane.showMessageDialog(null, "Por favor informe todos os campos");
+//        }
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
