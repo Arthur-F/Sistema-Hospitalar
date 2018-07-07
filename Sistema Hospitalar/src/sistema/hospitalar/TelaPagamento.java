@@ -34,6 +34,13 @@ public class TelaPagamento extends javax.swing.JFrame {
         jLabel5.setVisible(false);
         jComboBox3.setVisible(false);
     }
+    public TelaPagamento(String cpf) {
+        initComponents();
+        popularEmpresas();
+        jLabel5.setVisible(false);
+        jComboBox3.setVisible(false);
+        jTextField1.setText(cpf);
+    }
 
 public void popularPagamentos(Long cpf)
 {
@@ -46,9 +53,7 @@ public void popularPagamentos(Long cpf)
     }
     jList1.setModel(modelpagamentos);
 }
-{
-    
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
