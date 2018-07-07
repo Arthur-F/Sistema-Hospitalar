@@ -1320,7 +1320,7 @@ public class DBManager {
                 sqlStatement1.setString(2,sala.getNome());
                 sqlStatement1.execute();
             }else if(sala.getNome() != null){
-                sql = "insert into Sala (id) values (?)";
+                sql = "insert into Sala (nome) values (?)";
                 sqlStatement1 = conn.prepareStatement(sql);
                 sqlStatement1.setString(1,sala.getNome());                                      
                 sqlStatement1.execute(); 
@@ -1342,8 +1342,19 @@ public class DBManager {
                 sqlStatement1.setString(2,sala.getNome());
                 sqlStatement1.setInt(3,sala.getQuartos());
                 sqlStatement1.executeUpdate();
+            }else if(sala.getNome() != null){
+                sql = "update Sala set nome = ? where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,sala.getNome());
+                sqlStatement1.setInt(2,sala.getQuartos());
+                sqlStatement1.executeUpdate();
+            }else if(sala.getSubsetor_id() != null){
+                sql = "update Sala set subsetor_id = ? where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,sala.getSubsetor_id());
+                sqlStatement1.setInt(2,sala.getQuartos());
+                sqlStatement1.executeUpdate();
             }
-            
             conn.close();            
         } catch (SQLException e) {
             System.out.println(e.getMessage());

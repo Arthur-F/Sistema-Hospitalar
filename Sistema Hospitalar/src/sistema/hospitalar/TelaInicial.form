@@ -645,6 +645,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Salas"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Link_salaMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="Link_setor">
               <Properties>

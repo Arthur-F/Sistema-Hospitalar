@@ -340,7 +340,7 @@ public final class TelaInicial extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 678, Short.MAX_VALUE)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.Alignment.CENTER, javax.swing.GroupLayout.DEFAULT_SIZE, 682, Short.MAX_VALUE)
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jButton2, javax.swing.GroupLayout.Alignment.CENTER)
@@ -535,6 +535,11 @@ public final class TelaInicial extends javax.swing.JFrame {
 
         Link_sala.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         Link_sala.setText("Salas");
+        Link_sala.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Link_salaMouseClicked(evt);
+            }
+        });
 
         Link_setor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         Link_setor.setText("Setores");
@@ -1024,6 +1029,10 @@ public final class TelaInicial extends javax.swing.JFrame {
        TelaPagamento telaPagto = new TelaPagamento(jTextPane3.getText());
        telaPagto.setVisible(true);
     }//GEN-LAST:event_jButton9ActionPerformed
+
+    private void Link_salaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_salaMouseClicked
+        new TelaConsultarSalas().setVisible(true);
+    }//GEN-LAST:event_Link_salaMouseClicked
 
     /**
      * @param args the command line arguments

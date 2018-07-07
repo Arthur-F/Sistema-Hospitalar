@@ -337,7 +337,7 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
                     sub_id = subsetor.getId();
                     subsetor_aux = subsetor.getNome();
                 }
-            }else{
+            }else if(Table.getValueAt(linha,1) != null){
                 List<Subsetor> list_sub = new ArrayList<>();
                 Subsetor sub = new Subsetor();
                 sub.setNome(Table.getValueAt(linha,1).toString());
