@@ -64,6 +64,65 @@ public class DBManager {
         }
         return list_pagto;
     }
+     public List<Receita> getReceitasDoPaciente(Long cpf)
+    {
+        
+        List listareceitas = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        try (Connection conn = conector.connect()){
+
+                String sql = "select * from Receita where paciente_cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setLong(1,cpf);
+                rs = sqlStatement1.executeQuery();
+            while(rs.next()){
+                Receita receita = new Receita();
+                receita.setCpfpaciente(rs.getLong("paciente_cpf"));
+                receita.setReceita(rs.getString("descricao"));
+                receita.setTipo(rs.getString("tipo"));
+                receita.setId(rs.getInt("id"));
+                listareceitas.add(receita);
+               
+                
+                
+            }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return listareceitas;
+    }
+       public void alterarReceita(Receita receita)
+    {
+        
+       
+        try (Connection conn = conector.connect()){
+
+                PreparedStatement sqlStatement1 = null;
+                String sql = "update Receita set descricao = ?  where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(2,receita.getId());
+                sqlStatement1.setString(1, receita.getReceita());
+                sqlStatement1.executeUpdate();
+                conn.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+    }
+        public void removerReceita(Receita receita)
+    {
+        try (Connection conn = conector.connect();) {
+            String sqlDelete = "DELETE FROM Receita WHERE id = ?";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+            sqlStatement.setInt(1, receita.getId());
+            sqlStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
     public void alterarSubsetor(Subsetor subsetor)
     {
         try (Connection conn = conector.connect();) {
