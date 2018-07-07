@@ -25,6 +25,7 @@ import javax.swing.table.DefaultTableModel;
 public final class TelaInicial extends javax.swing.JFrame {
     
     private String usuario;
+    private int tipoUsuario;
     private String receitaAux; 
     
     public TelaInicial() {
@@ -82,6 +83,30 @@ public final class TelaInicial extends javax.swing.JFrame {
         for (Funcionario funcionario : list_func) {
             String saudacao = "Olá, " + funcionario.getNome() + ".";
             Label_usuario.setText(saudacao);
+            switch (funcionario.getPapel_id())
+            {
+                //Enfermeiro
+                case 1:
+                jTabbedPane1.remove(jPanel4);
+                jTabbedPane1.remove(jPanel2);
+                jButton4.setVisible(false);
+                jButton5.setVisible(false);
+                jButton7.setVisible(false);
+                break;
+                //Medico
+                case 2:
+                jTabbedPane1.remove(jPanel4);
+                jTabbedPane1.remove(jPanel2);
+                break;
+                
+                //FuncionarioAdmnistrativo
+                case 3:
+                jButton4.setVisible(false);
+                jButton5.setVisible(false);
+                jButton7.setVisible(false);
+                break;
+            }
+                
         }        
     }
     
