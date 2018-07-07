@@ -186,3 +186,5 @@ pip-log.txt
 
 # SVN
 .svn/
+
+*.db
