@@ -7,6 +7,7 @@ package sistema.hospitalar;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -20,7 +21,7 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
      */
     public TelaConsultarSalas() {
         initComponents();
-        TextField_id.setDocument(new SoNumeros(10));
+        TextField_id.setDocument(new Tamanho(20));
         IniciaTela();
     }
     
@@ -31,7 +32,7 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
         for (Sala sala : list) {
             String sala_t = null;
             String subsetor_t = null;
-            sala_t = sala.getQuartos().toString();
+            sala_t = sala.getNome();
             List<Subsetor> list_subsetor = new ArrayList<>();
             Subsetor sub = new Subsetor();
             sub.setId(sala.getSubsetor_id());
@@ -72,6 +73,10 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
         ComboBox_subsetor = new javax.swing.JComboBox<>();
         jScrollPane1 = new javax.swing.JScrollPane();
         Table = new javax.swing.JTable();
+        Button_consultar = new javax.swing.JButton();
+        Button_cadastrar = new javax.swing.JButton();
+        Button_editar = new javax.swing.JButton();
+        Button_apagar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -101,6 +106,34 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(Table);
 
+        Button_consultar.setText("Consultar");
+        Button_consultar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_consultarActionPerformed(evt);
+            }
+        });
+
+        Button_cadastrar.setText("Cadastrar");
+        Button_cadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_cadastrarActionPerformed(evt);
+            }
+        });
+
+        Button_editar.setText("Editar");
+        Button_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_editarActionPerformed(evt);
+            }
+        });
+
+        Button_apagar.setText("Apagar");
+        Button_apagar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_apagarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -114,19 +147,29 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
                         .addGap(48, 48, 48)
                         .addComponent(Label_id))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(Label_subsetor))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(ComboBox_subsetor, javax.swing.GroupLayout.Alignment.LEADING, 0, 108, Short.MAX_VALUE)
-                            .addComponent(TextField_id, javax.swing.GroupLayout.Alignment.LEADING))))
-                .addContainerGap(289, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(127, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap()))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(38, 38, 38)
+                                .addComponent(Label_subsetor))
+                            .addGroup(layout.createSequentialGroup()
+                                .addContainerGap()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                    .addComponent(ComboBox_subsetor, javax.swing.GroupLayout.Alignment.LEADING, 0, 108, Short.MAX_VALUE)
+                                    .addComponent(TextField_id, javax.swing.GroupLayout.Alignment.LEADING)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(Button_editar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(Button_apagar, javax.swing.GroupLayout.DEFAULT_SIZE, 81, Short.MAX_VALUE))
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(2, 2, 2)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(Button_consultar)
+                                            .addComponent(Button_cadastrar))))))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 570, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -136,21 +179,193 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(Label_id)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(TextField_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(Label_subsetor)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(ComboBox_subsetor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(216, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                    .addContainerGap(95, Short.MAX_VALUE)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 283, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(13, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(TextField_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Label_subsetor)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(ComboBox_subsetor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(27, 27, 27)
+                        .addComponent(Button_consultar)
+                        .addGap(18, 18, 18)
+                        .addComponent(Button_cadastrar)
+                        .addGap(18, 18, 18)
+                        .addComponent(Button_editar)
+                        .addGap(18, 18, 18)
+                        .addComponent(Button_apagar)
+                        .addGap(0, 48, Short.MAX_VALUE))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Button_apagarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_apagarActionPerformed
+        int linha = Table.getSelectedRow();
+        DBManager dbm = new DBManager();
+        if(linha >= 0){
+            Sala sala = new Sala();
+            List<Sala> list = new ArrayList<>();
+            sala.setNome(Table.getValueAt(linha,0).toString());
+            list = dbm.getSala(sala);
+            for (Sala sala1 : list) {
+                dbm.deletarSala(sala1);
+            }
+            list =dbm.getSala(null);
+            this.PreencherTabela(list);
+            JOptionPane.showMessageDialog(null,"Deleção realizada com sucesso.");
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_Button_apagarActionPerformed
+
+    private void Button_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_consultarActionPerformed
+        DefaultTableModel model = (DefaultTableModel) Table.getModel();
+        model.setNumRows(0);
+        String quarto = null;
+        Integer subsetor_id = null;        
+        Sala sala = new Sala();
+        Subsetor subsetor = new Subsetor();
+        List<Sala> list_sala = new ArrayList<>();
+        List<Sala> list_aux = new ArrayList<>();
+        DBManager dbm = new DBManager();
+        if(TextField_id.getText().length() > 0){
+            quarto = TextField_id.getText();
+        }
+        if(!ComboBox_subsetor.getSelectedItem().toString().equals("")){
+            subsetor.setNome(ComboBox_subsetor.getSelectedItem().toString());
+            List<Subsetor> list_subsetor = new ArrayList<>();
+            list_subsetor = dbm.getSubSetor(subsetor);
+            for (Subsetor subsetor1 : list_subsetor) {
+                subsetor_id = subsetor1.getId();
+            }            
+        }
+        if(quarto != null){
+            sala.setNome(quarto);
+        }
+        if(subsetor_id != null){
+            sala.setSubsetor_id(subsetor_id);
+        }
+        if(quarto != null || subsetor_id != null){
+            list_sala = dbm.getSala(sala);
+            if(list_sala.size() > 0){
+                if(subsetor_id != null){
+                    for (Sala sala1 : list_sala) {
+                        if(sala1.getSubsetor_id() == subsetor_id ){
+                            list_aux.add(sala1);
+                        }
+                    }
+                    if(list_aux.size() > 0){
+                        this.PreencherTabela(list_aux);
+                    }else{
+                       JOptionPane.showMessageDialog(null,"Não foi encontrado nenhuma sala."); 
+                    }
+                }else{
+                    this.PreencherTabela(list_sala);
+                }
+            }else{
+                JOptionPane.showMessageDialog(null,"Não foi encontrado nenhuma sala.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessário informar parametros.");
+        }
+    }//GEN-LAST:event_Button_consultarActionPerformed
+
+    private void Button_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_cadastrarActionPerformed
+        String nome = null;
+        Integer subsetor_id = null;        
+        DBManager dbm = new DBManager();
+        List<Sala> list = new ArrayList<>();
+        if(TextField_id.getText().length() > 0){
+            nome = TextField_id.getText();
+        }
+        if(!ComboBox_subsetor.getSelectedItem().toString().equals("")){
+            List<Subsetor> list_sub = new ArrayList<>();
+            Subsetor subsetor = new Subsetor();
+            subsetor.setNome(ComboBox_subsetor.getSelectedItem().toString());
+            list_sub = dbm.getSubSetor(subsetor);
+            for (Subsetor subsetor1 : list_sub) {
+                subsetor_id = subsetor1.getId();
+            }
+        }
+        if(nome != null){
+            List<Sala> list_sala_ex = new ArrayList<>();
+            Sala sala_ex = new Sala();
+            sala_ex.setNome(nome);
+            list_sala_ex = dbm.getSala(sala_ex);
+            if(list_sala_ex.size() == 0){
+                Sala sala = new Sala();
+                sala.setNome(nome);
+                sala.setSubsetor_id(subsetor_id);
+                dbm.cadastrarSala(sala);
+                list = dbm.getSala(null);
+                this.PreencherTabela(list);
+                JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso.");
+                TextField_id.setText("");
+                ComboBox_subsetor.setSelectedIndex(0);
+            }else{
+                JOptionPane.showMessageDialog(null,"A sala " + nome + " já existe.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Informar o nome da sala.");
+        }
+    }//GEN-LAST:event_Button_cadastrarActionPerformed
+
+    private void Button_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_editarActionPerformed
+        int linha = Table.getSelectedRow();
+        DBManager dbm = new DBManager();
+        String subsetor_aux = null;
+        if(linha >= 0){
+            String nome = Table.getValueAt(linha,0).toString();
+            List<Sala> list_aux = new ArrayList<>();
+            Sala sl = new Sala();
+            sl.setNome(nome);
+            list_aux = dbm.getSala(sl);
+            Integer quarto = null;
+            Integer sub_id = null;
+            for (Sala sala : list_aux) {
+                quarto = sala.getQuartos();
+            }
+            if(!ComboBox_subsetor.getSelectedItem().toString().equals("")){
+                List<Subsetor> list_sub = new ArrayList<>();
+                Subsetor sub = new Subsetor();
+                sub.setNome(ComboBox_subsetor.getSelectedItem().toString());
+                list_sub = dbm.getSubSetor(sub);
+                for (Subsetor subsetor : list_sub) {
+                    sub_id = subsetor.getId();
+                    subsetor_aux = subsetor.getNome();
+                }
+            }else{
+                List<Subsetor> list_sub = new ArrayList<>();
+                Subsetor sub = new Subsetor();
+                sub.setNome(Table.getValueAt(linha,1).toString());
+                list_sub = dbm.getSubSetor(sub);
+                for (Subsetor subsetor : list_sub) {
+                    sub_id = subsetor.getId();
+                }
+            }
+            if(TextField_id.getText().length() > 0){
+                nome = TextField_id.getText();
+            }
+            if(subsetor_aux != null || nome != Table.getValueAt(linha,0)){
+                Sala sala = new Sala();
+                sala.setQuartos(quarto);
+                sala.setSubsetor_id(sub_id);
+                sala.setNome(nome);
+                dbm.AlteraSala(sala);
+                List<Sala> list = new ArrayList<>();
+                list = dbm.getSala(null);
+                this.PreencherTabela(list);
+                JOptionPane.showMessageDialog(null,"Alteração realizada com sucesso.");
+            }else{
+                JOptionPane.showMessageDialog(null,"Informar algum parametro.");
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessário selecionar uma linha.");
+        }
+    }//GEN-LAST:event_Button_editarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -191,6 +406,10 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_apagar;
+    private javax.swing.JButton Button_cadastrar;
+    private javax.swing.JButton Button_consultar;
+    private javax.swing.JButton Button_editar;
     private javax.swing.JComboBox<String> ComboBox_subsetor;
     private javax.swing.JLabel Label_id;
     private javax.swing.JLabel Label_subsetor;

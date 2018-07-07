@@ -513,6 +513,13 @@ public class DBManager {
                     sqlStatement1.setInt(1, sl.getSubsetor_id());
                     rs = sqlStatement1.executeQuery();
                 }
+                if(sl.getNome() != null){
+                    String sql = "select * from Sala where nome like ?";
+                    sqlStatement1 = conn.prepareStatement(sql);
+                    String str = "%" + sl.getNome() + "%";
+                    sqlStatement1.setString(1, str);
+                    rs = sqlStatement1.executeQuery();
+                }
             } else {
                 String sql = "select * from Sala";
                 sqlStatement1 = conn.prepareStatement(sql);
@@ -523,6 +530,7 @@ public class DBManager {
                 };
                 sl1.setQuartos(rs.getInt("id"));
                 sl1.setSubsetor_id(rs.getInt("subsetor_id"));
+                sl1.setNome(rs.getString("nome"));
                 list_sl.add(sl1);
             }
             conn.close();
@@ -1305,16 +1313,16 @@ public class DBManager {
         String sql = null;
         PreparedStatement sqlStatement1 = null;
         try (Connection conn = conector.connect()){
-            if(sala.getQuartos() != null && sala.getSubsetor_id() != null){
-                sql = "insert into Sala (id,subsetor_id) values (?,?)";
+            if(sala.getNome() != null && sala.getSubsetor_id() != null){
+                sql = "insert into Sala (subsetor_id,nome) values (?,?)";
                 sqlStatement1 = conn.prepareStatement(sql);
-                sqlStatement1.setInt(1,sala.getQuartos());                      
-                sqlStatement1.setInt(2,sala.getSubsetor_id());
+                sqlStatement1.setInt(1,sala.getSubsetor_id());                      
+                sqlStatement1.setString(2,sala.getNome());
                 sqlStatement1.execute();
-            }else if(sala.getQuartos() != null){
+            }else if(sala.getNome() != null){
                 sql = "insert into Sala (id) values (?)";
                 sqlStatement1 = conn.prepareStatement(sql);
-                sqlStatement1.setInt(1,sala.getQuartos());                                      
+                sqlStatement1.setString(1,sala.getNome());                                      
                 sqlStatement1.execute(); 
             }
             conn.close();
@@ -1323,16 +1331,19 @@ public class DBManager {
         }
     }
     
-    
     public void AlteraSala(Sala sala){
         String sql = null;
         PreparedStatement sqlStatement1 = null;
         try (Connection conn = conector.connect()){
-            sql = "update Sala set subsetor_id = ? where id = ?";
-            sqlStatement1 = conn.prepareStatement(sql);
-            sqlStatement1.setInt(1,sala.getSubsetor_id());
-            sqlStatement1.setInt(2,sala.getQuartos());            
-            sqlStatement1.executeUpdate();
+            if(sala.getNome() != null && sala.getSubsetor_id() != null){
+                sql = "update Sala set subsetor_id = ? nome = ? where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(1,sala.getSubsetor_id());
+                sqlStatement1.setString(2,sala.getNome());
+                sqlStatement1.setInt(3,sala.getQuartos());
+                sqlStatement1.executeUpdate();
+            }
+            
             conn.close();            
         } catch (SQLException e) {
             System.out.println(e.getMessage());

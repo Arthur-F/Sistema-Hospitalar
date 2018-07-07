@@ -5,6 +5,15 @@ public class Sala {
     private Integer quartos;
     
     private Integer subsetor_id;
+    private String nome;
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
 
     public Integer getSubsetor_id() {
         return subsetor_id;
