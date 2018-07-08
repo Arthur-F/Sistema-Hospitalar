@@ -131,10 +131,8 @@ public final class TelaInicial extends javax.swing.JFrame {
     public void iniTela(){
         DBManager dbm = new DBManager();
         List<Equipe> list_eq = new ArrayList<>();
-        List<Procedimento> list_proc = new ArrayList<>();
         List<Sala> list_sl = new ArrayList<>();
         list_eq = dbm.getEquipe(null);
-        list_proc = dbm.getProcedimento(null);
         list_sl = dbm.getSala(null);        
         ComboBox_eq_ag.addItem("");
         ComboBox_proc_ag.addItem("");
@@ -145,9 +143,10 @@ public final class TelaInicial extends javax.swing.JFrame {
         for (Equipe equipe : list_eq) {
             ComboBox_eq_ag.addItem(equipe.getNome());
         }
-        for (Procedimento procedimento : list_proc) {
-            ComboBox_proc_ag.addItem(procedimento.getNome());
-        }
+        ComboBox_proc_ag.addItem("Internação");
+        ComboBox_proc_ag.addItem("Consulta");
+        ComboBox_proc_ag.addItem("Exame");
+        ComboBox_proc_ag.addItem("Cirurgia");
     }
     
     public void limpaTelas(){
@@ -965,7 +964,7 @@ public final class TelaInicial extends javax.swing.JFrame {
 
     private void Button_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_consultarActionPerformed
         String med = null;
-        Integer proc_id = null;
+        String proc_id = null;
         Integer equipe_id = null;
         DBManager dbm = new DBManager();
         if(TextField_med_ag.getText().length() > 0){
@@ -978,13 +977,7 @@ public final class TelaInicial extends javax.swing.JFrame {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
         String data = sdf.format(Calendar_ag.getDate());
         if(ComboBox_proc_ag.getSelectedItem().toString() != ""){
-            List<Procedimento> list_proc = new ArrayList<>();
-            Procedimento proc = new Procedimento() {};
-            proc.setNome(ComboBox_proc_ag.getSelectedItem().toString());
-            list_proc = dbm.getProcedimento(proc);
-            for (Procedimento procedimento : list_proc) {
-                proc_id = procedimento.getId();
-            }
+            proc_id = ComboBox_proc_ag.getSelectedItem().toString();
         }        
         Integer sala = null;
         if(ComboBox_sl_ag.getSelectedItem().toString() != ""){
@@ -1009,7 +1002,7 @@ public final class TelaInicial extends javax.swing.JFrame {
                 }
             }
             if(proc_id != null){
-                if(agendamento.getProcedimento_id() != proc_id){
+                if(agendamento.getProc_nome() != proc_id){
                     continue;
                 }
             }

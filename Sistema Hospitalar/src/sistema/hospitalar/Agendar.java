@@ -37,10 +37,8 @@ public class Agendar extends javax.swing.JFrame {
     public void iniTela(){
         DBManager dbm = new DBManager();
         List<Equipe> list_eq = new ArrayList<>();
-        List<Procedimento> list_proc = new ArrayList<>();
         List<Sala> list_sl = new ArrayList<>();
         list_eq = dbm.getEquipe(null);
-        list_proc = dbm.getProcedimento(null);
         list_sl = dbm.getSala(null);        
         ComboBox_eq.addItem("");
         ComboBox_proc.addItem("");
@@ -51,9 +49,11 @@ public class Agendar extends javax.swing.JFrame {
         for (Equipe equipe : list_eq) {
             ComboBox_eq.addItem(equipe.getNome());
         }
-        for (Procedimento procedimento : list_proc) {
-            ComboBox_proc.addItem(procedimento.getNome());
-        }
+        ComboBox_proc.addItem("");
+        ComboBox_proc.addItem("Internação");
+        ComboBox_proc.addItem("Consulta");
+        ComboBox_proc.addItem("Exame");
+        ComboBox_proc.addItem("Cirurgia");
         ComboBox_hora.addItem("00:00");ComboBox_hora.addItem("00:30");
         ComboBox_hora.addItem("01:00");ComboBox_hora.addItem("01:30");
         ComboBox_hora.addItem("02:00");ComboBox_hora.addItem("02:30");
@@ -237,6 +237,7 @@ public class Agendar extends javax.swing.JFrame {
         Integer sala = null;
         Integer equipe = null;
         Integer proc = null;
+        String proc_nome = null;
         DBManager dbm = new DBManager();
         if(Data.getDate() != null){
             data = sdf.format(Data.getDate());
@@ -264,15 +265,9 @@ public class Agendar extends javax.swing.JFrame {
             }
         }
         if(ComboBox_proc.getSelectedItem().toString() != ""){
-            List<Procedimento> list_proc = new ArrayList<>();
-            Procedimento proc1 = new Procedimento() {};
-            proc1.setNome(ComboBox_proc.getSelectedItem().toString());
-            list_proc = dbm.getProcedimento(proc1);
-            for (Procedimento procedimento : list_proc) {
-                proc = procedimento.getId();
-            }
+            proc_nome = ComboBox_proc.getSelectedItem().toString();
         }
-        if(data != null && pac != null && sala != null && equipe != null && proc != null){
+        if(data != null && pac != null && sala != null && equipe != null && proc_nome != null){
             String aux = null;
             List<Agendamento> list_ag = new ArrayList<>();
             list_ag = dbm.consultarAgendamento(data);
@@ -285,6 +280,14 @@ public class Agendar extends javax.swing.JFrame {
                 }
             }
             if(aux == null){
+                Procedimento pro = new Procedimento() {};
+                pro.setNome(proc_nome);
+                dbm.CadastrarProcedimento(pro);
+                List<Procedimento> list_pro = new ArrayList<>();
+                list_pro = dbm.getProcedimento(null);
+                for (Procedimento procedimento : list_pro) {
+                    proc = procedimento.getId();
+                }
                 Agendamento ag = new Agendamento();
                 ag.setData(data);
                 ag.setEquipe_id(equipe);

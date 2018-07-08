@@ -1461,5 +1461,26 @@ public class DBManager {
         }
     }
     
+    public void CadastrarProcedimento(Procedimento pro){
+        String sql = null;
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect()){
+            if(pro.getNome() != null && pro.getValor() != null){
+                sql = "insert into Procedimento (valor,nome) values (?,?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setDouble(1,pro.getValor());                      
+                sqlStatement1.setString(2,pro.getNome());
+                sqlStatement1.execute();
+            }else if(pro.getNome() != null){
+                sql = "insert into Procedimento (nome) values (?)";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setString(1,pro.getNome());                                      
+                sqlStatement1.execute(); 
+            }
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
 
 }
