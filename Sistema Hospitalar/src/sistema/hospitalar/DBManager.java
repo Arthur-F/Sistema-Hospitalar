@@ -907,11 +907,11 @@ public class DBManager {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlPac);
             sqlStatement1.setLong(1, paciente.getCPF());
             sqlStatement1.setString(2, paciente.getNome());
-            sqlStatement1.setInt(3, paciente.getRG());
+            sqlStatement1.setLong(3, paciente.getRG());
             sqlStatement1.setString(4,paciente.getDataNascimento());
             sqlStatement1.setInt(5,paciente.getCep());
             sqlStatement1.setString(6,paciente.getComplemento());
-            sqlStatement1.setInt(7,paciente.getTelefone());
+            sqlStatement1.setLong(7,paciente.getTelefone());
             sqlStatement1.execute();
             conn.close();
         } catch (SQLException e) {
@@ -938,7 +938,7 @@ public class DBManager {
             }else if (pac != null && pac.getRG() != null) {
                 String sql = "select * from Paciente where RG = ?";
                 sqlStatement1 = conn.prepareStatement(sql);
-                sqlStatement1.setInt(1, pac.getRG());
+                sqlStatement1.setLong(1, pac.getRG());
                 rs = sqlStatement1.executeQuery();
             }else{
                 String sql = "select * from Paciente";
@@ -949,11 +949,11 @@ public class DBManager {
                 Paciente pac1 = new Paciente();
                 pac1.setCPF(rs.getLong("cpf"));
                 pac1.setNome(rs.getString("nome"));
-                pac1.setRG(rs.getInt("RG"));
+                pac1.setRG(rs.getLong("RG"));
                 pac1.setCep(rs.getInt("cep"));
                 pac1.setComplemento(rs.getString("complemento"));
                 pac1.setDataNascimento(rs.getString("data"));
-                pac1.setTelefone(rs.getInt("telefone"));
+                pac1.setTelefone(rs.getLong("telefone"));
                 list_pac.add(pac1);
             }
             conn.close();
@@ -970,11 +970,11 @@ public class DBManager {
             sql = "update Paciente set nome = ?, RG = ?, data = ?, cep = ?, complemento = ?, telefone = ? where cpf = ?";
             sqlStatement1 = conn.prepareStatement(sql);
             sqlStatement1.setString(1, paciente.getNome());
-            sqlStatement1.setInt(2, paciente.getRG());
-            sqlStatement1.setInt(3, paciente.getRG());
-            sqlStatement1.setString(4,paciente.getDataNascimento());
-            sqlStatement1.setInt(5,paciente.getCep());
-            sqlStatement1.setString(6,paciente.getComplemento());
+            sqlStatement1.setLong(2, paciente.getRG());
+            sqlStatement1.setString(3,paciente.getDataNascimento());
+            sqlStatement1.setInt(4,paciente.getCep());
+            sqlStatement1.setString(5,paciente.getComplemento());
+            sqlStatement1.setLong(6,paciente.getTelefone());
             sqlStatement1.setLong(7, paciente.getCPF());
             sqlStatement1.executeUpdate();
             conn.close();

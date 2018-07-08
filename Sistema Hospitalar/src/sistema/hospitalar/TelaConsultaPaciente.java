@@ -5,8 +5,11 @@
  */
 package sistema.hospitalar;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -91,8 +94,18 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
         });
 
         Button_cadastrar.setText("Cadastrar");
+        Button_cadastrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_cadastrarActionPerformed(evt);
+            }
+        });
 
         Button_editar.setText("Editar");
+        Button_editar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_editarActionPerformed(evt);
+            }
+        });
 
         Button_apagar.setText("Apagar");
         Button_apagar.addActionListener(new java.awt.event.ActionListener() {
@@ -213,7 +226,7 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
 
     private void Button_consultarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_consultarActionPerformed
         Long cpf = null;
-        Integer rg = null;
+        Long rg = null;
         String nome = null;
         List<Paciente> list = new ArrayList<>();
         List<Paciente> list_aux = new ArrayList<>();
@@ -225,7 +238,7 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
             nome = TextField_nome.getText();
         }
         if(TextField_rg.getText().length() > 0){
-            rg = Integer.parseInt(TextField_rg.getText());
+            rg = Long.parseLong(TextField_rg.getText());
         }
         Paciente pac = new Paciente();
         pac.setCPF(cpf);
@@ -260,6 +273,28 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null,"Informar pelo meno um campo.","ERRO",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_Button_consultarActionPerformed
+
+    private void Button_cadastrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_cadastrarActionPerformed
+        new TelaCadastrarPaciente().setVisible(true);
+    }//GEN-LAST:event_Button_cadastrarActionPerformed
+
+    private void Button_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_editarActionPerformed
+        int linha = Table.getSelectedRow();
+        if(linha >= 0){
+            Long cpf = Long.parseLong(Table.getValueAt(linha,0).toString());
+            TelaCadastrarPaciente tela = new TelaCadastrarPaciente();
+            tela.setLocationRelativeTo(null);
+            tela.setVisible(true);
+            tela.setResizable(false);
+            try {
+                tela.EditarPaciente(this,cpf);
+            } catch (ParseException ex) {
+                Logger.getLogger(TelaConsultaPaciente.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null,"Necessario selecionar uma linha.","ERRO",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_Button_editarActionPerformed
 
     /**
      * @param args the command line arguments

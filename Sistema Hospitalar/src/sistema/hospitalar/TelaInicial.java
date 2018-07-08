@@ -705,6 +705,11 @@ public final class TelaInicial extends javax.swing.JFrame {
 
         Link_pac.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         Link_pac.setText("Pacientes");
+        Link_pac.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Link_pacMouseClicked(evt);
+            }
+        });
 
         Link_sala.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         Link_sala.setText("Salas");
@@ -1285,6 +1290,10 @@ public final class TelaInicial extends javax.swing.JFrame {
     private void Link_salaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_salaMouseClicked
         new TelaConsultarSalas().setVisible(true);
     }//GEN-LAST:event_Link_salaMouseClicked
+
+    private void Link_pacMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_pacMouseClicked
+        new TelaConsultaPaciente().setVisible(true);
+    }//GEN-LAST:event_Link_pacMouseClicked
 
     /**
      * @param args the command line arguments

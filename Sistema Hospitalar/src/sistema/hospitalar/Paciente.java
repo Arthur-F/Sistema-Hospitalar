@@ -8,9 +8,9 @@ public class Paciente {
     private String nome;
     private Long CPF;
     private String dataNascimento;
-    private Integer RG;
+    private Long RG;
     private Integer cep;
-    private Integer telefone;
+    private Long telefone;
     private String complemento;
 
     public Integer getCep() {
@@ -21,11 +21,11 @@ public class Paciente {
         this.cep = cep;
     }
 
-    public Integer getTelefone() {
+    public Long getTelefone() {
         return telefone;
     }
 
-    public void setTelefone(Integer telefone) {
+    public void setTelefone(Long telefone) {
         this.telefone = telefone;
     }
 
@@ -37,11 +37,11 @@ public class Paciente {
         this.complemento = complemento;
     }
 
-    public Integer getRG() {
+    public Long getRG() {
         return RG;
     }
 
-    public void setRG(Integer RG) {
+    public void setRG(Long RG) {
         this.RG = RG;
     }
 

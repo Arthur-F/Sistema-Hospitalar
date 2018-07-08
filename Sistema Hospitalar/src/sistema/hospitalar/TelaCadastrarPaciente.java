@@ -5,6 +5,13 @@
  */
 package sistema.hospitalar;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Gabriel
@@ -16,6 +23,45 @@ public class TelaCadastrarPaciente extends javax.swing.JFrame {
      */
     public TelaCadastrarPaciente() {
         initComponents();
+        TextField_cpf.setDocument(new SoNumeros(11));
+        TextField_nome.setDocument(new SoLetras(50));
+        TextField_cep.setDocument(new SoNumeros(8));
+        TextField_rg.setDocument(new SoNumeros(10));
+        TextField_telefone.setDocument(new SoNumeros(11));
+    }
+    
+    private Long cpf;
+    
+    public void EditarPaciente(TelaConsultaPaciente tela, Long cpf) throws ParseException{
+        this.cpf = cpf;
+        List<Paciente> list = new ArrayList<>();
+        DBManager dbm = new DBManager();
+        Paciente pac = new Paciente();
+        pac.setCPF(cpf);
+        list = dbm.getPaciente(pac);
+        for (Paciente paciente : list) {
+            TextField_cpf.setText(paciente.getCPF().toString());
+            TextField_cpf.setEnabled(false);
+            if(paciente.getCep() != null){
+                TextField_cep.setText(paciente.getCep().toString());
+            }
+            if(paciente.getComplemento() != null){
+                TextField_complemento.setText(paciente.getComplemento());
+            }
+            if(paciente.getDataNascimento() != null){
+                Date data = new SimpleDateFormat("yyyyMMdd").parse(paciente.getDataNascimento());
+                Data.setDate(data);
+            }
+            if(paciente.getNome() != null){
+                TextField_nome.setText(paciente.getNome());
+            }
+            if(paciente.getRG() != null){
+                TextField_rg.setText(paciente.getRG().toString());
+            }
+            if(paciente.getTelefone() != null){
+                TextField_telefone.setText(paciente.getTelefone().toString());
+            }
+        }
     }
 
     /**
@@ -35,11 +81,17 @@ public class TelaCadastrarPaciente extends javax.swing.JFrame {
         Label_cpf1 = new javax.swing.JLabel();
         TextField_rg = new javax.swing.JTextField();
         Label_cep = new javax.swing.JLabel();
-        TextField_cep = new javax.swing.JTextField();
+        TextField_telefone = new javax.swing.JTextField();
         Label_complemento = new javax.swing.JLabel();
         TextField_complemento = new javax.swing.JTextField();
+        Label_data = new javax.swing.JLabel();
+        Data = new com.toedter.calendar.JDateChooser();
+        Label_telefone = new javax.swing.JLabel();
+        TextField_cep = new javax.swing.JTextField();
+        Button_salvar = new javax.swing.JButton();
+        Button_cancelar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Header.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Header.setText("Cadastrar Paciente");
@@ -54,6 +106,24 @@ public class TelaCadastrarPaciente extends javax.swing.JFrame {
 
         Label_complemento.setText("Complemento");
 
+        Label_data.setText("Data de Nascimento");
+
+        Label_telefone.setText("Celular");
+
+        Button_salvar.setText("Salvar");
+        Button_salvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_salvarActionPerformed(evt);
+            }
+        });
+
+        Button_cancelar.setText("Cancelar");
+        Button_cancelar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Button_cancelarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -66,22 +136,32 @@ public class TelaCadastrarPaciente extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(TextField_cpf, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(Label_cpf)
-                            .addComponent(Label_cpf1)
-                            .addComponent(TextField_rg, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addComponent(Data, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                                .addComponent(TextField_cpf, javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(Label_cpf, javax.swing.GroupLayout.Alignment.LEADING))
+                            .addComponent(Label_data)
+                            .addComponent(Label_cep)
+                            .addComponent(TextField_cep, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(80, 80, 80)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(Label_nome)
                             .addComponent(TextField_nome, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Label_cep)
-                                    .addComponent(TextField_cep, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(63, 63, 63)
+                                    .addComponent(Label_cpf1)
+                                    .addComponent(TextField_rg, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(81, 81, 81)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(Label_complemento)
-                                    .addComponent(TextField_complemento))))))
+                                    .addComponent(Label_telefone)
+                                    .addComponent(TextField_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(Label_complemento)
+                            .addComponent(TextField_complemento, javax.swing.GroupLayout.PREFERRED_SIZE, 392, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(140, 140, 140)
+                        .addComponent(Button_salvar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(125, 125, 125)
+                        .addComponent(Button_cancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(98, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -99,19 +179,93 @@ public class TelaCadastrarPaciente extends javax.swing.JFrame {
                     .addComponent(TextField_nome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Label_cpf1)
                     .addComponent(Label_cep)
-                    .addComponent(Label_complemento))
+                    .addComponent(Label_complemento, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(TextField_complemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextField_cep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(Label_data)
+                            .addComponent(Label_telefone)
+                            .addComponent(Label_cpf1))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(Data, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(TextField_rg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(TextField_telefone, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(TextField_rg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextField_cep, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(TextField_complemento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(219, Short.MAX_VALUE))
+                    .addComponent(Button_salvar)
+                    .addComponent(Button_cancelar))
+                .addGap(72, 72, 72))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void Button_salvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_salvarActionPerformed
+        Long cpf = null;
+        String nome = null;
+        Integer cep = null;
+        String complemento = null;
+        String data = null;
+        Long rg = null;
+        Long telefone = null;
+        String mensagem = null;
+        DBManager dbm =  new DBManager();
+        Paciente pac = new Paciente();
+        if(TextField_cpf.getText().length() == 11){
+            cpf = Long.parseLong(TextField_cpf.getText());
+        }else{
+            mensagem = "CPF invalido.";
+        }
+        if(TextField_nome.getText().length() > 0){
+            nome = TextField_nome.getText();
+        }
+        if(TextField_cep.getText().length() == 8 && mensagem ==  null){
+            cep = Integer.parseInt(TextField_cep.getText());
+        }else if(mensagem == null){
+            mensagem = "CEP invalido.";
+        }
+        if(TextField_complemento.getText().length() > 0){
+            complemento = TextField_complemento.getText();
+        }
+        if(Data.getDate() != null){
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+            data = sdf.format(Data.getDate());
+        }
+        if(TextField_rg.getText().length() > 0){
+            rg = Long.parseLong(TextField_rg.getText());
+        }
+        if(TextField_telefone.getText().length() == 11 && mensagem == null){
+            telefone = Long.parseLong(TextField_telefone.getText());
+        }else if(mensagem == null){
+            mensagem = "Celular invalido.";
+        }
+        if(mensagem == null){
+            pac.setCPF(cpf);
+            pac.setCep(cep);
+            pac.setComplemento(complemento);
+            pac.setDataNascimento(data);
+            pac.setNome(nome);
+            pac.setRG(rg);
+            pac.setTelefone(telefone);
+            dbm.removerPaciente(pac);
+            dbm.cadastrarPaciente(pac);
+            JOptionPane.showMessageDialog(null,"Cadastro realizado com sucesso.");
+            this.dispose();
+        }else{
+            JOptionPane.showMessageDialog(null,mensagem,"ERRO",JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_Button_salvarActionPerformed
+
+    private void Button_cancelarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Button_cancelarActionPerformed
+        this.dispose();
+    }//GEN-LAST:event_Button_cancelarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -149,16 +303,22 @@ public class TelaCadastrarPaciente extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton Button_cancelar;
+    private javax.swing.JButton Button_salvar;
+    private com.toedter.calendar.JDateChooser Data;
     private javax.swing.JLabel Header;
     private javax.swing.JLabel Label_cep;
     private javax.swing.JLabel Label_complemento;
     private javax.swing.JLabel Label_cpf;
     private javax.swing.JLabel Label_cpf1;
+    private javax.swing.JLabel Label_data;
     private javax.swing.JLabel Label_nome;
+    private javax.swing.JLabel Label_telefone;
     private javax.swing.JTextField TextField_cep;
     private javax.swing.JTextField TextField_complemento;
     private javax.swing.JTextField TextField_cpf;
     private javax.swing.JTextField TextField_nome;
     private javax.swing.JTextField TextField_rg;
+    private javax.swing.JTextField TextField_telefone;
     // End of variables declaration//GEN-END:variables
 }
