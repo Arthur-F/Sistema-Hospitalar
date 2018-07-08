@@ -6,66 +6,43 @@ import java.util.List;
 public class Paciente {
 
     private String nome;
-
     private Long CPF;
+    private String dataNascimento;
+    private Integer RG;
+    private Integer cep;
+    private Integer telefone;
+    private String complemento;
 
-    private Date dataNascimento;
+    public Integer getCep() {
+        return cep;
+    }
 
-    private Double salario;
-    
-    private int id_equipe;
-    
-    private String senha;
-    
-    private Integer setor_id;
-    
-    private Integer papel_id;
-    
-    private String RG;
+    public void setCep(Integer cep) {
+        this.cep = cep;
+    }
 
-    public String getRG() {
+    public Integer getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(Integer telefone) {
+        this.telefone = telefone;
+    }
+
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public Integer getRG() {
         return RG;
     }
 
-    public void setRG(String RG) {
+    public void setRG(Integer RG) {
         this.RG = RG;
-    }
-
-    public Integer getPapel_id() {
-        return papel_id;
-    }
-
-    public void setPapel_id(Integer papel_id) {
-        this.papel_id = papel_id;
-    }
-
-    public Integer getSetor_id() {
-        return setor_id;
-    }
-
-    public void setSetor_id(Integer setor_id) {
-        this.setor_id = setor_id;
-    }
-
-    public String getSenha() {
-        return senha;
-    }
-
-    public void setSenha(String senha) {
-        this.senha = senha;
-    }
-
-    public int getId_equipe() {
-        return id_equipe;
-    }
-
-    public void setId_equipe(int id_equipe) {
-        this.id_equipe = id_equipe;
-    }
-
-    public boolean cadastrarFuncionario() {
-
-        return true;
     }
 
     public String getNome() {
@@ -84,21 +61,12 @@ public class Paciente {
         this.CPF = CPF;
     }
 
-    public Date getDataNascimento() {
+    public String getDataNascimento() {
         return dataNascimento;
     }
 
-    public void setDataNascimento(Date dataNascimento) {
+    public void setDataNascimento(String dataNascimento) {
         this.dataNascimento = dataNascimento;
     }
-
-    public Double getSalario() {
-        return salario;
-    }
-
-    public void setSalario(Double salario) {
-        this.salario = salario;
-    }
-
 
 }

@@ -844,16 +844,18 @@ public class DBManager {
     
     public void cadastrarPaciente(Paciente paciente) {
         //Dúvida: receita só acontece após consulta, mesmo assim eu deveria colocá-la aqui?
-        String sqlPac = "INSERT INTO Paciente(cpf,nome,rg) VALUES(?,?,?)";
+        String sqlPac = "INSERT INTO Paciente(cpf,nome,RG,data,cep,complemento,telefone) VALUES(?,?,?,?,?,?,?)";
         try (Connection conn = conector.connect();) {
             PreparedStatement sqlStatement1 = conn.prepareStatement(sqlPac);
             sqlStatement1.setLong(1, paciente.getCPF());
             sqlStatement1.setString(2, paciente.getNome());
-            sqlStatement1.setString(3, paciente.getRG());
-            sqlStatement1.executeUpdate();
-            conn.commit();
+            sqlStatement1.setInt(3, paciente.getRG());
+            sqlStatement1.setString(4,paciente.getDataNascimento());
+            sqlStatement1.setInt(5,paciente.getCep());
+            sqlStatement1.setString(6,paciente.getComplemento());
+            sqlStatement1.setInt(7,paciente.getTelefone());
+            sqlStatement1.execute();
             conn.close();
-            System.out.println("Gravado");
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
@@ -869,24 +871,31 @@ public class DBManager {
                 sqlStatement1 = conn.prepareStatement(sql);
                 sqlStatement1.setLong(1, pac.getCPF());
                 rs = sqlStatement1.executeQuery();
-            }
-            if (pac.getNome() != null) {
-                String sql = "select * from Paciente where nome = ?";
+            }else if (pac.getNome() != null) {
+                String sql = "select * from Paciente where nome like ?";
                 sqlStatement1 = conn.prepareStatement(sql);
-                sqlStatement1.setString(1, pac.getNome());
+                String str = "%" + pac.getNome() + "%";
+                sqlStatement1.setString(1,str);
                 rs = sqlStatement1.executeQuery();
-            }
-            if (pac.getRG() != null) {
+            }else if (pac.getRG() != null) {
                 String sql = "select * from Paciente where RG = ?";
                 sqlStatement1 = conn.prepareStatement(sql);
-                sqlStatement1.setString(1, pac.getRG());
+                sqlStatement1.setInt(1, pac.getRG());
+                rs = sqlStatement1.executeQuery();
+            }else{
+                String sql = "select * from Paciente";
+                sqlStatement1 = conn.prepareStatement(sql);
                 rs = sqlStatement1.executeQuery();
             }
             while (rs.next()) {
                 Paciente pac1 = new Paciente();
                 pac1.setCPF(rs.getLong("cpf"));
                 pac1.setNome(rs.getString("nome"));
-                pac1.setRG(rs.getString("RG"));
+                pac1.setRG(rs.getInt("RG"));
+                pac1.setCep(rs.getInt("cep"));
+                pac1.setComplemento(rs.getString("complemento"));
+                pac1.setDataNascimento(rs.getString("data"));
+                pac1.setTelefone(rs.getInt("telefone"));
                 list_pac.add(pac1);
             }
             conn.close();
@@ -897,26 +906,30 @@ public class DBManager {
     }
     
     public void alterarPaciente(Paciente paciente) {
-        try (Connection conn = conector.connect();) {
-            String sql = "update Paciente set cpf = ?, nome = ?, rg = ? where cpf = ?";
-            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
-            sqlStatement1.setLong(1, paciente.getCPF());
-            sqlStatement1.setString(2, paciente.getNome());
-            sqlStatement1.setString(3, paciente.getRG());
+        PreparedStatement sqlStatement1 = null;
+        String sql = null;
+        try (Connection conn = conector.connect();){
+            sql = "update Paciente set nome = ?, RG = ?, data = ?, cep = ?, complemento = ?, telefone = ? where cpf = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1, paciente.getNome());
+            sqlStatement1.setInt(2, paciente.getRG());
+            sqlStatement1.setInt(3, paciente.getRG());
+            sqlStatement1.setString(4,paciente.getDataNascimento());
+            sqlStatement1.setInt(5,paciente.getCep());
+            sqlStatement1.setString(6,paciente.getComplemento());
+            sqlStatement1.setLong(7, paciente.getCPF());
             sqlStatement1.executeUpdate();
-            conn.commit();
-            conn.close();
             conn.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         }
     }
 
-    public void removerPaciente(int cpf) {
+    public void removerPaciente(Paciente pac) {
         try (Connection conn = conector.connect();) {
             String sqlDelete = "DELETE FROM paciente WHERE cpf = ?";
             PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
-            sqlStatement.setInt(1, cpf);
+            sqlStatement.setLong(1, pac.getCPF());
             sqlStatement.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -1374,5 +1387,6 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
     }
+    
 
 }
