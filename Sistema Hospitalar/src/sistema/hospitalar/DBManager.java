@@ -866,18 +866,18 @@ public class DBManager {
         ResultSet rs = null;
         PreparedStatement sqlStatement1 = null;
         try (Connection conn = conector.connect();) {
-            if (pac.getCPF() != null) {
+            if (pac != null && pac.getCPF() != null) {
                 String sql = "select * from Paciente where cpf = ?";
                 sqlStatement1 = conn.prepareStatement(sql);
                 sqlStatement1.setLong(1, pac.getCPF());
                 rs = sqlStatement1.executeQuery();
-            }else if (pac.getNome() != null) {
+            }else if (pac != null && pac.getNome() != null) {
                 String sql = "select * from Paciente where nome like ?";
                 sqlStatement1 = conn.prepareStatement(sql);
                 String str = "%" + pac.getNome() + "%";
                 sqlStatement1.setString(1,str);
                 rs = sqlStatement1.executeQuery();
-            }else if (pac.getRG() != null) {
+            }else if (pac != null && pac.getRG() != null) {
                 String sql = "select * from Paciente where RG = ?";
                 sqlStatement1 = conn.prepareStatement(sql);
                 sqlStatement1.setInt(1, pac.getRG());
