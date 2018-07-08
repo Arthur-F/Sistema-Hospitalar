@@ -92,6 +92,33 @@ public class DBManager {
         }
         return listareceitas;
     }
+      public List<Laudo> getLaudosDoPaciente(Long cpf)
+    {
+        
+        List listalaudos = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        try (Connection conn = conector.connect()){
+
+                String sql = "select * from Laudo where paciente_cpf = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setLong(1,cpf);
+                rs = sqlStatement1.executeQuery();
+            while(rs.next()){
+                Laudo laudo = new Laudo();
+                laudo.setCpfpaciente(rs.getLong("paciente_cpf"));
+                laudo.setLaudo(rs.getString("descricao"));
+                laudo.setId(rs.getInt("id"));
+                listalaudos.add(laudo);
+               
+                
+                
+            }
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return listalaudos;
+    }
        public void alterarReceita(Receita receita)
     {
         
@@ -111,12 +138,43 @@ public class DBManager {
         
         
     }
+         public void alterarLaudo(Laudo laudo)
+    {
+        
+       
+        try (Connection conn = conector.connect()){
+
+                PreparedStatement sqlStatement1 = null;
+                String sql = "update Laudo set descricao = ?  where id = ?";
+                sqlStatement1 = conn.prepareStatement(sql);
+                sqlStatement1.setInt(2,laudo.getId());
+                sqlStatement1.setString(1, laudo.getLaudo());
+                sqlStatement1.executeUpdate();
+                conn.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+    }
         public void removerReceita(Receita receita)
     {
         try (Connection conn = conector.connect();) {
             String sqlDelete = "DELETE FROM Receita WHERE id = ?";
             PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
             sqlStatement.setInt(1, receita.getId());
+            sqlStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+    }
+         public void removerLaudo(Laudo laudo)
+    {
+        try (Connection conn = conector.connect();) {
+            String sqlDelete = "DELETE FROM Laudo WHERE id = ?";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlDelete);
+            sqlStatement.setInt(1, laudo.getId());
             sqlStatement.execute();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -1105,6 +1163,21 @@ public class DBManager {
         }
 
         return receita;
+    }
+    public Laudo criarLaudo(String textoLaudo, Paciente paciente) {
+        Laudo laudo = new Laudo();
+//        paciente.getReceitas().add(textoReceita);
+        try (Connection conn = conector.connect();) {
+            String sqlLaudos = "INSERT INTO Laudo(paciente_cpf,descricao) VALUES(?,?)";
+            PreparedStatement sqlStatement = conn.prepareStatement(sqlLaudos);
+            sqlStatement.setLong(1, paciente.getCPF());
+            sqlStatement.setString(2, textoLaudo);
+            sqlStatement.execute();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+        return laudo;
     }
 
 //    public void cadastrarEquipe(Equipe equipe) {
