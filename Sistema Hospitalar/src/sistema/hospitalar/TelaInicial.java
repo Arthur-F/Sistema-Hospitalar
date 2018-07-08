@@ -1096,11 +1096,17 @@ public final class TelaInicial extends javax.swing.JFrame {
         
              
              jTextArea1.append(pac.getNome() + "\nCPF:" + pac.getCPF() + "\n\n");
-           for(Receita receita : dbm.getReceitasDoPaciente(pac.getCPF()))
+            for(Laudo laudo : dbm.getLaudosDoPaciente(pac.getCPF()))
+            {
+                jTextArea1.append("Laudo Médico: " + laudo.getLaudo() + "\n");
+            }
+            for(Receita receita : dbm.getReceitasDoPaciente(pac.getCPF()))
             {
             jTextArea1.append("Tipo de receita: " + receita.getTipo() + "\n");
             jTextArea1.append("Prescrição:\n\n " + receita.getReceita()+ "\n\n");
             }
+           
+           
         
         
         
