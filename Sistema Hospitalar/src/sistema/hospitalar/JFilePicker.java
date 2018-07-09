@@ -3,6 +3,7 @@ package sistema.hospitalar;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
  
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
@@ -40,7 +41,8 @@ public class JFilePicker extends JPanel {
         this.buttonLabel = buttonLabel;
          
         fileChooser = new JFileChooser();
-         
+        fileChooser.setCurrentDirectory(new File(System.getProperty("user.dir") + "\\laudos\\"));
+    
         setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
  
         label = new JLabel(textFieldLabel);

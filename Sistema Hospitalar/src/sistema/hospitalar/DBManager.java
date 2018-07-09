@@ -10,6 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 import jdk.nashorn.internal.objects.Global;
 
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Element;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfPCell;
+import com.itextpdf.text.pdf.PdfPTable;
+import com.itextpdf.text.pdf.PdfWriter;
+import java.awt.Desktop;
+import java.io.File;
+import java.io.FileOutputStream;
+
+
 public class DBManager {
 
     private ConectorDB conector = new ConectorDB();
@@ -1482,5 +1496,73 @@ public class DBManager {
             System.out.println(e.getMessage());
         }
     }
+    
+    public void gerarPDFLaudo(Laudo laudo) {
+        
+        Document doc = new Document(); 
+        
+        Paciente pacientePesquisa = new Paciente();
+        pacientePesquisa.setCPF(laudo.getCpfpaciente());
+        Paciente paciente = getPaciente(pacientePesquisa).get(0);
+        
+        String arquivoPdf = "Laudo " + laudo.getId() + " - " + paciente.getNome() + ".pdf";
+        String pathLaudos = System.getProperty("user.dir") + "\\laudos\\";
+        
+        try {
+            
+            PdfWriter.getInstance(doc, new FileOutputStream(pathLaudos + arquivoPdf));
+            doc.open();
+            Image logo = Image.getInstance(System.getProperty("user.dir") + "\\src\\imagens\\logo.png");
+            logo.setAlignment(1);
+            doc.add(logo);
+
+            Font f = new Font(FontFamily.COURIER, 20, Font.BOLD);
+            Paragraph p = new Paragraph("Laudo Médico - " + paciente.getNome(), f);
+            p.setAlignment(1);
+            doc.add(p);
+            p = new Paragraph("  ");
+            doc.add(p);
+
+            PdfPTable table = new PdfPTable(5);
+
+            PdfPCell cel1 = new PdfPCell(new Paragraph("Nome"));
+            PdfPCell cel2 = new PdfPCell(new Paragraph("CPF"));
+            PdfPCell cel3 = new PdfPCell(new Paragraph("RG"));
+            PdfPCell cel4 = new PdfPCell(new Paragraph("Data de Nascimento"));
+            PdfPCell cel5 = new PdfPCell(new Paragraph("Telefone"));
+
+            
+            table.addCell(cel1);
+            table.addCell(cel2);
+            table.addCell(cel3);
+            table.addCell(cel4);
+            table.addCell(cel5);
+            
+            cel1 = new PdfPCell(new Paragraph(paciente.getNome()+""));
+            cel2 = new PdfPCell(new Paragraph(paciente.getCPF()));
+            cel3 = new PdfPCell(new Paragraph(paciente.getRG()));
+            cel4 = new PdfPCell(new Paragraph(paciente.getDataNascimento()));
+            cel5 = new PdfPCell(new Paragraph(paciente.getTelefone()+""));
+            
+            table.addCell(cel1);
+            table.addCell(cel2);
+            table.addCell(cel3);
+            table.addCell(cel4);
+            table.addCell(cel5);
+            doc.add(table);
+            
+             p = new Paragraph("  ");
+            doc.add(p);
+            
+            Paragraph l = new Paragraph("Descrição: " + laudo.getLaudo());
+            doc.add(l);
+            
+            doc.close();
+            Desktop.getDesktop().open(new File(pathLaudos + arquivoPdf));
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
 
 }
