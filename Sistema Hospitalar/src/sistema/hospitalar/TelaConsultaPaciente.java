@@ -78,7 +78,7 @@ public class TelaConsultaPaciente extends javax.swing.JFrame {
         setResizable(false);
 
         Header.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
-        Header.setText("Consultar Paciente");
+        Header.setText("Pacientes");
 
         Label_cpf.setText("CPF");
 
