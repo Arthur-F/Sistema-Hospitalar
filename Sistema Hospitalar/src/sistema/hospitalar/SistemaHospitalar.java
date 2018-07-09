@@ -9,16 +9,16 @@ public class SistemaHospitalar {
         // TODO code application logic here
         DBManager dbManager = new DBManager();
         AccessManager accessmanager = new AccessManager();
-        //new TelaLogin().setVisible(true);
+        new TelaLogin().setVisible(true);
         
         //PayManager paymanager = new PayManager();
-        new SwingEmailSender().setVisible(true);
+        //new SwingEmailSender().setVisible(true);
         //new TelaConsultarSalas().setVisible(true);
         
-        Laudo laudo = new Laudo();
-        laudo.setCpfpaciente(12345L);
-        laudo.setLaudo("aheuaehuaehuaheuhae");
-        dbManager.gerarPDFLaudo(laudo);
+        //Laudo laudo = new Laudo();
+        //laudo.setCpfpaciente(12345L);
+        //laudo.setLaudo("aheuaehuaehuaheuhae");
+        //dbManager.gerarPDFLaudo(laudo);
         
     }
 }

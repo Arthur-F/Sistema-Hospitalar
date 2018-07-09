@@ -62,7 +62,7 @@ public class SwingEmailSender extends JFrame {
 		
 		pack();
 		setLocationRelativeTo(null);	// center on screen
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);		
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);		
 	}
 
 	private void setupMenu() {
