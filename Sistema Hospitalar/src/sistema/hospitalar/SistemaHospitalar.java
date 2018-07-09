@@ -15,10 +15,10 @@ public class SistemaHospitalar {
         new SwingEmailSender().setVisible(true);
         //new TelaConsultarSalas().setVisible(true);
         
-        //Laudo laudo = new Laudo();
-        //laudo.setCpfpaciente(12345L);
-        //laudo.setLaudo("aheuaehuaehuaheuhae");
-        //dbManager.gerarPDFLaudo(laudo);
+        Laudo laudo = new Laudo();
+        laudo.setCpfpaciente(12345L);
+        laudo.setLaudo("aheuaehuaehuaheuhae");
+        dbManager.gerarPDFLaudo(laudo);
         
     }
 }

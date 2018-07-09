@@ -1539,9 +1539,9 @@ public class DBManager {
             table.addCell(cel5);
             
             cel1 = new PdfPCell(new Paragraph(paciente.getNome()+""));
-            cel2 = new PdfPCell(new Paragraph(paciente.getCPF()));
-            cel3 = new PdfPCell(new Paragraph(paciente.getRG()));
-            cel4 = new PdfPCell(new Paragraph(paciente.getDataNascimento()));
+            cel2 = new PdfPCell(new Paragraph(paciente.getCPF()+""));
+            cel3 = new PdfPCell(new Paragraph(paciente.getRG()+""));
+            cel4 = new PdfPCell(new Paragraph(paciente.getDataNascimento()+""));
             cel5 = new PdfPCell(new Paragraph(paciente.getTelefone()+""));
             
             table.addCell(cel1);
