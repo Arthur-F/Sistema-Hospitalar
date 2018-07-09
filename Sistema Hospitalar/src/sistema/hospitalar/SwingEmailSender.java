@@ -96,7 +96,10 @@ public class SwingEmailSender extends JFrame {
 		constraints.fill = GridBagConstraints.HORIZONTAL;
 		add(fieldSubject, constraints);
 		
-		constraints.gridx = 2;
+                fieldSubject.setText("Seu laudo médico");
+                textAreaMessage.setText("Caro paciente, \nEm anexo está o seu laudo." );
+		
+                constraints.gridx = 2;
 		constraints.gridy = 0;
 		constraints.gridheight = 2;
 		constraints.fill = GridBagConstraints.BOTH;
@@ -132,7 +135,6 @@ public class SwingEmailSender extends JFrame {
 		String toAddress = fieldTo.getText();
 		String subject = fieldSubject.getText();
 		String message = textAreaMessage.getText();
-		
 		File[] attachFiles = null;
 		
 		if (!filePicker.getSelectedFilePath().equals("")) {
