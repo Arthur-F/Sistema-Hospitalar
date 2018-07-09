@@ -110,6 +110,9 @@ public final class TelaInicial extends javax.swing.JFrame {
                 jButton4.setVisible(false);
                 jButton5.setVisible(false);
                 jButton7.setVisible(false);
+                jButton11.setVisible(false);
+                jButton12.setVisible(false);
+                jButton15.setVisible(false);
                 break;
                 //Medico
                 case 2:
@@ -122,6 +125,9 @@ public final class TelaInicial extends javax.swing.JFrame {
                 jButton4.setVisible(false);
                 jButton5.setVisible(false);
                 jButton7.setVisible(false);
+                jButton11.setVisible(false);
+                jButton12.setVisible(false);
+                jButton15.setVisible(false);
                 break;
             }
                 
