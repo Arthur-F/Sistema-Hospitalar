@@ -11,6 +11,8 @@ public class Setor {
         return id;
     }
 
+    
+
     public void setId(Integer id) {
         this.id = id;
     }
@@ -37,5 +39,10 @@ public class Setor {
 
     public void setEquipes(Equipe[] equipes) {
         this.equipes = equipes;
+    }
+    
+    @Override
+    public String toString() {
+        return "Setor{" + nome + '}';
     }
 }

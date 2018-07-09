@@ -720,9 +720,19 @@ public final class TelaInicial extends javax.swing.JFrame {
 
         Link_setor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         Link_setor.setText("Setores");
+        Link_setor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Link_setorMouseClicked(evt);
+            }
+        });
 
         Link_subsetor.setFont(new java.awt.Font("Tahoma", 0, 16)); // NOI18N
         Link_subsetor.setText("Subsetores");
+        Link_subsetor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                Link_subsetorMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -1287,6 +1297,14 @@ public final class TelaInicial extends javax.swing.JFrame {
     private void Link_pacMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_pacMouseClicked
         new TelaConsultaPaciente().setVisible(true);
     }//GEN-LAST:event_Link_pacMouseClicked
+
+    private void Link_setorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_setorMouseClicked
+                new TelaCadastrarSetor().setVisible(true);
+    }//GEN-LAST:event_Link_setorMouseClicked
+
+    private void Link_subsetorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_Link_subsetorMouseClicked
+                new TelaSubsetores().setVisible(true);
+    }//GEN-LAST:event_Link_subsetorMouseClicked
 
     /**
      * @param args the command line arguments

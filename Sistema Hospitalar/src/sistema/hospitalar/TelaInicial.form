@@ -860,6 +860,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Setores"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Link_setorMouseClicked"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JLabel" name="Link_subsetor">
               <Properties>
@@ -868,6 +871,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Subsetores"/>
               </Properties>
+              <Events>
+                <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="Link_subsetorMouseClicked"/>
+              </Events>
             </Component>
           </SubComponents>
         </Container>

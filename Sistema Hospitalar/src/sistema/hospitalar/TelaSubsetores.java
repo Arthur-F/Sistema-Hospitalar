@@ -84,7 +84,7 @@ public class TelaSubsetores extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton4 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Header_eq.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Header_eq.setText("Subsetor");

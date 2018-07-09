@@ -32,6 +32,76 @@ public class DBManager {
 //     this.
     }
     
+    
+    public void cadastrarSetor(String nome)
+    {
+         try (Connection conn = conector.connect();){
+            String sql = "insert into Setor (nome) values (?)";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,nome);
+            sqlStatement1.execute();
+            conn.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void removerSetor(Setor setor)
+    {
+        PreparedStatement sqlStatement1 = null;
+        try (Connection conn = conector.connect();){
+            String sql = "delete from Setor where id = ?";
+            sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setInt(1,setor.getId());
+            sqlStatement1.execute();
+            conn.close();
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+    }
+    public void alterarSetor(Setor setor)
+    {
+        try (Connection conn = conector.connect();){
+            String sql = "update Setor set nome = ? where id = ?";
+            PreparedStatement sqlStatement1 = conn.prepareStatement(sql);
+            sqlStatement1.setString(1,setor.getNome());
+            sqlStatement1.setInt(2,setor.getId());
+            sqlStatement1.executeUpdate();
+            conn.close();
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        
+        
+    }
+    
+     public List<Setor> getSetores()
+    {
+        List<Setor> listasetor = new ArrayList<>();
+        PreparedStatement sqlStatement1 = null;
+        ResultSet rs = null;
+        try (Connection conn = conector.connect();){
+            String sql = "select * from Setor";
+            sqlStatement1 = conn.prepareStatement(sql);
+            
+            rs = sqlStatement1.executeQuery();
+           
+            while (rs.next())
+            {
+                Setor setor = new Setor();
+                setor.setId(rs.getInt("id"));
+                setor.setNome(rs.getString("nome"));
+                
+                listasetor.add(setor);
+            
+            }
+             conn.close();
+            
+        }catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+        return listasetor;
+        
+    }
     public void realizarPagamento(int id, String tipo)
     {  
         try (Connection conn = conector.connect();) {

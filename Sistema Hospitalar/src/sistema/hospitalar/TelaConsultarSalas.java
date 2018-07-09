@@ -78,7 +78,7 @@ public class TelaConsultarSalas extends javax.swing.JFrame {
         Button_editar = new javax.swing.JButton();
         Button_apagar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setResizable(false);
 
         header.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
