@@ -27,10 +27,6 @@ public class Agendar extends javax.swing.JFrame {
     }
     
     public void limpaTela(){
-        ComboBox_eq.removeAllItems();
-        ComboBox_hora.removeAllItems();
-        ComboBox_proc.removeAllItems();
-        ComboBox_sl.removeAllItems();
         TextField_pac_id.setText(null);
     }
     
@@ -49,7 +45,6 @@ public class Agendar extends javax.swing.JFrame {
         for (Equipe equipe : list_eq) {
             ComboBox_eq.addItem(equipe.getNome());
         }
-        ComboBox_proc.addItem("");
         ComboBox_proc.addItem("Internação");
         ComboBox_proc.addItem("Consulta");
         ComboBox_proc.addItem("Exame");
@@ -105,7 +100,7 @@ public class Agendar extends javax.swing.JFrame {
         Button_Agendar = new javax.swing.JButton();
         Button_voltar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         Header_Agendar.setFont(new java.awt.Font("Tahoma", 0, 24)); // NOI18N
         Header_Agendar.setText("Agendar");
@@ -116,25 +111,17 @@ public class Agendar extends javax.swing.JFrame {
         Label_hora.setLabelFor(ComboBox_hora);
         Label_hora.setText("Hora");
 
-        ComboBox_hora.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         Label_paciente.setLabelFor(TextField_pac_id);
         Label_paciente.setText("Paciente");
 
         Label_eq.setLabelFor(ComboBox_eq);
         Label_eq.setText("Equipe");
 
-        ComboBox_eq.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         Label_proc.setLabelFor(ComboBox_proc);
         Label_proc.setText("Procedimento");
         Label_proc.setToolTipText("");
 
-        ComboBox_proc.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
         Label_sl.setText("Sala");
-
-        ComboBox_sl.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         Button_Agendar.setText("Agendar");
         Button_Agendar.addActionListener(new java.awt.event.ActionListener() {

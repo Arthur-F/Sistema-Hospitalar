@@ -1002,7 +1002,7 @@ public final class TelaInicial extends javax.swing.JFrame {
                 }
             }
             if(proc_id != null){
-                if(agendamento.getProc_nome() != proc_id){
+                if(!agendamento.getProc_nome().equalsIgnoreCase(proc_id)){
                     continue;
                 }
             }
